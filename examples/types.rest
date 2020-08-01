@@ -1,0 +1,30 @@
+http://localhost:8082
+#https://somind.tech
+#https://somind.org
+
+Content-Type: application/json; charset=utf-8
+
+--
+
+--
+GET /dtlab-alligator/extractor/covid1
+
+--
+DELETE /dtlab-alligator/extractor/covid1
+
+--
+POST /dtlab-alligator/extractor/covid1
+{
+  "paths": [
+    {"name": "machine", "path": "$.machineId", "valueType": "String"},
+    {"name": "module", "path": "$.moduleId", "valueType": "String"}
+  ],
+  "value": {"name": "temp", "path": "$.temp", "valueType": "Double"}
+}
+
+--
+GET /fitness
+
+--
+GET /observe
+

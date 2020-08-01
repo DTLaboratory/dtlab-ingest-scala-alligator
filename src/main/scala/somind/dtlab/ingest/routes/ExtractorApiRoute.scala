@@ -9,6 +9,9 @@ import somind.dtlab.ingest.models._
 import somind.dtlab.ingest.observe.Observer
 import spray.json._
 
+/**
+ * Extractor API lets you define how to turn raw json input into DtLab telemetry messages
+ */
 object ExtractorApiRoute
     extends JsonSupport
     with LazyLogging
@@ -16,54 +19,53 @@ object ExtractorApiRoute
     with HttpSupport {
 
   def apply: Route = {
-    path("type" / Segment) { typeId =>
+    path("extractor" / Segment) { specId =>
       get {
-        onSuccess(dtDirectory ask typeId) {
-          case Some(currentType: DtType) =>
-            Observer("type_route_get_success")
+        onSuccess(extractor ask specId) {
+          case Some(currentType: ExtractorSpec) =>
+            Observer("extractor_route_get_success")
             complete(
               HttpEntity(ContentTypes.`application/json`,
                          currentType.toJson.prettyPrint))
           case None =>
-            Observer("type_route_get_notfound")
+            Observer("extractor_route_get_notfound")
             complete(StatusCodes.NotFound)
           case e =>
-            Observer("type_route_get_unk_err")
+            Observer("extractor_route_get_unk_err")
             logger.warn(s"unable to handle: $e")
             complete(StatusCodes.InternalServerError)
         }
       } ~
         delete {
-          onSuccess(dtDirectory ask DeleteDtType(typeId)) {
-            case DtOk() =>
-              Observer("type_route_delete_success")
+          onSuccess(extractor ask DeleteSpec(specId)) {
+            case ExtractorOk() =>
+              Observer("extractor_route_delete_success")
               complete(StatusCodes.Accepted)
             case None =>
-              Observer("type_route_get_notfound")
+              Observer("extractor_route_get_notfound")
               complete(StatusCodes.NotFound)
             case e =>
-              Observer("type_route_get_unk_err")
+              Observer("extractor_route_get_unk_err")
               logger.warn(s"unable to handle: $e")
               complete(StatusCodes.InternalServerError)
           }
         } ~ post {
         decodeRequest {
-          entity(as[LazyDtType]) { ldt =>
-            val newType = ldt.dtType(typeId)
-            onSuccess(dtDirectory ask newType) {
-              case Some(currentType: DtType)
-                  if currentType.created == newType.created =>
-                Observer("type_route_post_success")
+          entity(as[LazyExtractorSpec]) { let =>
+            onSuccess(extractor ask let.spec(specId)) {
+              case Some(currentType: ExtractorSpec)
+                  if currentType.created == let.spec(specId).created =>
+                Observer("extractor_route_post_success")
                 complete(StatusCodes.Created,
                          HttpEntity(ContentTypes.`application/json`,
                                     currentType.toJson.prettyPrint))
-              case Some(currentType: DtType)
-                  if currentType.created != newType.created =>
-                Observer("type_route_post_dupe_err")
+              case Some(currentType: ExtractorSpec)
+                  if currentType.created != let.spec(specId).created =>
+                Observer("extractor_route_post_dupe_err")
                 logger.debug(s"duplicate create request: $currentType")
                 complete(StatusCodes.Conflict)
               case e =>
-                Observer("type_route_post_unk_err")
+                Observer("extractor_route_post_unk_err")
                 logger.warn(s"unable to handle: $e")
                 complete(StatusCodes.InternalServerError)
             }

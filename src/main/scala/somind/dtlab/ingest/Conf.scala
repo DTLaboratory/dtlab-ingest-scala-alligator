@@ -30,7 +30,7 @@ object Conf extends LazyLogging {
 
   val observer: ActorRef = system.actorOf(Props[Observer], "observer")
 
-  val dtDirectory: ActorRef = system.actorOf(Props[DtDirectory], "dtDirectory")
+  val extractor: ActorRef = system.actorOf(Props[ExtractorActor], "extractor")
 
   val persistIdRoot: String = conf.getString("main.persistIdRoot")
   val snapshotInterval: Int = conf.getInt("main.snapshotInterval")
