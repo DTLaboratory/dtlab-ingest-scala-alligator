@@ -1,9 +1,9 @@
-package somind.dtlab.actors
+package somind.dtlab.ingest.actors
 
 import akka.persistence._
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.models._
-import somind.dtlab.observe.Observer
+import somind.dtlab.ingest.models._
+import somind.dtlab.ingest.observe.Observer
 
 object DtActor extends LazyLogging {
   def name: String = this.getClass.getName

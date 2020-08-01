@@ -1,16 +1,15 @@
-package somind.dtlab.routes
+package somind.dtlab.ingest.routes
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server._
 import akka.pattern.ask
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.Conf._
-import somind.dtlab.HttpSupport
-import somind.dtlab.models._
-import somind.dtlab.observe.Observer
+import somind.dtlab.ingest.Conf._
+import somind.dtlab.ingest.models._
+import somind.dtlab.ingest.observe.Observer
 import spray.json._
 
-object TypeApiRoute
+object ExtractorApiRoute
     extends JsonSupport
     with LazyLogging
     with Directives

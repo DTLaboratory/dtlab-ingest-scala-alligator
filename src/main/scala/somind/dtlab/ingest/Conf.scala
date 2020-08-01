@@ -1,18 +1,18 @@
-package somind.dtlab
+package somind.dtlab.ingest
 
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.util.Timeout
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.actors._
-import somind.dtlab.observe.Observer
+import somind.dtlab.ingest.actors._
+import somind.dtlab.ingest.observe.Observer
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.{Duration, FiniteDuration}
 
 object Conf extends LazyLogging {
 
-  implicit val system: ActorSystem = ActorSystem("DtLab-system")
+  implicit val system: ActorSystem = ActorSystem("DtLab-ingest-system")
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   val conf: Config = ConfigFactory.load()

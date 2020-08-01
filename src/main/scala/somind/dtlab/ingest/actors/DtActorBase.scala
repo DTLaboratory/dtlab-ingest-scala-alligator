@@ -1,8 +1,8 @@
-package somind.dtlab.actors
+package somind.dtlab.ingest.actors
 
 import akka.actor.{Actor, Props}
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.models.{DtMsg, TelemetryMsg}
+import somind.dtlab.ingest.models.{DtMsg, TelemetryMsg}
 
 trait DtActorBase extends Actor with LazyLogging {
 
