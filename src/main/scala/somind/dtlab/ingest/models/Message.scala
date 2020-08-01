@@ -9,7 +9,26 @@ final case class DeleteSpec(specId: String)
 
 final case class ValueSpec(name: String, path: String, valueType: String)
 
-final case class ExtractorSpec(
+final case class ObjectExtractorSpec(
+    name: String,
+    path: String,
+    destUrl: String,
+    // datetime of creation - no updates allowed
+    created: ZonedDateTime = ZonedDateTime.now()
+)
+
+// for API to avoid setting created
+final case class LazyObjectExtractorSpec(
+    path: String,
+    destUrl: String
+) {
+  def spec(name: String): ObjectExtractorSpec =
+    ObjectExtractorSpec(name, path, destUrl)
+}
+
+final case class ObjectExtractorSpecMap(specs: Map[String, ObjectExtractorSpec])
+
+final case class TelemetryExtractorSpec(
     name: String,
     paths: Seq[ValueSpec],
     value: ValueSpec,
@@ -20,23 +39,16 @@ final case class ExtractorSpec(
 )
 
 // for API to avoid setting created
-final case class LazyExtractorSpec(
+final case class LazyTelemetryExtractorSpec(
     paths: Seq[ValueSpec],
     value: ValueSpec,
     datetimePath: Option[String],
-    datetimeFmt: Option[String],
-    // datetime of creation - no updates allowed
-    created: Option[ZonedDateTime]
+    datetimeFmt: Option[String]
 ) {
-  def spec(name: String): ExtractorSpec =
-    ExtractorSpec(name,
-                  paths,
-                  value,
-                  datetimePath,
-                  datetimeFmt,
-                  created.getOrElse(ZonedDateTime.now()))
+  def spec(name: String): TelemetryExtractorSpec =
+    TelemetryExtractorSpec(name, paths, value, datetimePath, datetimeFmt)
 }
 
-final case class ExtractorSpecMap(
-    specs: Map[String, ExtractorSpec]
+final case class TelemetryExtractorSpecMap(
+    specs: Map[String, TelemetryExtractorSpec]
 )

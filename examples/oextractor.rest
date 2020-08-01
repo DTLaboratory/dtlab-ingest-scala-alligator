@@ -1,0 +1,27 @@
+http://localhost:8082
+#https://somind.tech
+#https://somind.org
+
+Content-Type: application/json; charset=utf-8
+
+--
+
+--
+GET /dtlab-alligator/extractor/object/covid1
+
+--
+DELETE /dtlab-alligator/extractor/object/covid1
+
+--
+POST /dtlab-alligator/extractor/object/covid1
+{
+  "path": "$.haha",
+  "destUrl": "hoho"
+}
+
+--
+GET /fitness
+
+--
+GET /observe
+

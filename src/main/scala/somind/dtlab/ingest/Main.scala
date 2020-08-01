@@ -21,7 +21,10 @@ object Main extends LazyLogging with JsonSupport with HttpSupport {
               logRequest(urlpath) {
                 pathPrefix(urlpath) {
                   ignoreTrailingSlash {
-                    ExtractorApiRoute.apply
+                    pathPrefix("extractor") {
+                      TelemetryExtractorApiRoute.apply ~
+                        ObjectExtractorApiRoute.apply
+                    }
                   }
                 }
               }
