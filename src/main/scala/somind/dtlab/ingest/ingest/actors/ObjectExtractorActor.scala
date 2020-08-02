@@ -36,14 +36,14 @@ class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] w
       }
 
     case spec: ObjectExtractorSpec =>
-      state.specs.get(spec.name) match {
+      state.specs.get(spec.specId) match {
         case Some(prev) =>
-          logger.debug(s"create found existing ${spec.name}")
+          logger.debug(s"create found existing ${spec.specId}")
           sender ! Some(prev)
           Observer("object_extractor_spec_create_conflict")
         case _ =>
-          logger.debug(s"did not find ${spec.name}.  creating...")
-          state = ObjectExtractorSpecMap(state.specs + (spec.name -> spec))
+          logger.debug(s"did not find ${spec.specId}.  creating...")
+          state = ObjectExtractorSpecMap(state.specs + (spec.specId -> spec))
           Observer("object_extractor_spec_created")
           persistAsync(spec) { _ =>
             sender ! Some(spec)
@@ -68,7 +68,7 @@ class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] w
     case specId: String =>
       state.specs.get(specId) match {
         case Some(spec) =>
-          logger.debug(s"found ${spec.name}")
+          logger.debug(s"found ${spec.specId}")
           sender ! Some(spec)
           Observer("object_extractor_spec_lookup_success")
         case _ =>
@@ -88,7 +88,7 @@ class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] w
   override def receiveRecover: Receive = {
 
     case spec: ObjectExtractorSpec =>
-      state = ObjectExtractorSpecMap(state.specs + (spec.name -> spec))
+      state = ObjectExtractorSpecMap(state.specs + (spec.specId -> spec))
       Observer("reapplied_object_extractor_spec_actor_command_from_jrnl")
 
     case del: DeleteSpec =>

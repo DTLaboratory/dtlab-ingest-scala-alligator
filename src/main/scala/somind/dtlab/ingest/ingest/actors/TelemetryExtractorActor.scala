@@ -4,6 +4,7 @@ import navicore.data.navipath.dsl.NaviPathSyntax._
 import akka.persistence._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
+import somind.dtlab.ingest.ingest.actors.functions.CalculatePath
 import somind.dtlab.ingest.ingest.models.{DeleteSpec, ExtractorOk, TelemetryExtractorSpec, TelemetryExtractorSpecMap}
 import somind.dtlab.ingest.ingest.observe.Observer
 
@@ -27,13 +28,15 @@ class TelemetryExtractorActor
       state.specs.get(specId) match {
         case Some(spec) =>
           logger.debug(s"got node for spec $specId")
-          // todo: apply each spec in specId collection and forward telemetry to dtlab
+          // apply each spec in specId collection and forward telemetry to dtlab
           spec.values.foreach(extractorSpec => {
             // todo: inspect type in spec and convert String, Int, Long to Double
             node.query[Double](extractorSpec.value.path) match {
               case Some(extractedValue) =>
-                logger.debug(
-                  s"found extractor spec for ${extractorSpec.value.name} $extractedValue")
+                extractorSpec.paths.foreach(pathSeq => {
+                  val p = CalculatePath(node, pathSeq)
+                  logger.debug( s"extracting telemetry ${extractorSpec.value.name} $extractedValue to actor path: $p")
+                })
               case _ =>
                 logger.debug(
                   s"did not find ${extractorSpec.value.name} in input")
@@ -45,27 +48,27 @@ class TelemetryExtractorActor
 
     // manage specs
     case spec: TelemetryExtractorSpec =>
-      state.specs.get(spec.name) match {
+      state.specs.get(spec.specId) match {
         case Some(prev) if prev.contains(spec.value.name) =>
           logger.debug(
-            s"create found existing ${spec.name} for value ${spec.value.name}")
+            s"create found existing ${spec.specId} for value ${spec.value.name}")
           sender ! prev.get(spec.value.name)
           Observer("telemetry_extractor_spec_create_conflict")
         case Some(prev) =>
           logger.debug(
-            s"found specs for ${spec.name} but no value key ${spec.value.name}.  creating ...")
+            s"found specs for ${spec.specId} but no value key ${spec.value.name}.  creating ...")
           val newSpecs = prev + (spec.value.name -> spec)
           state = TelemetryExtractorSpecMap(
-            state.specs + (spec.name -> newSpecs))
+            state.specs + (spec.specId -> newSpecs))
           Observer("telemetry_extractor_spec_created")
           persistAsync(spec) { _ =>
             sender ! Some(spec)
             takeSnapshot()
           }
         case _ =>
-          logger.debug(s"did not find specs for ${spec.name}.  creating...")
+          logger.debug(s"did not find specs for ${spec.specId}.  creating...")
           state = TelemetryExtractorSpecMap(
-            state.specs + (spec.name -> Map(spec.value.name -> spec)))
+            state.specs + (spec.specId -> Map(spec.value.name -> spec)))
           Observer("telemetry_extractor_spec_created")
           persistAsync(spec) { _ =>
             sender ! Some(spec)
@@ -110,9 +113,9 @@ class TelemetryExtractorActor
   override def receiveRecover: Receive = {
 
     case spec: TelemetryExtractorSpec =>
-      val prev = state.specs.getOrElse(spec.name, Map())
+      val prev = state.specs.getOrElse(spec.specId, Map())
       val newSpecs = prev + (spec.value.name -> spec)
-      state = TelemetryExtractorSpecMap(state.specs + (spec.name -> newSpecs))
+      state = TelemetryExtractorSpecMap(state.specs + (spec.specId -> newSpecs))
       Observer("reapplied_telemetry_extractor_spec_actor_command_from_jrnl")
 
     case del: DeleteSpec =>

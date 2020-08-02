@@ -32,17 +32,18 @@ class NeoDataSpec extends AnyFlatSpec with Matchers {
     val eSpec = TelemetryExtractorSpec(
       "neo1",
       Seq(
-        ValueSpec("orbiting_body",
-                  "$.close_approach_data[0].orbiting_body",
-                  "String"),
-        ValueSpec("object", "$.neo_reference_id", "String")
-      ),
+        Seq(
+          ValueSpec("orbiting_body",
+                    "$.close_approach_data[0].orbiting_body",
+                    "String"),
+          ValueSpec("object", "$.neo_reference_id", "String")
+        )),
       ValueSpec("min",
                 "$.estimated_diameter.meters.estimated_diameter_min",
                 "Double")
     )
 
-    val p = CalculatePath(obj.get, eSpec.paths)
+    val p = CalculatePath(obj.get, eSpec.paths.head)
 
     p should contain("/orbiting_body/Earth/object/3726710")
 
