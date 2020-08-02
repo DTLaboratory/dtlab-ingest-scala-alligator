@@ -7,6 +7,46 @@ Content-Type: application/json; charset=utf-8
 --
 
 --
+GET /dtlab-alligator/extractor/telemetry/neo1
+
+--
+DELETE /dtlab-alligator/extractor/telemetry/neo1
+
+--
+POST /dtlab-alligator/extractor/telemetry/neo1
+{
+  "paths": [
+    {
+      "name": "neo",
+      "path": "neo",
+      "valueType": "String"
+    }
+  ],
+  "value": {
+    "name": "diameter_min",
+    "path": "$.estimated_diameter.meters.estimated_diameter_min",
+    "valueType": "Double"
+  }
+}
+
+--
+POST /dtlab-alligator/extractor/telemetry/neo1
+{
+  "paths": [
+    {
+      "name": "neo",
+      "path": "neo",
+      "valueType": "String"
+    }
+  ],
+  "value": {
+    "name": "diameter_max",
+    "path": "$.estimated_diameter.meters.estimated_diameter_max",
+    "valueType": "Double"
+  }
+}
+
+--
 GET /dtlab-alligator/extractor/telemetry/covid1
 
 --

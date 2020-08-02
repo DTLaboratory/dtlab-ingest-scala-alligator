@@ -1,16 +1,39 @@
 package somind.dtlab.ingest.actors
 
+import com.fasterxml.jackson.databind.JsonNode
+import navicore.data.navipath.dsl.NaviPathSyntax._
 import akka.persistence._
 import com.typesafe.scalalogging.LazyLogging
 import somind.dtlab.ingest.models._
 import somind.dtlab.ingest.observe.Observer
-
+import somind.dtlab.ingest.Conf._
 
 class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] with LazyLogging {
 
   override var state: ObjectExtractorSpecMap = ObjectExtractorSpecMap(specs = Map())
 
   override def receiveCommand: Receive = {
+
+    case (specId: String, json: String) =>
+      state.specs.get(specId) match {
+        case Some(spec) =>
+          val parsedJson = json.asJson
+          parsedJson.query[List[JsonNode]](spec.path) match {
+            case Some(objects) =>
+              objects.foreach(n =>
+                telemetryExtractor ! (spec.telSpecId, n)
+              )
+              // ejs todo: support back pressure (ask and future composition?)
+              // ejs todo: support back pressure (ask and future composition?)
+              // ejs todo: support back pressure (ask and future composition?)
+              // ejs todo: support back pressure (ask and future composition?)
+              sender() ! ExtractorOk()
+            case _ =>
+              sender() ! ExtractorErr("extractor did not extract any objects")
+          }
+        case _ =>
+          sender() ! ExtractorErr("object extractor spec not found")
+      }
 
     case spec: ObjectExtractorSpec =>
       state.specs.get(spec.name) match {
@@ -54,6 +77,8 @@ class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] w
       }
 
     case _: SaveSnapshotSuccess =>
+    case None =>
+      logger.warn("unexpected None")
     case m =>
       logger.warn(s"unexpected message: $m")
       sender ! None

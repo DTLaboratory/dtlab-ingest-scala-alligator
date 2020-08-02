@@ -15,8 +15,8 @@ DELETE /dtlab-alligator/extractor/object/neo1
 --
 POST /dtlab-alligator/extractor/object/neo1
 {
-  "path": "$.near_earth_objects.*.*",
-  "destUrl": "/dtlab-alligator/ingest/object/neo1"
+  "path": "$.near_earth_objects.*[*]",
+  "telSpecId": "neo1"
 }
 
 --

@@ -23,11 +23,11 @@ object TelemetryExtractorApiRoute
     path("telemetry" / Segment) { specId =>
       get {
         onSuccess(telemetryExtractor ask specId) {
-          case Some(currentType: TelemetryExtractorSpec) =>
+          case Some(specs: Map[String, TelemetryExtractorSpec]) =>
             Observer("telemetry_extractor_route_get_success")
             complete(
               HttpEntity(ContentTypes.`application/json`,
-                         currentType.toJson.prettyPrint))
+                         specs.toJson.prettyPrint))
           case None =>
             Observer("telemetry_extractor_route_get_notfound")
             complete(StatusCodes.NotFound)

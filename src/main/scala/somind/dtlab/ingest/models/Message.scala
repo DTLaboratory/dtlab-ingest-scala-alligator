@@ -12,7 +12,7 @@ final case class ValueSpec(name: String, path: String, valueType: String)
 final case class ObjectExtractorSpec(
     name: String,
     path: String,
-    destUrl: String,
+    telSpecId: String,
     // datetime of creation - no updates allowed
     created: ZonedDateTime = ZonedDateTime.now()
 )
@@ -20,10 +20,10 @@ final case class ObjectExtractorSpec(
 // for API to avoid setting created
 final case class LazyObjectExtractorSpec(
     path: String,
-    destUrl: String
+    telSpecId: String,
 ) {
   def spec(name: String): ObjectExtractorSpec =
-    ObjectExtractorSpec(name, path, destUrl)
+    ObjectExtractorSpec(name, path, telSpecId)
 }
 
 final case class ObjectExtractorSpecMap(specs: Map[String, ObjectExtractorSpec])
@@ -49,6 +49,7 @@ final case class LazyTelemetryExtractorSpec(
     TelemetryExtractorSpec(name, paths, value, datetimePath, datetimeFmt)
 }
 
+// outer key is specId, inner key is valueName
 final case class TelemetryExtractorSpecMap(
-    specs: Map[String, TelemetryExtractorSpec]
+    specs: Map[String, Map[String, TelemetryExtractorSpec]]
 )
