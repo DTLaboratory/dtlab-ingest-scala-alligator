@@ -1,12 +1,12 @@
-package somind.dtlab.ingest.actors
+package somind.dtlab.ingest.ingest.actors
 
 import com.fasterxml.jackson.databind.JsonNode
 import navicore.data.navipath.dsl.NaviPathSyntax._
 import akka.persistence._
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.models._
-import somind.dtlab.ingest.observe.Observer
-import somind.dtlab.ingest.Conf._
+import somind.dtlab.ingest.ingest.Conf._
+import somind.dtlab.ingest.ingest.models.{DeleteSpec, ExtractorErr, ExtractorOk, ObjectExtractorSpec, ObjectExtractorSpecMap}
+import somind.dtlab.ingest.ingest.observe.Observer
 
 class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] with LazyLogging {
 

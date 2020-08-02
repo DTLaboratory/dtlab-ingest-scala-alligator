@@ -17,8 +17,13 @@ POST /dtlab-alligator/extractor/telemetry/neo1
 {
   "paths": [
     {
-      "name": "neo",
-      "path": "neo",
+      "name": "orbiting_body",
+      "path": "$.close_approach_data[0].orbiting_body",
+      "valueType": "String"
+    },
+    {
+      "name": "object",
+      "path": "$.neo_reference_id",
       "valueType": "String"
     }
   ],

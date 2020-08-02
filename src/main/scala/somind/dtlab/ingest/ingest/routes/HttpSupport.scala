@@ -1,4 +1,4 @@
-package somind.dtlab.ingest.routes
+package somind.dtlab.ingest.ingest.routes
 
 import java.io.IOException
 

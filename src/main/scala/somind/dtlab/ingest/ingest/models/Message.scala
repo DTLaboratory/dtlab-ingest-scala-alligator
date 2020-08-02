@@ -1,4 +1,5 @@
-package somind.dtlab.ingest.models
+package somind.dtlab.ingest.ingest.models
+
 import java.time.ZonedDateTime
 
 sealed trait ExtractorResult {}
@@ -32,8 +33,8 @@ final case class TelemetryExtractorSpec(
     name: String,
     paths: Seq[ValueSpec],
     value: ValueSpec,
-    datetimePath: Option[String],
-    datetimeFmt: Option[String],
+    datetimePath: Option[String] = None,
+    datetimeFmt: Option[String] = None,
     // datetime of creation - no updates allowed
     created: ZonedDateTime = ZonedDateTime.now()
 )
@@ -42,8 +43,8 @@ final case class TelemetryExtractorSpec(
 final case class LazyTelemetryExtractorSpec(
     paths: Seq[ValueSpec],
     value: ValueSpec,
-    datetimePath: Option[String],
-    datetimeFmt: Option[String]
+    datetimePath: Option[String] = None,
+    datetimeFmt: Option[String] = None
 ) {
   def spec(name: String): TelemetryExtractorSpec =
     TelemetryExtractorSpec(name, paths, value, datetimePath, datetimeFmt)

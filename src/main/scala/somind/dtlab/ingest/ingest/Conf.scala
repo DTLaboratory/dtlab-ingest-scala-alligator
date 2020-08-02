@@ -1,11 +1,11 @@
-package somind.dtlab.ingest
+package somind.dtlab.ingest.ingest
 
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.util.Timeout
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.actors._
-import somind.dtlab.ingest.observe.Observer
+import somind.dtlab.ingest.ingest.actors.{ObjectExtractorActor, TelemetryExtractorActor}
+import somind.dtlab.ingest.ingest.observe.Observer
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.{Duration, FiniteDuration}
