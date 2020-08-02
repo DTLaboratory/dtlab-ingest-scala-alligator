@@ -11,6 +11,17 @@ object TelemetryExtractorActor extends LazyLogging {
 
 class TelemetryExtractorActor extends PersistentActorBase[TelemetryExtractorSpecMap] with LazyLogging {
 
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
+  // ejs todo: spec is a collection of extractor specs  - map of a seq
   override var state: TelemetryExtractorSpecMap = TelemetryExtractorSpecMap(specs = Map())
 
   override def receiveCommand: Receive = {

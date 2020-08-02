@@ -24,6 +24,9 @@ object Main extends LazyLogging with JsonSupport with HttpSupport {
                     pathPrefix("extractor") {
                       TelemetryExtractorApiRoute.apply ~
                         ObjectExtractorApiRoute.apply
+                    } ~
+                    pathPrefix("ingest") {
+                        ArrayIngestRoute.apply
                     }
                   }
                 }
