@@ -1,0 +1,99 @@
+http://localhost:8082
+#https://somind.tech
+#https://somind.org
+
+Content-Type: application/json; charset=utf-8
+
+--
+
+--
+GET /dtlab-alligator/extractor/telemetry/neo1
+
+--
+DELETE /dtlab-alligator/extractor/telemetry/neo1
+
+--
+POST /dtlab-alligator/extractor/telemetry/neo1
+{
+  "paths": [[
+    {
+      "name": "orbiting_body",
+      "path": "$.close_approach_data[0].orbiting_body",
+      "valueType": "String"
+    },
+    {
+      "name": "object",
+      "path": "$.neo_reference_id",
+      "valueType": "String"
+    }
+  ]],
+  "values": [
+    {
+      "name": "diameter_min",
+      "path": "$.estimated_diameter.meters.estimated_diameter_min",
+      "valueType": "Double"
+    },
+    {
+      "name": "diameter_max",
+      "path": "$.estimated_diameter.meters.estimated_diameter_max",
+      "valueType": "Double"
+    }
+  ]
+}
+
+--
+POST /dtlab-alligator/extractor/telemetry/neo1
+{
+  "paths": [[
+    {
+      "name": "orbiting_body",
+      "path": "$.close_approach_data[0].orbiting_body",
+      "valueType": "String"
+    },
+    {
+      "name": "object",
+      "path": "$.neo_reference_id",
+      "valueType": "String"
+    }
+  ]],
+  "value": {
+    "name": "diameter_max",
+    "path": "$.estimated_diameter.meters.estimated_diameter_max",
+    "valueType": "Double"
+  }
+}
+
+--
+GET /dtlab-alligator/extractor/telemetry/covid1
+
+--
+DELETE /dtlab-alligator/extractor/telemetry/covid1
+
+--
+POST /dtlab-alligator/extractor/telemetry/covid1
+{
+  "paths": [
+    {
+      "name": "machine",
+      "path": "$.machineId",
+      "valueType": "String"
+    },
+    {
+      "name": "module",
+      "path": "$.moduleId",
+      "valueType": "String"
+    }
+  ],
+  "value": {
+    "name": "temp",
+    "path": "$.temp",
+    "valueType": "Double"
+  }
+}
+
+--
+GET /fitness
+
+--
+GET /observe
+

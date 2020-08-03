@@ -1,4 +1,4 @@
-package somind.dtlab.ingest.models
+package somind.dtlab.ingest.ingest.models
 
 import java.time.{ZoneOffset, ZonedDateTime}
 import java.util.{Date, UUID}
@@ -57,10 +57,12 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
     }
   }
 
-  implicit val dttFormat: RootJsonFormat[DtType] = jsonFormat4(DtType)
-  implicit val tel: RootJsonFormat[Telemetry] = jsonFormat3(Telemetry)
-  implicit val ltel: RootJsonFormat[LazyTelemetry] = jsonFormat3(LazyTelemetry)
-  implicit val ldt: RootJsonFormat[LazyDtType] = jsonFormat3(LazyDtType)
-  implicit val dts: RootJsonFormat[DtState] = jsonFormat1(DtState)
+  implicit val vsFmt: RootJsonFormat[ValueSpec] = jsonFormat3(ValueSpec)
+  implicit val ltesFmt: RootJsonFormat[LazyTelemetryExtractorSpec] = jsonFormat4(LazyTelemetryExtractorSpec)
+  implicit val tesFmt: RootJsonFormat[TelemetryExtractorSpec] = jsonFormat6(TelemetryExtractorSpec)
+  implicit val tesmFmt: RootJsonFormat[TelemetryExtractorSpecMap] = jsonFormat1(TelemetryExtractorSpecMap)
+  implicit val loesFmt: RootJsonFormat[LazyObjectExtractorSpec] = jsonFormat2(LazyObjectExtractorSpec)
+  implicit val oesFmt: RootJsonFormat[ObjectExtractorSpec] = jsonFormat4(ObjectExtractorSpec)
+  implicit val oesmFmt: RootJsonFormat[ObjectExtractorSpecMap] = jsonFormat1(ObjectExtractorSpecMap)
 
 }

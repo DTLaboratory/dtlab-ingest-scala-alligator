@@ -1,13 +1,10 @@
-package somind.dtlab.ingest.actors
+package somind.dtlab.ingest.ingest.actors
 
 import akka.persistence.PersistentActor
-import somind.dtlab.ingest.Conf._
-import somind.dtlab.ingest.observe.Observer
+import somind.dtlab.ingest.ingest.Conf._
+import somind.dtlab.ingest.ingest.observe.Observer
 
-// Dt Persistent Actor Base
-abstract class DtPersistentActorBase[T]
-    extends DtActorBase
-    with PersistentActor {
+abstract class PersistentActorBase[T] extends PersistentActor {
 
   var state: T
 

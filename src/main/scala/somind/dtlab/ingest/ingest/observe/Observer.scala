@@ -1,7 +1,7 @@
-package somind.dtlab.ingest.observe
+package somind.dtlab.ingest.ingest.observe
 
 import akka.pattern.ask
-import somind.dtlab.ingest.Conf._
+import somind.dtlab.ingest.ingest.Conf._
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
