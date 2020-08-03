@@ -21,10 +21,10 @@ The steps for defining a new ingest process are:
 1. Define your types in the DtLab API - each value extracted from the incoming JSON must have a property defined in a DtType.
 2. Define the object extractor if your incoming data contains arrays of objects - loading batches of time-series data.
 3. Define the telemetry extractor
-  * use the forward name specified in the object extractor
-  * define groups of actor paths that will the extracted telemetry
-  * define groups of properties to extract and send to the above paths
+    * use the forward name specified in the object extractor
+    * define groups of actor paths that will the extracted telemetry
+    * define groups of properties to extract and send to the above paths
 4. Post your JSON
-  * possibly from a CRON cURL job polling NASA API hourly
-  * possibly from a Kafka consumer
-  * possibly from a MQTT consumer
+    * possibly from a CRON cURL job polling NASA API hourly
+    * possibly from a Kafka consumer
+    * possibly from a MQTT consumer
