@@ -1,9 +1,9 @@
 package somind.dtlab.ingest.ingest.actors
 
-import navicore.data.navipath.dsl.NaviPathSyntax._
 import akka.persistence._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
+import navicore.data.navipath.dsl.NaviPathSyntax._
 import somind.dtlab.ingest.ingest.actors.functions.CalculatePath
 import somind.dtlab.ingest.ingest.models.{DeleteSpec, ExtractorOk, TelemetryExtractorSpec, TelemetryExtractorSpecMap}
 import somind.dtlab.ingest.ingest.observe.Observer
@@ -19,27 +19,24 @@ class TelemetryExtractorActor
   override var state: TelemetryExtractorSpecMap = TelemetryExtractorSpecMap(
     specs = Map())
 
-
   override def receiveCommand: Receive = {
 
     // extract telemetry from raw json
     case (specId: String, node: JsonNode) =>
       Observer("telemetry_extractor_object_request")
       state.specs.get(specId) match {
-        case Some(spec) =>
-          logger.debug(s"got node for spec $specId")
-          // apply each spec in specId collection and forward telemetry to dtlab
-          spec.values.foreach(extractorSpec => {
+        case Some(extractorSpec) =>
+          extractorSpec.values.foreach(value => {
             // todo: inspect type in spec and convert String, Int, Long to Double
-            node.query[Double](extractorSpec.value.path) match {
+            node.query[Double](value.path) match {
               case Some(extractedValue) =>
                 extractorSpec.paths.foreach(pathSeq => {
                   val p = CalculatePath(node, pathSeq)
-                  logger.debug( s"extracting telemetry ${extractorSpec.value.name} $extractedValue to actor path: $p")
+                  logger.debug(
+                    s"extracting telemetry ${value.name} $extractedValue to actor path: $p")
                 })
               case _ =>
-                logger.debug(
-                  s"did not find ${extractorSpec.value.name} in input")
+                logger.debug(s"did not find ${value.name} in input")
             }
           })
         case _ =>
@@ -49,26 +46,13 @@ class TelemetryExtractorActor
     // manage specs
     case spec: TelemetryExtractorSpec =>
       state.specs.get(spec.specId) match {
-        case Some(prev) if prev.contains(spec.value.name) =>
-          logger.debug(
-            s"create found existing ${spec.specId} for value ${spec.value.name}")
-          sender ! prev.get(spec.value.name)
-          Observer("telemetry_extractor_spec_create_conflict")
         case Some(prev) =>
-          logger.debug(
-            s"found specs for ${spec.specId} but no value key ${spec.value.name}.  creating ...")
-          val newSpecs = prev + (spec.value.name -> spec)
-          state = TelemetryExtractorSpecMap(
-            state.specs + (spec.specId -> newSpecs))
-          Observer("telemetry_extractor_spec_created")
-          persistAsync(spec) { _ =>
-            sender ! Some(spec)
-            takeSnapshot()
-          }
+          logger.debug(s"create found existing ${spec.specId}")
+          sender ! Some(prev)
+          Observer("telemetry_extractor_spec_create_conflict")
         case _ =>
           logger.debug(s"did not find specs for ${spec.specId}.  creating...")
-          state = TelemetryExtractorSpecMap(
-            state.specs + (spec.specId -> Map(spec.value.name -> spec)))
+          state = TelemetryExtractorSpecMap(state.specs + (spec.specId -> spec))
           Observer("telemetry_extractor_spec_created")
           persistAsync(spec) { _ =>
             sender ! Some(spec)
@@ -113,9 +97,7 @@ class TelemetryExtractorActor
   override def receiveRecover: Receive = {
 
     case spec: TelemetryExtractorSpec =>
-      val prev = state.specs.getOrElse(spec.specId, Map())
-      val newSpecs = prev + (spec.value.name -> spec)
-      state = TelemetryExtractorSpecMap(state.specs + (spec.specId -> newSpecs))
+      state = TelemetryExtractorSpecMap(state.specs + (spec.specId -> spec))
       Observer("reapplied_telemetry_extractor_spec_actor_command_from_jrnl")
 
     case del: DeleteSpec =>

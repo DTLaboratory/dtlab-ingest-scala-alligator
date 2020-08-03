@@ -39,7 +39,7 @@ final case class TelemetryExtractorSpec(
     paths: Seq[Seq[ValueSpec]],
     // the value name will be the actor property name, value
     // the actor value
-    value: ValueSpec,
+    values: Seq[ValueSpec],
     datetimePath: Option[String] = None,
     datetimeFmt: Option[String] = None,
     // datetime of creation - no updates allowed
@@ -49,15 +49,15 @@ final case class TelemetryExtractorSpec(
 // for API to avoid setting created
 final case class LazyTelemetryExtractorSpec(
     paths: Seq[Seq[ValueSpec]],
-    value: ValueSpec,
+    values: Seq[ValueSpec],
     datetimePath: Option[String] = None,
     datetimeFmt: Option[String] = None
 ) {
   def spec(specId: String): TelemetryExtractorSpec =
-    TelemetryExtractorSpec(specId, paths, value, datetimePath, datetimeFmt)
+    TelemetryExtractorSpec(specId, paths, values, datetimePath, datetimeFmt)
 }
 
 // outer key is specId, inner key is valueName
 final case class TelemetryExtractorSpecMap(
-    specs: Map[String, Map[String, TelemetryExtractorSpec]]
+    specs: Map[String, TelemetryExtractorSpec]
 )

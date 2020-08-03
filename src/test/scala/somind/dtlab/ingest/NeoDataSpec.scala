@@ -38,9 +38,10 @@ class NeoDataSpec extends AnyFlatSpec with Matchers {
                     "String"),
           ValueSpec("object", "$.neo_reference_id", "String")
         )),
-      ValueSpec("min",
-                "$.estimated_diameter.meters.estimated_diameter_min",
-                "Double")
+      Seq(
+        ValueSpec("min",
+                  "$.estimated_diameter.meters.estimated_diameter_min",
+                  "Double"))
     )
 
     val p = CalculatePath(obj.get, eSpec.paths.head)
