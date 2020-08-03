@@ -37,13 +37,18 @@ POST /dtlab-alligator/extractor/telemetry/neo1
 --
 POST /dtlab-alligator/extractor/telemetry/neo1
 {
-  "paths": [
+  "paths": [[
     {
-      "name": "neo",
-      "path": "neo",
+      "name": "orbiting_body",
+      "path": "$.close_approach_data[0].orbiting_body",
+      "valueType": "String"
+    },
+    {
+      "name": "object",
+      "path": "$.neo_reference_id",
       "valueType": "String"
     }
-  ],
+  ]],
   "value": {
     "name": "diameter_max",
     "path": "$.estimated_diameter.meters.estimated_diameter_max",
