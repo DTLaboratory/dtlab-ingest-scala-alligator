@@ -15,7 +15,7 @@ DELETE /dtlab-alligator/extractor/telemetry/neo1
 --
 POST /dtlab-alligator/extractor/telemetry/neo1
 {
-  "paths": [
+  "paths": [[
     {
       "name": "orbiting_body",
       "path": "$.close_approach_data[0].orbiting_body",
@@ -26,7 +26,7 @@ POST /dtlab-alligator/extractor/telemetry/neo1
       "path": "$.neo_reference_id",
       "valueType": "String"
     }
-  ],
+  ]],
   "value": {
     "name": "diameter_min",
     "path": "$.estimated_diameter.meters.estimated_diameter_min",
