@@ -22,7 +22,7 @@ The steps for defining a new ingest process are:
 2. Define the object extractor if your incoming data contains arrays of objects - loading batches of time-series data.
 3. Define the telemetry extractor
     * use the forward name specified in the object extractor
-    * define groups of actor paths that will the extracted telemetry
+    * define groups of actor paths to the actors that will receive, remember, and act on the extracted telemetry
     * define groups of properties to extract and send to the above paths
 4. Post your JSON
     * possibly from a CRON cURL job polling NASA API hourly
