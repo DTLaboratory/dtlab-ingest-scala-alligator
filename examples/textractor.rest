@@ -14,7 +14,7 @@ DELETE /dtlab-alligator/extractor/telemetry/neo1
 
 --
 POST /dtlab-alligator/extractor/telemetry/neo1
-{
+[{
   "paths": [[
     {
       "name": "orbiting_body",
@@ -39,57 +39,7 @@ POST /dtlab-alligator/extractor/telemetry/neo1
       "valueType": "Double"
     }
   ]
-}
-
---
-POST /dtlab-alligator/extractor/telemetry/neo1
-{
-  "paths": [[
-    {
-      "name": "orbiting_body",
-      "path": "$.close_approach_data[0].orbiting_body",
-      "valueType": "String"
-    },
-    {
-      "name": "object",
-      "path": "$.neo_reference_id",
-      "valueType": "String"
-    }
-  ]],
-  "value": {
-    "name": "diameter_max",
-    "path": "$.estimated_diameter.meters.estimated_diameter_max",
-    "valueType": "Double"
-  }
-}
-
---
-GET /dtlab-alligator/extractor/telemetry/covid1
-
---
-DELETE /dtlab-alligator/extractor/telemetry/covid1
-
---
-POST /dtlab-alligator/extractor/telemetry/covid1
-{
-  "paths": [
-    {
-      "name": "machine",
-      "path": "$.machineId",
-      "valueType": "String"
-    },
-    {
-      "name": "module",
-      "path": "$.moduleId",
-      "valueType": "String"
-    }
-  ],
-  "value": {
-    "name": "temp",
-    "path": "$.temp",
-    "valueType": "Double"
-  }
-}
+}]
 
 --
 GET /fitness

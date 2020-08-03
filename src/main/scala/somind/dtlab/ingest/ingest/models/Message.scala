@@ -59,5 +59,7 @@ final case class LazyTelemetryExtractorSpec(
 
 // outer key is specId, inner key is valueName
 final case class TelemetryExtractorSpecMap(
-    specs: Map[String, TelemetryExtractorSpec]
+    specs: Map[String, Seq[TelemetryExtractorSpec]]
 )
+
+final case class Specs(specs: Seq[TelemetryExtractorSpec])

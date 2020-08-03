@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import navicore.data.navipath.dsl.NaviPathSyntax._
 import somind.dtlab.ingest.ingest.actors.functions.CalculatePath
-import somind.dtlab.ingest.ingest.models.{DeleteSpec, ExtractorOk, TelemetryExtractorSpec, TelemetryExtractorSpecMap}
+import somind.dtlab.ingest.ingest.models.{DeleteSpec, ExtractorOk, Specs, TelemetryExtractorSpecMap}
 import somind.dtlab.ingest.ingest.observe.Observer
 
 object TelemetryExtractorActor extends LazyLogging {
@@ -25,37 +25,42 @@ class TelemetryExtractorActor
     case (specId: String, node: JsonNode) =>
       Observer("telemetry_extractor_object_request")
       state.specs.get(specId) match {
-        case Some(extractorSpec) =>
-          extractorSpec.values.foreach(value => {
-            // todo: inspect type in spec and convert String, Int, Long to Double
-            node.query[Double](value.path) match {
-              case Some(extractedValue) =>
-                extractorSpec.paths.foreach(pathSeq => {
-                  val p = CalculatePath(node, pathSeq)
-                  logger.debug(
-                    s"extracting telemetry ${value.name} $extractedValue to actor path: $p")
-                })
-              case _ =>
-                logger.debug(s"did not find ${value.name} in input")
-            }
+        case Some(extractorSpecs) =>
+          extractorSpecs.foreach(extractorSpec => {
+
+            extractorSpec.values.foreach(value => {
+              // todo: inspect type in spec and convert String, Int, Long to Double
+              node.query[Double](value.path) match {
+                case Some(extractedValue) =>
+                  extractorSpec.paths.foreach(pathSeq => {
+                    val p = CalculatePath(node, pathSeq)
+                    logger.debug(
+                      s"extracting telemetry ${value.name} $extractedValue to actor path: $p")
+                  })
+                case _ =>
+                  logger.debug(s"did not find ${value.name} in input")
+              }
+            })
           })
         case _ =>
           logger.warn(s"did not find $specId for JsonNode extract.")
       }
 
     // manage specs
-    case spec: TelemetryExtractorSpec =>
-      state.specs.get(spec.specId) match {
+    case specs: Specs @unchecked =>
+      state.specs.get(specs.specs.head.specId) match {
         case Some(prev) =>
-          logger.debug(s"create found existing ${spec.specId}")
-          sender ! Some(prev)
+          logger.debug(s"create found existing ${specs.specs.head.specId}")
+          sender ! Some(Specs(prev))
           Observer("telemetry_extractor_spec_create_conflict")
         case _ =>
-          logger.debug(s"did not find specs for ${spec.specId}.  creating...")
-          state = TelemetryExtractorSpecMap(state.specs + (spec.specId -> spec))
+          logger.debug(
+            s"did not find specs for ${specs.specs.head.specId}.  creating...")
+          state = TelemetryExtractorSpecMap(
+            state.specs + (specs.specs.head.specId -> specs.specs))
           Observer("telemetry_extractor_spec_created")
-          persistAsync(spec) { _ =>
-            sender ! Some(spec)
+          persistAsync(specs) { _ =>
+            sender ! Some(specs)
             takeSnapshot()
           }
       }
@@ -78,7 +83,7 @@ class TelemetryExtractorActor
       state.specs.get(specId) match {
         case Some(specs) =>
           logger.debug(s"found $specId")
-          sender ! Some(specs)
+          sender ! Some(Specs(specs))
           Observer("telemetry_extractor_spec_lookup_success")
         case _ =>
           Observer("telemetry_extractor_spec_lookup_failure")
@@ -96,8 +101,9 @@ class TelemetryExtractorActor
 
   override def receiveRecover: Receive = {
 
-    case spec: TelemetryExtractorSpec =>
-      state = TelemetryExtractorSpecMap(state.specs + (spec.specId -> spec))
+    case specs: Specs @unchecked =>
+      state = TelemetryExtractorSpecMap(
+        state.specs + (specs.specs.head.specId -> specs.specs))
       Observer("reapplied_telemetry_extractor_spec_actor_command_from_jrnl")
 
     case del: DeleteSpec =>
