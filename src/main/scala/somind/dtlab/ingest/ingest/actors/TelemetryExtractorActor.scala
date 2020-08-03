@@ -30,12 +30,17 @@ class TelemetryExtractorActor
 
             extractorSpec.values.foreach(value => {
               // todo: inspect type in spec and convert String, Int, Long to Double
+              // todo: inspect type in spec and convert String, Int, Long to Double
+              // todo: inspect type in spec and convert String, Int, Long to Double
               node.query[Double](value.path) match {
                 case Some(extractedValue) =>
                   extractorSpec.paths.foreach(pathSeq => {
                     val p = CalculatePath(node, pathSeq)
                     logger.debug(
                       s"extracting telemetry ${value.name} $extractedValue to actor path: $p")
+                    // todo: post to dtlab
+                    // todo: post to dtlab
+                    // todo: post to dtlab
                   })
                 case _ =>
                   logger.debug(s"did not find ${value.name} in input")
