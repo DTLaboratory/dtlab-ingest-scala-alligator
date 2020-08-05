@@ -2,13 +2,13 @@ package somind.dtlab.ingest.ingest.actors.functions
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.ingest.models.ValueSpec
+import somind.dtlab.ingest.ingest.models._
 import navicore.data.navipath.dsl.NaviPathSyntax._
 
 object CalculatePath extends LazyLogging {
 
   def apply(node: JsonNode,
-            valueSpecs: Seq[ValueSpec],
+            valueSpecs: Seq[PathSpec],
             path: String = ""): Option[String] = {
     if (valueSpecs.isEmpty) {
       if (path == "")

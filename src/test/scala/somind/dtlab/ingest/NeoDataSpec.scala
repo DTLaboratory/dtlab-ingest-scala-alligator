@@ -7,7 +7,7 @@ import navicore.data.navipath.dsl.NaviPathSyntax._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import somind.dtlab.ingest.ingest.actors.functions.CalculatePath
-import somind.dtlab.ingest.ingest.models.{TelemetryExtractorSpec, ValueSpec}
+import somind.dtlab.ingest.ingest.models._
 
 import scala.io.Source
 
@@ -33,15 +33,19 @@ class NeoDataSpec extends AnyFlatSpec with Matchers {
       "neo1",
       Seq(
         Seq(
-          ValueSpec("orbiting_body",
+          PathSpec("orbiting_body",
                     "$.close_approach_data[0].orbiting_body",
                     "String"),
-          ValueSpec("object", "$.neo_reference_id", "String")
+          PathSpec("object", "$.neo_reference_id", "String")
         )),
       Seq(
-        ValueSpec("min",
+        ValueSpec(0,
                   "$.estimated_diameter.meters.estimated_diameter_min",
-                  "Double"))
+                  "Double"),
+        ValueSpec(1,
+                  "$.estimated_diameter.meters.estimated_diameter_max",
+                  "Double")
+      )
     )
 
     val p = CalculatePath(obj.get, eSpec.paths.head)

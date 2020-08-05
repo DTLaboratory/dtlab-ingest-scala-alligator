@@ -19,15 +19,16 @@ class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] w
         case Some(spec) =>
           val parsedJson = json.asJson
           parsedJson.query[List[JsonNode]](spec.path) match {
-            case Some(objects) =>
-              objects.foreach(n =>
-                telemetryExtractor ! (spec.telSpecId, n)
-              )
+            case Some(objects: List[JsonNode]) =>
+              telemetryExtractor forward (spec.telSpecId, objects)
+//              objects.foreach(n =>
+//                telemetryExtractor ! (spec.telSpecId, n)
+//              )
               // ejs todo: support back pressure (ask and future composition?)
               // ejs todo: support back pressure (ask and future composition?)
               // ejs todo: support back pressure (ask and future composition?)
               // ejs todo: support back pressure (ask and future composition?)
-              sender() ! ExtractorOk()
+              //sender() ! ExtractorOk()
             case _ =>
               sender() ! ExtractorErr("extractor did not extract any objects")
           }
