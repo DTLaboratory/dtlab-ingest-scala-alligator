@@ -31,11 +31,10 @@ object PostTelemetry extends JsonSupport with HttpSupport {
     http.singleRequest(newRequest)
   }
 
-  // ejs does this make sense?  is this how bad scala really is????
-  // ejs does this make sense?  is this how bad scala really is????
-  // ejs does this make sense?  is this how bad scala really is????
-  // ejs does this make sense?  is this how bad scala really is????
-  // ejs does this make sense?  is this how bad scala really is????
+  // does this make sense?  is this how bad scala really is????
+  // ensure that futures are executed 1 at a time
+  // we are not so concerned about the latency for a single batch - system scales horizontally when there
+  // are lots of writers/posters.
   def seqFutures[T, U](items: TraversableOnce[T])(
       yourfunction: T => Future[U]): Future[List[U]] = {
     items.foldLeft(Future.successful[List[U]](Nil)) { (f, item) =>
@@ -52,10 +51,6 @@ object PostTelemetry extends JsonSupport with HttpSupport {
       (i: (String, Telemetry)) => {
         applyPost(request, i._1, i._2)
       })
-
-//    Future.traverse(telemetry)(i => {
-//      applyPost(request, i._1, i._2)
-//    })
 
   }
 
