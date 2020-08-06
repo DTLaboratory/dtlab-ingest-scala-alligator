@@ -8,6 +8,7 @@ import com.typesafe.scalalogging.LazyLogging
 import somind.dtlab.ingest.ingest.Conf._
 import somind.dtlab.ingest.ingest.models._
 import somind.dtlab.ingest.ingest.observe.Observer
+import somind.dtlab.ingest.ingest.routes.functions.PostTelemetry
 
 object ArrayIngestRoute
     extends LazyLogging
@@ -23,13 +24,15 @@ object ArrayIngestRoute
             onSuccess(objectExtractor ask (specId, json)) {
               case Some(m: Seq[(String, Telemetry)]) =>
                 Observer("array_ingress_route_post_success")
-                complete(StatusCodes.Accepted, m.toJson.prettyPrint)
-              case _: ExtractorOk =>
-                Observer("array_ingress_route_post_success")
-                complete(StatusCodes.Accepted)
-              case ExtractorErr(message) =>
-                Observer("array_ingress_route_post_error")
-                complete(StatusCodes.NotAcceptable, message)
+                extractRequest { request =>
+                  onSuccess(PostTelemetry(request, m)) {
+                    case r: Seq[HttpResponse] =>
+                      complete(StatusCodes.Accepted, m.toJson.prettyPrint)
+                    case e =>
+                      logger.warn(s"post to dtlab failed: $e")
+                      complete(StatusCodes.InternalServerError)
+                  }
+                }
               case e =>
                 Observer("array_ingress_route_post_unk_err")
                 logger.warn(s"unable to handle: $e")
