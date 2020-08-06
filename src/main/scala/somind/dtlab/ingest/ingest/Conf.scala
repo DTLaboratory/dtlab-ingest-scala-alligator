@@ -36,4 +36,7 @@ object Conf extends LazyLogging {
   val persistIdRoot: String = conf.getString("main.persistIdRoot")
   val snapshotInterval: Int = conf.getInt("main.snapshotInterval")
 
+  val dtlabHost: String = conf.getString("main.dtlabHost")
+  val dtlabPort: Int = conf.getInt("main.dtlabPort")
+
 }

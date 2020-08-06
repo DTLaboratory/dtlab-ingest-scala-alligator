@@ -29,12 +29,12 @@ POST /dtlab-alligator/extractor/telemetry/neo1
   ]],
   "values": [
     {
-      "name": "diameter_min",
+      "idx": 0,
       "path": "$.estimated_diameter.meters.estimated_diameter_min",
       "valueType": "Double"
     },
     {
-      "name": "diameter_max",
+      "idx": 1,
       "path": "$.estimated_diameter.meters.estimated_diameter_max",
       "valueType": "Double"
     }

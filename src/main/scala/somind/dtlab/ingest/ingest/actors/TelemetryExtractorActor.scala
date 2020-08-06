@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import navicore.data.navipath.dsl.NaviPathSyntax._
 import somind.dtlab.ingest.ingest.actors.functions.CalculatePath
-import somind.dtlab.ingest.ingest.models.{DeleteSpec, ExtractorOk, Specs, TelemetryExtractorSpecMap}
+import somind.dtlab.ingest.ingest.models._
 import somind.dtlab.ingest.ingest.observe.Observer
 
 object TelemetryExtractorActor extends LazyLogging {
@@ -19,36 +19,66 @@ class TelemetryExtractorActor
   override var state: TelemetryExtractorSpecMap = TelemetryExtractorSpecMap(
     specs = Map())
 
+  def extract(
+      node: JsonNode,
+      extractorSpecs: Seq[TelemetryExtractorSpec]): Seq[(String, Telemetry)] = {
+    extractorSpecs.flatMap(extractorSpec => {
+      extractorSpec.values.flatMap(value => {
+        node.query[Double](value.path) match {
+          case Some(extractedValue) =>
+            extractorSpec.paths.flatMap(pathSeq => {
+              CalculatePath(node, pathSeq) match {
+                case Some(p) =>
+                  logger.debug(
+                    s"extracting telemetry ${value.path} $extractedValue to actor path: $p")
+                  List((p, Telemetry(value.idx, extractedValue)))
+                case _ =>
+                  logger.warn(s"can not extract path from pathspec: $pathSeq")
+                  List()
+              }
+            })
+          case _ =>
+            logger.debug(s"did not find ${value.path} in input")
+            List()
+        }
+      })
+    })
+  }
+
   override def receiveCommand: Receive = {
+
+    // extract telemetry from array of raw json
+    case (specId: String, nodes: Seq[JsonNode]) =>
+      Observer("telemetry_extractor_objects_request")
+      state.specs.get(specId) match {
+        case Some(extractorSpecs) =>
+          val telemetry = nodes.flatMap(extract(_, extractorSpecs))
+
+          if (telemetry.isEmpty)
+            sender ! None
+          else
+            sender ! Some(telemetry)
+
+        case _ =>
+          logger.warn(s"did not find $specId for JsonNode extract.")
+          sender ! None
+      }
 
     // extract telemetry from raw json
     case (specId: String, node: JsonNode) =>
       Observer("telemetry_extractor_object_request")
       state.specs.get(specId) match {
         case Some(extractorSpecs) =>
-          extractorSpecs.foreach(extractorSpec => {
+          val telemetry = extract(node, extractorSpecs)
 
-            extractorSpec.values.foreach(value => {
-              // todo: inspect type in spec and convert String, Int, Long to Double
-              // todo: inspect type in spec and convert String, Int, Long to Double
-              // todo: inspect type in spec and convert String, Int, Long to Double
-              node.query[Double](value.path) match {
-                case Some(extractedValue) =>
-                  extractorSpec.paths.foreach(pathSeq => {
-                    val p = CalculatePath(node, pathSeq)
-                    logger.debug(
-                      s"extracting telemetry ${value.name} $extractedValue to actor path: $p")
-                    // todo: post to dtlab
-                    // todo: post to dtlab
-                    // todo: post to dtlab
-                  })
-                case _ =>
-                  logger.debug(s"did not find ${value.name} in input")
-              }
-            })
-          })
+          if (telemetry.isEmpty)
+            sender ! None
+          else
+            sender ! Some(telemetry)
+
         case _ =>
           logger.warn(s"did not find $specId for JsonNode extract.")
+          sender ! None
       }
 
     // manage specs
@@ -97,7 +127,7 @@ class TelemetryExtractorActor
 
     case _: SaveSnapshotSuccess =>
     case None =>
-      logger.warn("unexpected None")
+      logger.warn("unexpected receive None")
     case m =>
       logger.warn(s"unexpected message: $m")
       sender ! None
