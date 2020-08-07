@@ -1,4 +1,4 @@
-package somind.dtlab.ingest
+package somind.dtlab
 
 import java.io.InputStream
 

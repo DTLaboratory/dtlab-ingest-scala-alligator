@@ -1,11 +1,11 @@
-package somind.dtlab.ingest.ingest.routes.functions
+package somind.dtlab.ingest.routes.functions
 
 import akka.http.scaladsl.model.Uri.Path
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.{Http, HttpExt}
-import somind.dtlab.ingest.ingest.Conf._
-import somind.dtlab.ingest.ingest.models.{JsonSupport, Telemetry}
-import somind.dtlab.ingest.ingest.routes.HttpSupport
+import somind.dtlab.ingest.Conf._
+import somind.dtlab.ingest.models.{JsonSupport, Telemetry}
+import somind.dtlab.ingest.routes.HttpSupport
 import spray.json._
 
 import scala.concurrent.Future

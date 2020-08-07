@@ -1,16 +1,19 @@
-package somind.dtlab.ingest.ingest.actors
+package somind.dtlab.ingest.actors
 
-import com.fasterxml.jackson.databind.JsonNode
-import navicore.data.navipath.dsl.NaviPathSyntax._
 import akka.persistence._
+import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.ingest.Conf._
-import somind.dtlab.ingest.ingest.models.{DeleteSpec, ExtractorErr, ExtractorOk, ObjectExtractorSpec, ObjectExtractorSpecMap}
-import somind.dtlab.ingest.ingest.observe.Observer
+import navicore.data.navipath.dsl.NaviPathSyntax._
+import somind.dtlab.ingest.Conf._
+import somind.dtlab.ingest.models._
+import somind.dtlab.ingest.observe.Observer
 
-class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] with LazyLogging {
+class ObjectExtractorActor
+    extends PersistentActorBase[ObjectExtractorSpecMap]
+    with LazyLogging {
 
-  override var state: ObjectExtractorSpecMap = ObjectExtractorSpecMap(specs = Map())
+  override var state: ObjectExtractorSpecMap = ObjectExtractorSpecMap(
+    specs = Map())
 
   override def receiveCommand: Receive = {
 
@@ -21,14 +24,6 @@ class ObjectExtractorActor extends PersistentActorBase[ObjectExtractorSpecMap] w
           parsedJson.query[List[JsonNode]](spec.path) match {
             case Some(objects: List[JsonNode]) =>
               telemetryExtractor forward (spec.telSpecId, objects)
-//              objects.foreach(n =>
-//                telemetryExtractor ! (spec.telSpecId, n)
-//              )
-              // ejs todo: support back pressure (ask and future composition?)
-              // ejs todo: support back pressure (ask and future composition?)
-              // ejs todo: support back pressure (ask and future composition?)
-              // ejs todo: support back pressure (ask and future composition?)
-              //sender() ! ExtractorOk()
             case _ =>
               sender() ! ExtractorErr("extractor did not extract any objects")
           }

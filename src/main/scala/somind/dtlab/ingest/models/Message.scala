@@ -1,4 +1,4 @@
-package somind.dtlab.ingest.ingest.models
+package somind.dtlab.ingest.models
 
 import java.time.ZonedDateTime
 
