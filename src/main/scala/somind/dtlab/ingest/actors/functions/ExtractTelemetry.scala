@@ -1,12 +1,11 @@
-package somind.dtlab.ingest.ingest.actors.functions
+package somind.dtlab.ingest.actors.functions
 
 import java.time.ZonedDateTime
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import navicore.data.navipath.dsl.NaviPathSyntax._
-import somind.dtlab.ingest.ingest.models._
-import somind.dtlab.ingest.ingest.observe.Observer
+import somind.dtlab.ingest.models.{Telemetry, TelemetryExtractorSpec}
 
 object ExtractTelemetry extends LazyLogging {
 
@@ -21,17 +20,13 @@ object ExtractTelemetry extends LazyLogging {
               CalculatePath(node, pathSeq) match {
                 case Some(p) =>
                   try {
-                    // ejs refactor this mess .... catching throwable, deep nesting, etc... not cool
-                    val r = List(
+                    List(
                       (p,
                        Telemetry(value.idx,
                                  extractedValue,
                                  ExtractDatetime(node, extractorSpec))))
-                    Observer("extract_telemetry_datetime_succeeded")
-                    r
                   } catch {
                     case e: Throwable =>
-                      Observer("extract_telemetry_datetime_failed")
                       logger.warn(
                         s"can not extract datetime $value: ${e.getMessage}")
                       List(

@@ -1,9 +1,9 @@
-package somind.dtlab.ingest.ingest.actors.functions
+package somind.dtlab.ingest.actors.functions
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.ingest.models._
 import navicore.data.navipath.dsl.NaviPathSyntax._
+import somind.dtlab.ingest.models.PathSpec
 
 object CalculatePath extends LazyLogging {
 

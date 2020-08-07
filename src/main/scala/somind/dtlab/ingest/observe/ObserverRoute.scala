@@ -1,4 +1,4 @@
-package somind.dtlab.ingest.ingest.observe
+package somind.dtlab.ingest.observe
 
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes}
 import akka.http.scaladsl.server.{Directives, Route}
@@ -7,7 +7,7 @@ import com.typesafe.scalalogging.LazyLogging
 
 import scala.concurrent.Future
 import scala.util.Success
-import somind.dtlab.ingest.ingest.Conf._
+import somind.dtlab.ingest.Conf._
 
 object ObserverRoute extends LazyLogging with Directives {
 

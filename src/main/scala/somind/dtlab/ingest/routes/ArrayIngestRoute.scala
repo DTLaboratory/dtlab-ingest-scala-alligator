@@ -1,14 +1,14 @@
-package somind.dtlab.ingest.ingest.routes
+package somind.dtlab.ingest.routes
 
 import spray.json._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server._
 import akka.pattern.ask
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.ingest.Conf._
-import somind.dtlab.ingest.ingest.models._
-import somind.dtlab.ingest.ingest.observe.Observer
-import somind.dtlab.ingest.ingest.routes.functions.PostTelemetry
+import somind.dtlab.ingest.Conf._
+import somind.dtlab.ingest.models.{JsonSupport, Telemetry}
+import somind.dtlab.ingest.observe.Observer
+import somind.dtlab.ingest.routes.functions.PostTelemetry
 
 object ArrayIngestRoute
     extends LazyLogging
@@ -26,7 +26,7 @@ object ArrayIngestRoute
                 Observer("array_ingress_route_post_success")
                 extractRequest { request =>
                   onSuccess(PostTelemetry(request, m)) {
-                    case r: Seq[HttpResponse] @unchecked =>
+                    case _: Seq[HttpResponse] @unchecked =>
                       complete(StatusCodes.Accepted, m.toJson.prettyPrint)
                     case e =>
                       logger.warn(s"post to dtlab failed: $e")

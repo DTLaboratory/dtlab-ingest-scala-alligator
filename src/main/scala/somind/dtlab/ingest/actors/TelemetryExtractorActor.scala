@@ -1,11 +1,11 @@
-package somind.dtlab.ingest.ingest.actors
+package somind.dtlab.ingest.actors
 
 import akka.persistence._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.ingest.actors.functions.ExtractTelemetry
-import somind.dtlab.ingest.ingest.models._
-import somind.dtlab.ingest.ingest.observe.Observer
+import somind.dtlab.ingest.actors.functions.ExtractTelemetry
+import somind.dtlab.ingest.models.{DeleteSpec, ExtractorOk, Specs, TelemetryExtractorSpecMap}
+import somind.dtlab.ingest.observe.Observer
 
 object TelemetryExtractorActor extends LazyLogging {
   def name: String = this.getClass.getName

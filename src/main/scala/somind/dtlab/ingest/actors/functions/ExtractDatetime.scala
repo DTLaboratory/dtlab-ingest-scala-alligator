@@ -1,11 +1,11 @@
-package somind.dtlab.ingest.ingest.actors.functions
+package somind.dtlab.ingest.actors.functions
 
 import java.time.{ZoneOffset, ZonedDateTime}
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import navicore.data.navipath.dsl.NaviPathSyntax._
-import somind.dtlab.ingest.ingest.models._
+import somind.dtlab.ingest.models.TelemetryExtractorSpec
 
 object ExtractDatetime extends LazyLogging {
 

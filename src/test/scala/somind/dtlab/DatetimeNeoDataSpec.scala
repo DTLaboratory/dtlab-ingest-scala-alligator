@@ -1,4 +1,4 @@
-package somind.dtlab.ingest
+package somind.dtlab
 
 import java.io.InputStream
 
@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import navicore.data.navipath.dsl.NaviPathSyntax._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import somind.dtlab.ingest.ingest.actors.functions.{CalculatePath, ExtractTelemetry}
-import somind.dtlab.ingest.ingest.models._
+import somind.dtlab.ingest.actors.functions.{CalculatePath, ExtractTelemetry}
+import somind.dtlab.ingest.models._
 
 import scala.io.Source
 
