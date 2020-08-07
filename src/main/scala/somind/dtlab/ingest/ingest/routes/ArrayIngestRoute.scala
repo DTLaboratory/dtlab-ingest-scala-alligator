@@ -22,11 +22,11 @@ object ArrayIngestRoute
         decodeRequest {
           entity(as[String]) { json =>
             onSuccess(objectExtractor ask (specId, json)) {
-              case Some(m: Seq[(String, Telemetry)]) =>
+              case Some(m: Seq[(String, Telemetry)] @unchecked) =>
                 Observer("array_ingress_route_post_success")
                 extractRequest { request =>
                   onSuccess(PostTelemetry(request, m)) {
-                    case r: Seq[HttpResponse] =>
+                    case r: Seq[HttpResponse] @unchecked =>
                       complete(StatusCodes.Accepted, m.toJson.prettyPrint)
                     case e =>
                       logger.warn(s"post to dtlab failed: $e")

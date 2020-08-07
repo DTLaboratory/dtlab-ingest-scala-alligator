@@ -38,7 +38,10 @@ POST /dtlab-alligator/extractor/telemetry/neo1
       "path": "$.estimated_diameter.meters.estimated_diameter_max",
       "valueType": "Double"
     }
-  ]
+  ],
+  "datetimePath": "$.close_approach_data[0].close_approach_date_full",
+  "datetimeFmt": "yyyy-MMM-dd hh:mm"
+
 }]
 
 --
