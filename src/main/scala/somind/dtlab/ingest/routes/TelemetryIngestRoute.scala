@@ -7,18 +7,18 @@ import somind.dtlab.ingest.Conf._
 import somind.dtlab.ingest.models.JsonSupport
 import somind.dtlab.ingest.routes.functions.PostTelemetryRoute
 
-object ArrayIngestRoute
+object TelemetryIngestRoute
     extends LazyLogging
     with Directives
     with HttpSupport
     with JsonSupport {
 
   def apply: Route = {
-    path("array" / Segment) { specId =>
+    path("telemetry" / Segment) { specId =>
       post {
         decodeRequest {
           entity(as[String]) { json =>
-            onSuccess(objectExtractor ask (specId, json)) {
+            onSuccess(telemetryExtractor ask (specId, json)) {
               PostTelemetryRoute.apply
             }
           }
@@ -26,4 +26,5 @@ object ArrayIngestRoute
       }
     }
   }
+
 }

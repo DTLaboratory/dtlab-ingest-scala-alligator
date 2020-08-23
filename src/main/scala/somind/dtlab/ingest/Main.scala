@@ -4,10 +4,10 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 import com.typesafe.scalalogging.LazyLogging
-import Conf._
+import somind.dtlab.ingest.Conf._
 import somind.dtlab.ingest.models.JsonSupport
 import somind.dtlab.ingest.observe.ObserverRoute
-import somind.dtlab.ingest.routes.{ArrayIngestRoute, HttpSupport, ObjectExtractorApiRoute, TelemetryExtractorApiRoute}
+import somind.dtlab.ingest.routes._
 
 object Main extends LazyLogging with JsonSupport with HttpSupport {
 
@@ -26,7 +26,8 @@ object Main extends LazyLogging with JsonSupport with HttpSupport {
                         ObjectExtractorApiRoute.apply
                     } ~
                       pathPrefix("ingest") {
-                        ArrayIngestRoute.apply
+                        IngestRoute.apply("array", objectExtractor) ~
+                          IngestRoute.apply("telemetry", telemetryExtractor)
                       }
                   }
                 }
