@@ -30,3 +30,9 @@ The steps for defining a new ingest process are:
     * possibly from a CRON cURL job polling NASA API hourly
     * possibly from a Kafka consumer
     * possibly from a MQTT consumer
+
+# GEN API DOCS
+
+```
+widdershins --environment reference/env.json reference/dtlab-ingest-scala-alligator.v1.yaml reference/README.md
+```
