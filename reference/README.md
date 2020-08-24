@@ -751,6 +751,188 @@ Status Code **201**
 This operation does not require authentication
 </aside>
 
+## post-dtlab-alligator-ingest-array-specId
+
+<a id="opIdpost-dtlab-alligator-ingest-array-specId"></a>
+
+> Code samples
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json'
+}
+
+r = requests.post('http://localhost:8082/dtlab-alligator/ingest/array/{specId}', headers = headers)
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X POST http://localhost:8082/dtlab-alligator/ingest/array/{specId} \
+  -H 'Content-Type: application/json'
+
+```
+
+```javascript
+const inputBody = '{}';
+const headers = {
+  'Content-Type':'application/json'
+};
+
+fetch('http://localhost:8082/dtlab-alligator/ingest/array/{specId}',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-alligator/ingest/array/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`POST /dtlab-alligator/ingest/array/{specId}`
+
+Load an array of telemetry to DtLab.
+
+> Body parameter
+
+```json
+{}
+```
+
+<h3 id="post-dtlab-alligator-ingest-array-specid-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|false|none|
+|specId|path|string|true|none|
+
+<h3 id="post-dtlab-alligator-ingest-array-specid-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|406|[Not Acceptable](https://tools.ietf.org/html/rfc7231#section-6.5.6)|Not Acceptable|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## post-dtlab-alligator-ingest-telemetry-spec
+
+<a id="opIdpost-dtlab-alligator-ingest-telemetry-spec"></a>
+
+> Code samples
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json'
+}
+
+r = requests.post('http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId}', headers = headers)
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X POST http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId} \
+  -H 'Content-Type: application/json'
+
+```
+
+```javascript
+const inputBody = '{}';
+const headers = {
+  'Content-Type':'application/json'
+};
+
+fetch('http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId}',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`POST /dtlab-alligator/ingest/telemetry/{specId}`
+
+send a single document to the telemetry extractor for a single set of telemetry forwarded to actor(s)
+
+> Body parameter
+
+```json
+{}
+```
+
+<h3 id="post-dtlab-alligator-ingest-telemetry-spec-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|false|observations in their raw form|
+|specId|path|string|true|none|
+
+<h3 id="post-dtlab-alligator-ingest-telemetry-spec-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|406|[Not Acceptable](https://tools.ietf.org/html/rfc7231#section-6.5.6)|Not Acceptable|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 # Schemas
 
 <h2 id="tocS_TelemetryExtractorSpec">TelemetryExtractorSpec</h2>

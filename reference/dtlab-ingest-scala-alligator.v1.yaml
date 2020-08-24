@@ -205,6 +205,63 @@ paths:
                 value:
                   path: '$.near_earth_objects.*[*]'
                   telSpecId: neo1
+  '/dtlab-alligator/ingest/array/{specId}':
+    parameters:
+      - schema:
+          type: string
+        name: specId
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-dtlab-alligator-ingest-array-specId
+      responses:
+        '202':
+          description: Accepted
+        '401':
+          description: Unauthorized
+        '406':
+          description: Not Acceptable
+      description: Load an array of telemetry to DtLab.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+          application/font-woff:
+            schema:
+              type: object
+              properties: {}
+      tags:
+        - tell
+  '/dtlab-alligator/ingest/telemetry/{specId}':
+    parameters:
+      - schema:
+          type: string
+        name: specId
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-dtlab-alligator-ingest-telemetry-spec
+      responses:
+        '202':
+          description: Accepted
+        '401':
+          description: Unauthorized
+        '406':
+          description: Not Acceptable
+      description: send a single document to the telemetry extractor for a single set of telemetry forwarded to actor(s)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: observations in their raw form
+      tags:
+        - tell
 components:
   schemas:
     TelemetryExtractorSpec:
