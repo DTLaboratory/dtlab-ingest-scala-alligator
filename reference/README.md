@@ -297,16 +297,45 @@ curl -X POST http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{s
 ```
 
 ```javascript
-const inputBody = '{
-  "props": [
-    "temp",
-    "speed"
-  ],
-  "children": [
-    "alternator_module",
-    "starter_module"
-  ]
-}';
+const inputBody = '[
+  {
+    "created": "2020-08-24T16:18:30.001Z",
+    "datetimeFmt": "yyyy-MMM-dd hh:mm",
+    "datetimePath": "$.close_approach_data[0].close_approach_date_full",
+    "paths": [
+      [
+        {
+          "name": "orbiting_body",
+          "path": "$.close_approach_data[0].orbiting_body",
+          "valueType": "String"
+        },
+        {
+          "name": "object",
+          "path": "$.neo_reference_id",
+          "valueType": "String"
+        }
+      ]
+    ],
+    "specId": "neo1",
+    "values": [
+      {
+        "idx": 0,
+        "path": "$.absolute_magnitude_h",
+        "valueType": "Double"
+      },
+      {
+        "idx": 1,
+        "path": "$.estimated_diameter.meters.estimated_diameter_min",
+        "valueType": "Double"
+      },
+      {
+        "idx": 2,
+        "path": "$.estimated_diameter.meters.estimated_diameter_max",
+        "valueType": "Double"
+      }
+    ]
+  }
+]';
 const headers = {
   'Content-Type':'application/json',
   'Accept':'application/json'
@@ -352,16 +381,45 @@ Create a new spec with that defines how to identifiy the actors to update and th
 > Body parameter
 
 ```json
-{
-  "props": [
-    "temp",
-    "speed"
-  ],
-  "children": [
-    "alternator_module",
-    "starter_module"
-  ]
-}
+[
+  {
+    "created": "2020-08-24T16:18:30.001Z",
+    "datetimeFmt": "yyyy-MMM-dd hh:mm",
+    "datetimePath": "$.close_approach_data[0].close_approach_date_full",
+    "paths": [
+      [
+        {
+          "name": "orbiting_body",
+          "path": "$.close_approach_data[0].orbiting_body",
+          "valueType": "String"
+        },
+        {
+          "name": "object",
+          "path": "$.neo_reference_id",
+          "valueType": "String"
+        }
+      ]
+    ],
+    "specId": "neo1",
+    "values": [
+      {
+        "idx": 0,
+        "path": "$.absolute_magnitude_h",
+        "valueType": "Double"
+      },
+      {
+        "idx": 1,
+        "path": "$.estimated_diameter.meters.estimated_diameter_min",
+        "valueType": "Double"
+      },
+      {
+        "idx": 2,
+        "path": "$.estimated_diameter.meters.estimated_diameter_max",
+        "valueType": "Double"
+      }
+    ]
+  }
+]
 ```
 
 <h3 id="post-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
