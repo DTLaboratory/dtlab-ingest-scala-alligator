@@ -32,16 +32,16 @@ License: <a href="https://github.com/SoMind/dtlab-ingest-scala-alligator/blob/ma
 
 <h1 id="dtlab-ingest-alligator-default">Default</h1>
 
-## delete-dtlab-alligator-type-typeId
+## delete-dtlab-ingest-alligator-extractor-telemetry-spec
 
-<a id="opIddelete-dtlab-alligator-type-typeId"></a>
+<a id="opIddelete-dtlab-ingest-alligator-extractor-telemetry-spec"></a>
 
 > Code samples
 
 ```python
 import requests
 
-r = requests.delete('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}')
+r = requests.delete('http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}')
 
 print(r.json())
 
@@ -49,13 +49,13 @@ print(r.json())
 
 ```shell
 # You can also use wget
-curl -X DELETE http://localhost:8082/dtlab-ingest-alligator/type/{typeId}
+curl -X DELETE http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}
 
 ```
 
 ```javascript
 
-fetch('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}',
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}',
 {
   method: 'DELETE'
 
@@ -69,7 +69,7 @@ fetch('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}',
 ```
 
 ```java
-URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/type/{typeId}");
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -85,19 +85,19 @@ System.out.println(response.toString());
 
 ```
 
-`DELETE /dtlab-ingest-alligator/type/{typeId}`
+`DELETE /dtlab-ingest-alligator/extractor/telemetry/{specId}`
 
-Delete the typeId.  
+*delete telemetry extraction spec*
 
-Note, this should be a developer operation and not available to normal client services.  Deleting a type makes instances of that type unavailable.  If you recreate a type and lookup an old instance created under the original type, that type with its old state will be resurected.  See the actor API to clean up instances of actors if that behavior is unwanted.
+Delete the spec.
 
-<h3 id="delete-dtlab-alligator-type-typeid-parameters">Parameters</h3>
+<h3 id="delete-dtlab-ingest-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|typeId|path|string|true|the name of the type that can show up in a path|
+|specId|path|string|true|none|
 
-<h3 id="delete-dtlab-alligator-type-typeid-responses">Responses</h3>
+<h3 id="delete-dtlab-ingest-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -109,16 +109,16 @@ Note, this should be a developer operation and not available to normal client se
 This operation does not require authentication
 </aside>
 
-## delete-dtlab-alligator-actor-typeId-instanceId
+## get-dtlab-ingest-alligator-extractor-object-spec
 
-<a id="opIddelete-dtlab-alligator-actor-typeId-instanceId"></a>
+<a id="opIdget-dtlab-ingest-alligator-extractor-object-spec"></a>
 
 > Code samples
 
 ```python
 import requests
 
-r = requests.delete('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}')
+r = requests.get('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}')
 
 print(r.json())
 
@@ -126,13 +126,87 @@ print(r.json())
 
 ```shell
 # You can also use wget
-curl -X DELETE http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}
+curl -X GET http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}
 
 ```
 
 ```javascript
 
-fetch('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}',
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}',
+{
+  method: 'GET'
+
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`GET /dtlab-ingest-alligator/extractor/object/{specId}`
+
+*get object extractor spec*
+
+Instructions for extracting an array of telemetry from a single batch of telemetry packaged in a single json object.
+
+<h3 id="get-dtlab-ingest-alligator-extractor-object-spec-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|specId|path|string|true|none|
+
+<h3 id="get-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## delete-dtlab-ingest-alligator-extractor-object-spec
+
+<a id="opIddelete-dtlab-ingest-alligator-extractor-object-spec"></a>
+
+> Code samples
+
+```python
+import requests
+
+r = requests.delete('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}')
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X DELETE http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}
+
+```
+
+```javascript
+
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}',
 {
   method: 'DELETE'
 
@@ -146,7 +220,7 @@ fetch('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}',
 ```
 
 ```java
-URL obj = new URL("http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}");
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -162,18 +236,17 @@ System.out.println(response.toString());
 
 ```
 
-`DELETE /dtlab-alligator/actor/{typeId}/{instanceId}`
+`DELETE /dtlab-ingest-alligator/extractor/object/{specId}`
 
-remove all traces of the DT - removes the journal.
+delete the object extraction spec
 
-<h3 id="delete-dtlab-alligator-actor-typeid-instanceid-parameters">Parameters</h3>
+<h3 id="delete-dtlab-ingest-alligator-extractor-object-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|typeId|path|string|true|the name of the type that can show up in a path|
-|instanceId|path|string|true|the id of the instance of the type|
+|specId|path|string|true|none|
 
-<h3 id="delete-dtlab-alligator-actor-typeid-instanceid-responses">Responses</h3>
+<h3 id="delete-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -185,238 +258,9 @@ remove all traces of the DT - removes the journal.
 This operation does not require authentication
 </aside>
 
-<h1 id="dtlab-ingest-alligator-ask">ask</h1>
+## post-dtlab-ingest-alligator-extractor-object-spec
 
-## get-dtlab-alligator-typeId
-
-<a id="opIdget-dtlab-alligator-typeId"></a>
-
-> Code samples
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json'
-}
-
-r = requests.get('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}', headers = headers)
-
-print(r.json())
-
-```
-
-```shell
-# You can also use wget
-curl -X GET http://localhost:8082/dtlab-ingest-alligator/type/{typeId} \
-  -H 'Accept: application/json'
-
-```
-
-```javascript
-
-const headers = {
-  'Accept':'application/json'
-};
-
-fetch('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```java
-URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/type/{typeId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-`GET /dtlab-ingest-alligator/type/{typeId}`
-
-*get type*
-
-Look up a type definition.
-
-<h3 id="get-dtlab-alligator-typeid-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|typeId|path|string|true|the name of the type that can show up in a path|
-
-> Example responses
-
-> Definition of the type
-
-```json
-{
-  "children": [
-    "alternator_module",
-    "starter_module"
-  ],
-  "created": "2020-07-23T01:30:24.783Z",
-  "name": "machinery1",
-  "props": [
-    "temp",
-    "speed"
-  ]
-}
-```
-
-<h3 id="get-dtlab-alligator-typeid-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Definition of the type|[Type](#schematype)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-## get-dtlab-alligator-actorId
-
-<a id="opIdget-dtlab-alligator-actorId"></a>
-
-> Code samples
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json'
-}
-
-r = requests.get('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}', headers = headers)
-
-print(r.json())
-
-```
-
-```shell
-# You can also use wget
-curl -X GET http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId} \
-  -H 'Accept: application/json'
-
-```
-
-```javascript
-
-const headers = {
-  'Accept':'application/json'
-};
-
-fetch('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```java
-URL obj = new URL("http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-`GET /dtlab-alligator/actor/{typeId}/{instanceId}`
-
-*get actor*
-
-Look up a the state of an actor.
-
-Note that OpenAPI 3.0 does not support repeating path components that are very natural in REST.  They feel variable numbers of segments means they are optional - they are not optional at all in the DtLab system.  They are the way to point to the resource, making them correct use of path segments.  The OpenAPI team's solution to turn the segents into query params is hacky and not followed here.  To document a path for every supported level of parent / child relations would create massive duplication of documentation.  So know that DtPaths in DtLab support deeper parent child paths than the spec creates examples for.  `/dtlab-alligator/actor/{grandParentTypeId}/{grandParentInstanceId}/{parentTypeId}/{parentInstanceId}/{typeId}/{instanceId}` is valid.
-
-<h3 id="get-dtlab-alligator-actorid-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|typeId|path|string|true|the name of the type that can show up in a path|
-|instanceId|path|string|true|the id of the instance of the type|
-
-> Example responses
-
-> OK
-
-```json
-[
-  {
-    "datetime": "2020-09-13T15:31:21.671Z",
-    "idx": 0,
-    "value": 2.1
-  },
-  {
-    "datetime": "2020-07-26T17:25:21.803Z",
-    "idx": 1,
-    "value": 2.2
-  }
-]
-```
-
-<h3 id="get-dtlab-alligator-actorid-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
-
-<h3 id="get-dtlab-alligator-actorid-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|[[Telemetry](#schematelemetry)]|false|none|[Telemetry is a time series entity - each change to a DT's state is journaled with a datetime.]|
-|» Telemetry|[Telemetry](#schematelemetry)|false|none|Telemetry is a time series entity - each change to a DT's state is journaled with a datetime.|
-|»» datetime|string|false|none|none|
-|»» idx|integer|true|none|none|
-|»» value|number|true|none|none|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
-<h1 id="dtlab-ingest-alligator-tell">tell</h1>
-
-## post-dtlab-alligator-type-typeId
-
-<a id="opIdpost-dtlab-alligator-type-typeId"></a>
+<a id="opIdpost-dtlab-ingest-alligator-extractor-object-spec"></a>
 
 > Code samples
 
@@ -427,7 +271,7 @@ headers = {
   'Accept': 'application/json'
 }
 
-r = requests.post('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}', headers = headers)
+r = requests.post('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}', headers = headers)
 
 print(r.json())
 
@@ -435,7 +279,7 @@ print(r.json())
 
 ```shell
 # You can also use wget
-curl -X POST http://localhost:8082/dtlab-ingest-alligator/type/{typeId} \
+curl -X POST http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId} \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json'
 
@@ -443,21 +287,15 @@ curl -X POST http://localhost:8082/dtlab-ingest-alligator/type/{typeId} \
 
 ```javascript
 const inputBody = '{
-  "props": [
-    "temp",
-    "speed"
-  ],
-  "children": [
-    "alternator_module",
-    "starter_module"
-  ]
+  "path": "$.near_earth_objects.*[*]",
+  "telSpecId": "neo1"
 }';
 const headers = {
   'Content-Type':'application/json',
   'Accept':'application/json'
 };
 
-fetch('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}',
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}',
 {
   method: 'POST',
   body: inputBody,
@@ -472,7 +310,7 @@ fetch('http://localhost:8082/dtlab-ingest-alligator/type/{typeId}',
 ```
 
 ```java
-URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/type/{typeId}");
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -488,37 +326,374 @@ System.out.println(response.toString());
 
 ```
 
-`POST /dtlab-ingest-alligator/type/{typeId}`
+`POST /dtlab-ingest-alligator/extractor/object/{specId}`
 
-*create type*
-
-create a new type with property names and allowable children types
+Create object extraction spec.
 
 > Body parameter
 
 ```json
 {
-  "props": [
-    "temp",
-    "speed"
-  ],
-  "children": [
-    "alternator_module",
-    "starter_module"
-  ]
+  "path": "$.near_earth_objects.*[*]",
+  "telSpecId": "neo1"
 }
 ```
 
-<h3 id="post-dtlab-alligator-type-typeid-parameters">Parameters</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-object-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|body|body|[Type](#schematype)|false|a copy of the successfully created type definition|
-|typeId|path|string|true|the name of the type that can show up in a path|
+|body|body|[ObjectExtractorSpec](#schemaobjectextractorspec)|false|none|
+|specId|path|string|true|none|
 
 > Example responses
 
-> If successfully created, returned object will be updated with typeId and create datetime
+> Created
+
+```json
+{
+  "created": "2020-08-24T17:32:34.766Z",
+  "path": "$.near_earth_objects.*[*]",
+  "specId": "neo1",
+  "telSpecId": "neo1"
+}
+```
+
+<h3 id="post-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[ObjectExtractorSpec](#schemaobjectextractorspec)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Conflict|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="dtlab-ingest-alligator-ask">ask</h1>
+
+## get-dtlab-ingest-alligator-extractor-telemetry-spec
+
+<a id="opIdget-dtlab-ingest-alligator-extractor-telemetry-spec"></a>
+
+> Code samples
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json'
+}
+
+r = requests.get('http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}', headers = headers)
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X GET http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId} \
+  -H 'Accept: application/json'
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json'
+};
+
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`GET /dtlab-ingest-alligator/extractor/telemetry/{specId}`
+
+*get telemetry extraction spec*
+
+Look up a telemetry extraction spec by ID.
+
+<h3 id="get-dtlab-ingest-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|specId|path|string|true|none|
+
+> Example responses
+
+> Definition of the telemetry extraction spec.
+
+```json
+[
+  {
+    "specId": "neo1",
+    "created": "2020-08-23T21:39:14.291Z",
+    "datetimeFmt": "yyyy-MMM-dd hh:mm",
+    "datetimePath": "$.close_approach_data[0].close_approach_date_full",
+    "paths": [
+      [
+        {
+          "name": "orbiting_body",
+          "path": "$.close_approach_data[0].orbiting_body",
+          "valueType": "String"
+        },
+        {
+          "name": "object",
+          "path": "$.neo_reference_id",
+          "valueType": "String"
+        }
+      ]
+    ],
+    "values": [
+      {
+        "idx": 0,
+        "path": "$.absolute_magnitude_h",
+        "valueType": "Double"
+      },
+      {
+        "idx": 1,
+        "path": "$.estimated_diameter.meters.estimated_diameter_min",
+        "valueType": "Double"
+      },
+      {
+        "idx": 2,
+        "path": "$.estimated_diameter.meters.estimated_diameter_max",
+        "valueType": "Double"
+      }
+    ]
+  }
+]
+```
+
+<h3 id="get-dtlab-ingest-alligator-extractor-telemetry-spec-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Definition of the telemetry extraction spec.|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
+||Unknown|none|None|
+
+<h3 id="get-dtlab-ingest-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[TelemetryExtractorSpec](#schematelemetryextractorspec)]|false|none|none|
+|» TelemetryExtractorSpec|[TelemetryExtractorSpec](#schematelemetryextractorspec)|false|none|none|
+|»» specId|string|false|none|none|
+|»» paths|[array]|false|none|none|
+|»»» PathSpec|[PathSpec](#schemapathspec)|false|none|none|
+|»»»» name|string|false|none|none|
+|»»»» path|string|false|none|none|
+|»»»» valueType|string|false|none|none|
+|»» values|[[ValueSpec](#schemavaluespec)]|false|none|none|
+|»»» ValueSpec|[ValueSpec](#schemavaluespec)|false|none|none|
+|»»»» idx|integer|false|none|none|
+|»»»» path|string|false|none|none|
+|»»»» valueSpec|string|false|none|none|
+|»» datetimePath|string|false|none|none|
+|»» datetimeFmt|string|false|none|none|
+|»» created|string|false|none|none|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="dtlab-ingest-alligator-tell">tell</h1>
+
+## post-dtlab-ingest-alligator-extractor-telemetry-spec
+
+<a id="opIdpost-dtlab-ingest-alligator-extractor-telemetry-spec"></a>
+
+> Code samples
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+r = requests.post('http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}', headers = headers)
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X POST http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
+
+```
+
+```javascript
+const inputBody = '[
+  {
+    "created": "2020-08-24T16:18:30.001Z",
+    "datetimeFmt": "yyyy-MMM-dd hh:mm",
+    "datetimePath": "$.close_approach_data[0].close_approach_date_full",
+    "paths": [
+      [
+        {
+          "name": "orbiting_body",
+          "path": "$.close_approach_data[0].orbiting_body",
+          "valueType": "String"
+        },
+        {
+          "name": "object",
+          "path": "$.neo_reference_id",
+          "valueType": "String"
+        }
+      ]
+    ],
+    "specId": "neo1",
+    "values": [
+      {
+        "idx": 0,
+        "path": "$.absolute_magnitude_h",
+        "valueType": "Double"
+      },
+      {
+        "idx": 1,
+        "path": "$.estimated_diameter.meters.estimated_diameter_min",
+        "valueType": "Double"
+      },
+      {
+        "idx": 2,
+        "path": "$.estimated_diameter.meters.estimated_diameter_max",
+        "valueType": "Double"
+      }
+    ]
+  }
+]';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json'
+};
+
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/telemetry/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`POST /dtlab-ingest-alligator/extractor/telemetry/{specId}`
+
+*create telemetry extraction spec*
+
+Create a new spec with that defines how to identifiy the actors to update and the telemetry to extract.
+
+> Body parameter
+
+```json
+[
+  {
+    "created": "2020-08-24T16:18:30.001Z",
+    "datetimeFmt": "yyyy-MMM-dd hh:mm",
+    "datetimePath": "$.close_approach_data[0].close_approach_date_full",
+    "paths": [
+      [
+        {
+          "name": "orbiting_body",
+          "path": "$.close_approach_data[0].orbiting_body",
+          "valueType": "String"
+        },
+        {
+          "name": "object",
+          "path": "$.neo_reference_id",
+          "valueType": "String"
+        }
+      ]
+    ],
+    "specId": "neo1",
+    "values": [
+      {
+        "idx": 0,
+        "path": "$.absolute_magnitude_h",
+        "valueType": "Double"
+      },
+      {
+        "idx": 1,
+        "path": "$.estimated_diameter.meters.estimated_diameter_min",
+        "valueType": "Double"
+      },
+      {
+        "idx": 2,
+        "path": "$.estimated_diameter.meters.estimated_diameter_max",
+        "valueType": "Double"
+      }
+    ]
+  }
+]
+```
+
+<h3 id="post-dtlab-ingest-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[TelemetryExtractorSpec](#schematelemetryextractorspec)|false|The array of telemetry extraction specs associated with this specId.|
+|specId|path|string|true|none|
+
+> Example responses
+
+> A copy of the successfully created spec definition.
 
 ```json
 {
@@ -541,23 +716,44 @@ create a new type with property names and allowable children types
 {}
 ```
 
-<h3 id="post-dtlab-alligator-type-typeid-responses">Responses</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|If successfully created, returned object will be updated with typeId and create datetime|[Type](#schematype)|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|A copy of the successfully created spec definition.|Inline|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Conflict - you must delete the previous entry before creating a type of the same name.|Inline|
 
-<h3 id="post-dtlab-alligator-type-typeid-responseschema">Response Schema</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[TelemetryExtractorSpec](#schematelemetryextractorspec)]|false|none|none|
+|» TelemetryExtractorSpec|[TelemetryExtractorSpec](#schematelemetryextractorspec)|false|none|none|
+|»» specId|string|false|none|none|
+|»» paths|[array]|false|none|none|
+|»»» PathSpec|[PathSpec](#schemapathspec)|false|none|none|
+|»»»» name|string|false|none|none|
+|»»»» path|string|false|none|none|
+|»»»» valueType|string|false|none|none|
+|»» values|[[ValueSpec](#schemavaluespec)]|false|none|none|
+|»»» ValueSpec|[ValueSpec](#schemavaluespec)|false|none|none|
+|»»»» idx|integer|false|none|none|
+|»»»» path|string|false|none|none|
+|»»»» valueSpec|string|false|none|none|
+|»» datetimePath|string|false|none|none|
+|»» datetimeFmt|string|false|none|none|
+|»» created|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## post-dtlab-alligator-type-actorId
+## post-dtlab-alligator-ingest-array-specId
 
-<a id="opIdpost-dtlab-alligator-type-actorId"></a>
+<a id="opIdpost-dtlab-alligator-ingest-array-specId"></a>
 
 > Code samples
 
@@ -567,7 +763,7 @@ headers = {
   'Content-Type': 'application/json'
 }
 
-r = requests.post('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}', headers = headers)
+r = requests.post('http://localhost:8082/dtlab-alligator/ingest/array/{specId}', headers = headers)
 
 print(r.json())
 
@@ -575,22 +771,18 @@ print(r.json())
 
 ```shell
 # You can also use wget
-curl -X POST http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId} \
+curl -X POST http://localhost:8082/dtlab-alligator/ingest/array/{specId} \
   -H 'Content-Type: application/json'
 
 ```
 
 ```javascript
-const inputBody = '{
-  "datetime": "string",
-  "idx": 0,
-  "value": 0
-}';
+const inputBody = '{}';
 const headers = {
   'Content-Type':'application/json'
 };
 
-fetch('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}',
+fetch('http://localhost:8082/dtlab-alligator/ingest/array/{specId}',
 {
   method: 'POST',
   body: inputBody,
@@ -605,7 +797,7 @@ fetch('http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}',
 ```
 
 ```java
-URL obj = new URL("http://localhost:8082/dtlab-alligator/actor/{typeId}/{instanceId}");
+URL obj = new URL("http://localhost:8082/dtlab-alligator/ingest/array/{specId}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -621,39 +813,121 @@ System.out.println(response.toString());
 
 ```
 
-`POST /dtlab-alligator/actor/{typeId}/{instanceId}`
+`POST /dtlab-alligator/ingest/array/{specId}`
 
-*update a single actor property*
-
-Update an actor instance with attached property value indentified by the index of the property in the typeId.
-
-Note that OpenAPI 3.0 does not support repeating path components that are very natural in REST.  They feel variable numbers of segments means they are optional - they are not optional at all in the DtLab system.  They are the way to point to the resource, making them correct use of path segments.  The OpenAPI team's solution to turn the segents into query params is hacky and not followed here.  To document a path for every supported level of parent / child relations would create massive duplication of documentation.  So know that DtPaths in DtLab support deeper parent child paths than the spec creates examples for.  `/dtlab-alligator/actor/{grandParentTypeId}/{grandParentInstanceId}/{parentTypeId}/{parentInstanceId}/{typeId}/{instanceId}` is valid.
+Load an array of telemetry to DtLab.
 
 > Body parameter
 
 ```json
-{
-  "datetime": "string",
-  "idx": 0,
-  "value": 0
-}
+{}
 ```
 
-<h3 id="post-dtlab-alligator-type-actorid-parameters">Parameters</h3>
+<h3 id="post-dtlab-alligator-ingest-array-specid-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|body|body|[Telemetry](#schematelemetry)|false|The value of the property to upate identified by its index in its type definition.|
-|typeId|path|string|true|the name of the type that can show up in a path|
-|instanceId|path|string|true|the id of the instance of the type|
+|body|body|object|false|none|
+|specId|path|string|true|none|
 
-<h3 id="post-dtlab-alligator-type-actorid-responses">Responses</h3>
+<h3 id="post-dtlab-alligator-ingest-array-specid-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Unprocessable Entity (WebDAV)|None|
+|406|[Not Acceptable](https://tools.ietf.org/html/rfc7231#section-6.5.6)|Not Acceptable|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## post-dtlab-alligator-ingest-telemetry-spec
+
+<a id="opIdpost-dtlab-alligator-ingest-telemetry-spec"></a>
+
+> Code samples
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json'
+}
+
+r = requests.post('http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId}', headers = headers)
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X POST http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId} \
+  -H 'Content-Type: application/json'
+
+```
+
+```javascript
+const inputBody = '{}';
+const headers = {
+  'Content-Type':'application/json'
+};
+
+fetch('http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId}',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-alligator/ingest/telemetry/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`POST /dtlab-alligator/ingest/telemetry/{specId}`
+
+send a single document to the telemetry extractor for a single set of telemetry forwarded to actor(s)
+
+> Body parameter
+
+```json
+{}
+```
+
+<h3 id="post-dtlab-alligator-ingest-telemetry-spec-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|false|observations in their raw form|
+|specId|path|string|true|none|
+
+<h3 id="post-dtlab-alligator-ingest-telemetry-spec-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|406|[Not Acceptable](https://tools.ietf.org/html/rfc7231#section-6.5.6)|Not Acceptable|None|
 
 <aside class="success">
 This operation does not require authentication
@@ -661,37 +935,131 @@ This operation does not require authentication
 
 # Schemas
 
-<h2 id="tocS_Type">Type</h2>
+<h2 id="tocS_TelemetryExtractorSpec">TelemetryExtractorSpec</h2>
 <!-- backwards compatibility -->
-<a id="schematype"></a>
-<a id="schema_Type"></a>
-<a id="tocStype"></a>
-<a id="tocstype"></a>
+<a id="schematelemetryextractorspec"></a>
+<a id="schema_TelemetryExtractorSpec"></a>
+<a id="tocStelemetryextractorspec"></a>
+<a id="tocstelemetryextractorspec"></a>
 
 ```json
 {
-  "name": "string",
-  "created": "string",
-  "props": [
-    "string"
+  "specId": "string",
+  "paths": [
+    [
+      {
+        "name": "string",
+        "path": "string",
+        "valueType": "string"
+      }
+    ]
   ],
-  "children": [
-    "string"
-  ]
+  "values": [
+    {
+      "idx": 0,
+      "path": "string",
+      "valueSpec": "string"
+    }
+  ],
+  "datetimePath": "string",
+  "datetimeFmt": "string",
+  "created": "string"
 }
 
 ```
 
-Type
+TelemetryExtractorSpec
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|specId|string|false|none|none|
+|paths|[array]|false|none|none|
+|values|[[ValueSpec](#schemavaluespec)]|false|none|none|
+|datetimePath|string|false|none|none|
+|datetimeFmt|string|false|none|none|
+|created|string|false|none|none|
+
+<h2 id="tocS_PathSpec">PathSpec</h2>
+<!-- backwards compatibility -->
+<a id="schemapathspec"></a>
+<a id="schema_PathSpec"></a>
+<a id="tocSpathspec"></a>
+<a id="tocspathspec"></a>
+
+```json
+{
+  "name": "string",
+  "path": "string",
+  "valueType": "string"
+}
+
+```
+
+PathSpec
 
 ### Properties
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |name|string|false|none|none|
+|path|string|false|none|none|
+|valueType|string|false|none|none|
+
+<h2 id="tocS_ValueSpec">ValueSpec</h2>
+<!-- backwards compatibility -->
+<a id="schemavaluespec"></a>
+<a id="schema_ValueSpec"></a>
+<a id="tocSvaluespec"></a>
+<a id="tocsvaluespec"></a>
+
+```json
+{
+  "idx": 0,
+  "path": "string",
+  "valueSpec": "string"
+}
+
+```
+
+ValueSpec
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|idx|integer|false|none|none|
+|path|string|false|none|none|
+|valueSpec|string|false|none|none|
+
+<h2 id="tocS_ObjectExtractorSpec">ObjectExtractorSpec</h2>
+<!-- backwards compatibility -->
+<a id="schemaobjectextractorspec"></a>
+<a id="schema_ObjectExtractorSpec"></a>
+<a id="tocSobjectextractorspec"></a>
+<a id="tocsobjectextractorspec"></a>
+
+```json
+{
+  "specId": "string",
+  "path": "string",
+  "telSpecId": "string",
+  "created": "string"
+}
+
+```
+
+ObjectExtractorSpec
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|specId|string|false|none|none|
+|path|string|false|none|none|
+|telSpecId|string|false|none|none|
 |created|string|false|none|none|
-|props|[string]|false|none|none|
-|children|[string]|false|none|none|
 
 <h2 id="tocS_Telemetry">Telemetry</h2>
 <!-- backwards compatibility -->
@@ -702,9 +1070,9 @@ Type
 
 ```json
 {
-  "datetime": "string",
-  "idx": 0,
-  "value": 0
+  "idx": "string",
+  "value": 0,
+  "datetime": "string"
 }
 
 ```
@@ -715,7 +1083,7 @@ Telemetry
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
+|idx|string|false|none|none|
+|value|number|false|none|none|
 |datetime|string|false|none|none|
-|idx|integer|true|none|none|
-|value|number|true|none|none|
 

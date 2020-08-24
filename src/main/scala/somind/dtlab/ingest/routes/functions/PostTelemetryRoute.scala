@@ -30,7 +30,7 @@ object PostTelemetryRoute
       case e =>
         Observer("array_ingress_route_post_unk_err")
         logger.warn(s"unable to handle: $e")
-        complete(StatusCodes.InternalServerError)
+        complete(StatusCodes.NotAcceptable)
     }
   }
 
