@@ -175,7 +175,7 @@ paths:
       description: delete the object extraction spec
     post:
       summary: ''
-      operationId: post-dtlab-ingest-alligator-extractor-object-specId
+      operationId: post-dtlab-ingest-alligator-extractor-object-spec
       responses:
         '201':
           description: Created

@@ -258,9 +258,9 @@ delete the object extraction spec
 This operation does not require authentication
 </aside>
 
-## post-dtlab-ingest-alligator-extractor-object-specId
+## post-dtlab-ingest-alligator-extractor-object-spec
 
-<a id="opIdpost-dtlab-ingest-alligator-extractor-object-specId"></a>
+<a id="opIdpost-dtlab-ingest-alligator-extractor-object-spec"></a>
 
 > Code samples
 
@@ -339,7 +339,7 @@ Create object extraction spec.
 }
 ```
 
-<h3 id="post-dtlab-ingest-alligator-extractor-object-specid-parameters">Parameters</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-object-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -359,7 +359,7 @@ Create object extraction spec.
 }
 ```
 
-<h3 id="post-dtlab-ingest-alligator-extractor-object-specid-responses">Responses</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
