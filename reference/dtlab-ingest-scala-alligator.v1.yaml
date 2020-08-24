@@ -69,12 +69,27 @@ paths:
             examples:
               example-1:
                 value:
-                  props:
-                    - temp
-                    - speed
-                  children:
-                    - alternator_module
-                    - starter_module
+                  - created: '2020-08-24T16:18:30.001Z'
+                    datetimeFmt: 'yyyy-MMM-dd hh:mm'
+                    datetimePath: '$.close_approach_data[0].close_approach_date_full'
+                    paths:
+                      - - name: orbiting_body
+                          path: '$.close_approach_data[0].orbiting_body'
+                          valueType: String
+                        - name: object
+                          path: $.neo_reference_id
+                          valueType: String
+                    specId: neo1
+                    values:
+                      - idx: 0
+                        path: $.absolute_magnitude_h
+                        valueType: Double
+                      - idx: 1
+                        path: $.estimated_diameter.meters.estimated_diameter_min
+                        valueType: Double
+                      - idx: 2
+                        path: $.estimated_diameter.meters.estimated_diameter_max
+                        valueType: Double
         description: The array of telemetry extraction specs associated with this specId.
     get:
       summary: get telemetry extraction spec
