@@ -23,6 +23,7 @@ paths:
         name: specId
         in: path
         required: true
+        description: ''
     post:
       summary: create telemetry extraction spec
       tags:
@@ -81,7 +82,7 @@ paths:
         - ask
       responses:
         '200':
-          description: Definition of the type
+          description: Definition of the telemetry extraction spec.
           headers: {}
           content:
             application/json:
@@ -131,7 +132,7 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
-      description: Delete the specId.
+      description: Delete the spec.
 components:
   schemas:
     TelemetryExtractorSpec:

@@ -89,7 +89,7 @@ System.out.println(response.toString());
 
 *delete telemetry extraction spec*
 
-Delete the specId.
+Delete the spec.
 
 <h3 id="delete-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
@@ -187,7 +187,7 @@ Look up a telemetry extraction spec by ID.
 
 > Example responses
 
-> Definition of the type
+> Definition of the telemetry extraction spec.
 
 ```json
 [
@@ -235,7 +235,7 @@ Look up a telemetry extraction spec by ID.
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Definition of the type|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Definition of the telemetry extraction spec.|Inline|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
 ||Unknown|none|None|
