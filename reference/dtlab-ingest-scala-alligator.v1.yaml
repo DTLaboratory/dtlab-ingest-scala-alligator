@@ -56,7 +56,7 @@ paths:
               schema:
                 type: object
                 properties: {}
-      operationId: post-dtlab-alligator-extractor-telemetry-specId
+      operationId: post-dtlab-alligator-extractor-telemetry-spec
       description: Create a new spec with that defines how to identifiy the actors to update and the telemetry to extract.
       requestBody:
         content:
@@ -119,11 +119,11 @@ paths:
           description: Not Found
         '':
           description: ''
-      operationId: get-dtlab-alligator-extractor-telemetry-specId
+      operationId: get-dtlab-alligator-extractor-telemetry-spec
       description: Look up a telemetry extraction spec by ID.
     delete:
       summary: delete telemetry extraction spec
-      operationId: delete-dtlab-alligator-extractor-telemetry-specId
+      operationId: delete-dtlab-alligator-extractor-telemetry-spec
       responses:
         '202':
           description: Accepted

@@ -32,9 +32,9 @@ License: <a href="https://github.com/SoMind/dtlab-ingest-scala-alligator/blob/ma
 
 <h1 id="dtlab-ingest-alligator-default">Default</h1>
 
-## delete-dtlab-alligator-extractor-telemetry-specId
+## delete-dtlab-alligator-extractor-telemetry-spec
 
-<a id="opIddelete-dtlab-alligator-extractor-telemetry-specId"></a>
+<a id="opIddelete-dtlab-alligator-extractor-telemetry-spec"></a>
 
 > Code samples
 
@@ -91,13 +91,13 @@ System.out.println(response.toString());
 
 Delete the specId.
 
-<h3 id="delete-dtlab-alligator-extractor-telemetry-specid-parameters">Parameters</h3>
+<h3 id="delete-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |specId|path|string|true|none|
 
-<h3 id="delete-dtlab-alligator-extractor-telemetry-specid-responses">Responses</h3>
+<h3 id="delete-dtlab-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -111,9 +111,9 @@ This operation does not require authentication
 
 <h1 id="dtlab-ingest-alligator-ask">ask</h1>
 
-## get-dtlab-alligator-extractor-telemetry-specId
+## get-dtlab-alligator-extractor-telemetry-spec
 
-<a id="opIdget-dtlab-alligator-extractor-telemetry-specId"></a>
+<a id="opIdget-dtlab-alligator-extractor-telemetry-spec"></a>
 
 > Code samples
 
@@ -179,7 +179,7 @@ System.out.println(response.toString());
 
 Look up a telemetry extraction spec by ID.
 
-<h3 id="get-dtlab-alligator-extractor-telemetry-specid-parameters">Parameters</h3>
+<h3 id="get-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -231,7 +231,7 @@ Look up a telemetry extraction spec by ID.
 ]
 ```
 
-<h3 id="get-dtlab-alligator-extractor-telemetry-specid-responses">Responses</h3>
+<h3 id="get-dtlab-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -240,7 +240,7 @@ Look up a telemetry extraction spec by ID.
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
 ||Unknown|none|None|
 
-<h3 id="get-dtlab-alligator-extractor-telemetry-specid-responseschema">Response Schema</h3>
+<h3 id="get-dtlab-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -269,9 +269,9 @@ This operation does not require authentication
 
 <h1 id="dtlab-ingest-alligator-tell">tell</h1>
 
-## post-dtlab-alligator-extractor-telemetry-specId
+## post-dtlab-alligator-extractor-telemetry-spec
 
-<a id="opIdpost-dtlab-alligator-extractor-telemetry-specId"></a>
+<a id="opIdpost-dtlab-alligator-extractor-telemetry-spec"></a>
 
 > Code samples
 
@@ -364,7 +364,7 @@ Create a new spec with that defines how to identifiy the actors to update and th
 }
 ```
 
-<h3 id="post-dtlab-alligator-extractor-telemetry-specid-parameters">Parameters</h3>
+<h3 id="post-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -396,7 +396,7 @@ Create a new spec with that defines how to identifiy the actors to update and th
 {}
 ```
 
-<h3 id="post-dtlab-alligator-extractor-telemetry-specid-responses">Responses</h3>
+<h3 id="post-dtlab-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -404,7 +404,7 @@ Create a new spec with that defines how to identifiy the actors to update and th
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Conflict - you must delete the previous entry before creating a type of the same name.|Inline|
 
-<h3 id="post-dtlab-alligator-extractor-telemetry-specid-responseschema">Response Schema</h3>
+<h3 id="post-dtlab-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
 
 Status Code **201**
 
