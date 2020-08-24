@@ -57,7 +57,7 @@ paths:
               schema:
                 type: object
                 properties: {}
-      operationId: post-dtlab-alligator-extractor-telemetry-spec
+      operationId: post-dtlab-ingest-alligator-extractor-telemetry-spec
       description: Create a new spec with that defines how to identifiy the actors to update and the telemetry to extract.
       requestBody:
         content:
@@ -135,11 +135,11 @@ paths:
           description: Not Found
         '':
           description: ''
-      operationId: get-dtlab-alligator-extractor-telemetry-spec
+      operationId: get-dtlab-ingest-alligator-extractor-telemetry-spec
       description: Look up a telemetry extraction spec by ID.
     delete:
       summary: delete telemetry extraction spec
-      operationId: delete-dtlab-alligator-extractor-telemetry-spec
+      operationId: delete-dtlab-ingest-alligator-extractor-telemetry-spec
       responses:
         '202':
           description: Accepted
@@ -148,6 +148,63 @@ paths:
         '404':
           description: Not Found
       description: Delete the spec.
+  '/dtlab-ingest-alligator/extractor/object/{specId}':
+    get:
+      summary: get object extractor spec
+      tags: []
+      responses: {}
+      operationId: get-dtlab-ingest-alligator-extractor-object-spec
+      description: Instructions for extracting an array of telemetry from a single batch of telemetry packaged in a single json object.
+    parameters:
+      - schema:
+          type: string
+        name: specId
+        in: path
+        description: ''
+        required: true
+    delete:
+      summary: ''
+      operationId: delete-dtlab-ingest-alligator-extractor-object-spec
+      responses:
+        '202':
+          description: Accepted
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: delete the object extraction spec
+    post:
+      summary: ''
+      operationId: post-dtlab-ingest-alligator-extractor-object-specId
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectExtractorSpec'
+              examples:
+                example-1:
+                  value:
+                    created: '2020-08-24T17:32:34.766Z'
+                    path: '$.near_earth_objects.*[*]'
+                    specId: neo1
+                    telSpecId: neo1
+        '401':
+          description: Unauthorized
+        '409':
+          description: Conflict
+      description: Create object extraction spec.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectExtractorSpec'
+            examples:
+              example-1:
+                value:
+                  path: '$.near_earth_objects.*[*]'
+                  telSpecId: neo1
 components:
   schemas:
     TelemetryExtractorSpec:

@@ -32,9 +32,9 @@ License: <a href="https://github.com/SoMind/dtlab-ingest-scala-alligator/blob/ma
 
 <h1 id="dtlab-ingest-alligator-default">Default</h1>
 
-## delete-dtlab-alligator-extractor-telemetry-spec
+## delete-dtlab-ingest-alligator-extractor-telemetry-spec
 
-<a id="opIddelete-dtlab-alligator-extractor-telemetry-spec"></a>
+<a id="opIddelete-dtlab-ingest-alligator-extractor-telemetry-spec"></a>
 
 > Code samples
 
@@ -91,13 +91,13 @@ System.out.println(response.toString());
 
 Delete the spec.
 
-<h3 id="delete-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
+<h3 id="delete-dtlab-ingest-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |specId|path|string|true|none|
 
-<h3 id="delete-dtlab-alligator-extractor-telemetry-spec-responses">Responses</h3>
+<h3 id="delete-dtlab-ingest-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -109,11 +109,273 @@ Delete the spec.
 This operation does not require authentication
 </aside>
 
+## get-dtlab-ingest-alligator-extractor-object-spec
+
+<a id="opIdget-dtlab-ingest-alligator-extractor-object-spec"></a>
+
+> Code samples
+
+```python
+import requests
+
+r = requests.get('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}')
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X GET http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}
+
+```
+
+```javascript
+
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}',
+{
+  method: 'GET'
+
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`GET /dtlab-ingest-alligator/extractor/object/{specId}`
+
+*get object extractor spec*
+
+Instructions for extracting an array of telemetry from a single batch of telemetry packaged in a single json object.
+
+<h3 id="get-dtlab-ingest-alligator-extractor-object-spec-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|specId|path|string|true|none|
+
+<h3 id="get-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## delete-dtlab-ingest-alligator-extractor-object-spec
+
+<a id="opIddelete-dtlab-ingest-alligator-extractor-object-spec"></a>
+
+> Code samples
+
+```python
+import requests
+
+r = requests.delete('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}')
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X DELETE http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}
+
+```
+
+```javascript
+
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}',
+{
+  method: 'DELETE'
+
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`DELETE /dtlab-ingest-alligator/extractor/object/{specId}`
+
+delete the object extraction spec
+
+<h3 id="delete-dtlab-ingest-alligator-extractor-object-spec-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|specId|path|string|true|none|
+
+<h3 id="delete-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## post-dtlab-ingest-alligator-extractor-object-specId
+
+<a id="opIdpost-dtlab-ingest-alligator-extractor-object-specId"></a>
+
+> Code samples
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+r = requests.post('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}', headers = headers)
+
+print(r.json())
+
+```
+
+```shell
+# You can also use wget
+curl -X POST http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
+
+```
+
+```javascript
+const inputBody = '{
+  "path": "$.near_earth_objects.*[*]",
+  "telSpecId": "neo1"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json'
+};
+
+fetch('http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```java
+URL obj = new URL("http://localhost:8082/dtlab-ingest-alligator/extractor/object/{specId}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+`POST /dtlab-ingest-alligator/extractor/object/{specId}`
+
+Create object extraction spec.
+
+> Body parameter
+
+```json
+{
+  "path": "$.near_earth_objects.*[*]",
+  "telSpecId": "neo1"
+}
+```
+
+<h3 id="post-dtlab-ingest-alligator-extractor-object-specid-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[ObjectExtractorSpec](#schemaobjectextractorspec)|false|none|
+|specId|path|string|true|none|
+
+> Example responses
+
+> Created
+
+```json
+{
+  "created": "2020-08-24T17:32:34.766Z",
+  "path": "$.near_earth_objects.*[*]",
+  "specId": "neo1",
+  "telSpecId": "neo1"
+}
+```
+
+<h3 id="post-dtlab-ingest-alligator-extractor-object-specid-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|[ObjectExtractorSpec](#schemaobjectextractorspec)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Conflict|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 <h1 id="dtlab-ingest-alligator-ask">ask</h1>
 
-## get-dtlab-alligator-extractor-telemetry-spec
+## get-dtlab-ingest-alligator-extractor-telemetry-spec
 
-<a id="opIdget-dtlab-alligator-extractor-telemetry-spec"></a>
+<a id="opIdget-dtlab-ingest-alligator-extractor-telemetry-spec"></a>
 
 > Code samples
 
@@ -179,7 +441,7 @@ System.out.println(response.toString());
 
 Look up a telemetry extraction spec by ID.
 
-<h3 id="get-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
+<h3 id="get-dtlab-ingest-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -231,7 +493,7 @@ Look up a telemetry extraction spec by ID.
 ]
 ```
 
-<h3 id="get-dtlab-alligator-extractor-telemetry-spec-responses">Responses</h3>
+<h3 id="get-dtlab-ingest-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -240,7 +502,7 @@ Look up a telemetry extraction spec by ID.
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
 ||Unknown|none|None|
 
-<h3 id="get-dtlab-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
+<h3 id="get-dtlab-ingest-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -269,9 +531,9 @@ This operation does not require authentication
 
 <h1 id="dtlab-ingest-alligator-tell">tell</h1>
 
-## post-dtlab-alligator-extractor-telemetry-spec
+## post-dtlab-ingest-alligator-extractor-telemetry-spec
 
-<a id="opIdpost-dtlab-alligator-extractor-telemetry-spec"></a>
+<a id="opIdpost-dtlab-ingest-alligator-extractor-telemetry-spec"></a>
 
 > Code samples
 
@@ -422,7 +684,7 @@ Create a new spec with that defines how to identifiy the actors to update and th
 ]
 ```
 
-<h3 id="post-dtlab-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-telemetry-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -454,7 +716,7 @@ Create a new spec with that defines how to identifiy the actors to update and th
 {}
 ```
 
-<h3 id="post-dtlab-alligator-extractor-telemetry-spec-responses">Responses</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -462,7 +724,7 @@ Create a new spec with that defines how to identifiy the actors to update and th
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Conflict - you must delete the previous entry before creating a type of the same name.|Inline|
 
-<h3 id="post-dtlab-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
+<h3 id="post-dtlab-ingest-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
 
 Status Code **201**
 
