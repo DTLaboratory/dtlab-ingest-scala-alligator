@@ -1,13 +1,11 @@
 package somind.dtlab.ingest.actors.functions
 
-import java.time.ZonedDateTime
-
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import navicore.data.navipath.dsl.NaviPathSyntax._
-import somind.dtlab.ingest.models.{Telemetry, TelemetryExtractorSpec}
+import somind.dtlab.ingest.models._
 
-object ExtractTelemetry extends LazyLogging {
+object ExtractTelemetry extends LazyLogging with JsonSupport {
 
   def apply(
       node: JsonNode,
@@ -28,12 +26,12 @@ object ExtractTelemetry extends LazyLogging {
                   } catch {
                     case e: Throwable =>
                       logger.warn(
-                        s"can not extract datetime $value: ${e.getMessage}")
+                        s"can not extract datetime from path ${extractorSpec.datetimePath} from $node")
                       List(
                         (p,
                          Telemetry(value.idx,
                                    extractedValue,
-                                   ZonedDateTime.now()))
+                                   java.time.ZonedDateTime.now()))
                       )
                   }
                 case _ =>
