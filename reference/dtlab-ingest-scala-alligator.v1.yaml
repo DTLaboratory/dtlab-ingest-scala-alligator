@@ -12,6 +12,8 @@ info:
     Manage DtLab Telemetry Ingest Service.
 
     DtLab Ingest is a streaming service that feeds the DtLab actor system updates from the field.
+
+    Original data sources will not transmit observations in the terse native format of the DtLab actors.  Usually observations are sent from external systems as collections of information in hierarchical complex messages.  It is the responsibility of preprocessing systems like dtlab-ingest to decompose complex verbose noisy inputs into the normalized timeseries observations meaningful to the DTs.
 servers:
   - url: 'http://localhost:8082'
     description: dev local mode
@@ -23,7 +25,7 @@ paths:
         name: specId
         in: path
         required: true
-        description: 'name for the spec directing telemetry from a data source to a list of actors'
+        description: name for the spec directing telemetry from a data source to a list of actors
     post:
       summary: create telemetry extraction spec
       tags:
@@ -161,10 +163,10 @@ paths:
           type: string
         name: specId
         in: path
-        description: 'Name of the spec that extracts batches of incoming collections of observations into per-actor groups of observations.'
+        description: Name of the spec that extracts batches of incoming collections of observations into per-actor groups of observations.
         required: true
     delete:
-      summary: 'delete object extractor spec'
+      summary: delete object extractor spec
       tags:
         - tell
       operationId: delete-dtlab-ingest-alligator-extractor-object-spec
@@ -177,7 +179,7 @@ paths:
           description: Not Found
       description: delete the object extraction spec
     post:
-      summary: 'create object extractor spec'
+      summary: create object extractor spec
       tags:
         - tell
       operationId: post-dtlab-ingest-alligator-extractor-object-spec
@@ -218,7 +220,7 @@ paths:
         in: path
         required: true
     post:
-      summary: 'Post a collection of observations - usually a timeseries - to be decomposed into individual observations and sent to actors.'
+      summary: Post a collection of observations - usually a timeseries - to be decomposed into individual observations and sent to actors.
       tags:
         - tell
       operationId: post-dtlab-alligator-ingest-array-specId
@@ -248,7 +250,7 @@ paths:
         in: path
         required: true
     post:
-      summary: 'Post input in raw form to be decomposed into a set of observations for a DT - usually a single json doc with a collection of readings related to a single device at a single point in time.'
+      summary: Post input in raw form to be decomposed into a set of observations for a DT - usually a single json doc with a collection of readings related to a single device at a single point in time.
       tags:
         - tell
       operationId: post-dtlab-alligator-ingest-telemetry-spec
