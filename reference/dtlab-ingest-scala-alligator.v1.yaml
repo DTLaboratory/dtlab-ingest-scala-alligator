@@ -267,8 +267,6 @@ paths:
               type: object
               properties: {}
         description: observations in their raw form
-      tags:
-        - tell
 components:
   schemas:
     TelemetryExtractorSpec:
