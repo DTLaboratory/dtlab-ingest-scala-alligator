@@ -35,7 +35,7 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
                                  extractedValue,
                                  ExtractDatetime(node, extractorSpec))))
                   } catch {
-                    case _: Throwable =>
+                    case _: Exception =>
                       logger.warn(
                         s"can not extract datetime from path ${extractorSpec.datetimePath} from $node")
                       List(
