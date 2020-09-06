@@ -11,7 +11,7 @@ info:
   description: |-
     Manage DtLab Telemetry Ingest Service.
 
-    DtLab Ingest is an streaming service that feeds the DtLab actor system updates from the field.
+    DtLab Ingest is a streaming service that feeds the DtLab actor system updates from the field.
 servers:
   - url: 'http://localhost:8082'
     description: dev local mode
@@ -23,7 +23,7 @@ paths:
         name: specId
         in: path
         required: true
-        description: ''
+        description: 'name for the spec directing telemetry from a data source to a list of actors'
     post:
       summary: create telemetry extraction spec
       tags:
@@ -133,8 +133,6 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
-        '':
-          description: ''
       operationId: get-dtlab-ingest-alligator-extractor-telemetry-spec
       description: Look up a telemetry extraction spec by ID.
     delete:
@@ -160,10 +158,10 @@ paths:
           type: string
         name: specId
         in: path
-        description: ''
+        description: 'Name of the spec that extracts batches of incoming collections of observations into per-actor groups of observations.'
         required: true
     delete:
-      summary: ''
+      summary: 'delete object extractor spec'
       operationId: delete-dtlab-ingest-alligator-extractor-object-spec
       responses:
         '202':
@@ -174,7 +172,7 @@ paths:
           description: Not Found
       description: delete the object extraction spec
     post:
-      summary: ''
+      summary: 'create object extractor spec'
       operationId: post-dtlab-ingest-alligator-extractor-object-spec
       responses:
         '201':
@@ -213,7 +211,7 @@ paths:
         in: path
         required: true
     post:
-      summary: ''
+      summary: 'Post a collection of observations - usually a timeseries - to be decomposed into individual observations and sent to actors.'
       operationId: post-dtlab-alligator-ingest-array-specId
       responses:
         '202':
@@ -243,7 +241,7 @@ paths:
         in: path
         required: true
     post:
-      summary: ''
+      summary: 'Post input in raw form to be decomposed into a set of observations for a DT - usually a single json doc with a collection of readings related to a single device at a single point in time.'
       operationId: post-dtlab-alligator-ingest-telemetry-spec
       responses:
         '202':
@@ -331,7 +329,5 @@ components:
         datetime:
           type: string
 tags:
-  - name: create
-  - name: delete
   - name: ask
   - name: tell

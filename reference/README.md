@@ -21,7 +21,7 @@ headingLevel: 2
 
 Manage DtLab Telemetry Ingest Service.
 
-DtLab Ingest is an streaming service that feeds the DtLab actor system updates from the field.
+DtLab Ingest is a streaming service that feeds the DtLab actor system updates from the field.
 
 Base URLs:
 
@@ -95,7 +95,7 @@ Delete the spec.
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|specId|path|string|true|none|
+|specId|path|string|true|name for the spec directing telemetry from a data source to a list of actors|
 
 <h3 id="delete-dtlab-ingest-alligator-extractor-telemetry-spec-responses">Responses</h3>
 
@@ -172,7 +172,7 @@ Instructions for extracting an array of telemetry from a single batch of telemet
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|specId|path|string|true|none|
+|specId|path|string|true|Name of the spec that extracts batches of incoming collections of observations into per-actor groups of observations.|
 
 <h3 id="get-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
 
@@ -238,13 +238,15 @@ System.out.println(response.toString());
 
 `DELETE /dtlab-ingest-alligator/extractor/object/{specId}`
 
+*delete object extractor spec*
+
 delete the object extraction spec
 
 <h3 id="delete-dtlab-ingest-alligator-extractor-object-spec-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|specId|path|string|true|none|
+|specId|path|string|true|Name of the spec that extracts batches of incoming collections of observations into per-actor groups of observations.|
 
 <h3 id="delete-dtlab-ingest-alligator-extractor-object-spec-responses">Responses</h3>
 
@@ -328,6 +330,8 @@ System.out.println(response.toString());
 
 `POST /dtlab-ingest-alligator/extractor/object/{specId}`
 
+*create object extractor spec*
+
 Create object extraction spec.
 
 > Body parameter
@@ -344,7 +348,7 @@ Create object extraction spec.
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |body|body|[ObjectExtractorSpec](#schemaobjectextractorspec)|false|none|
-|specId|path|string|true|none|
+|specId|path|string|true|Name of the spec that extracts batches of incoming collections of observations into per-actor groups of observations.|
 
 > Example responses
 
@@ -445,7 +449,7 @@ Look up a telemetry extraction spec by ID.
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|specId|path|string|true|none|
+|specId|path|string|true|name for the spec directing telemetry from a data source to a list of actors|
 
 > Example responses
 
@@ -500,7 +504,6 @@ Look up a telemetry extraction spec by ID.
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Definition of the telemetry extraction spec.|Inline|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
-||Unknown|none|None|
 
 <h3 id="get-dtlab-ingest-alligator-extractor-telemetry-spec-responseschema">Response Schema</h3>
 
@@ -689,7 +692,7 @@ Create a new spec with that defines how to identifiy the actors to update and th
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |body|body|[TelemetryExtractorSpec](#schematelemetryextractorspec)|false|The array of telemetry extraction specs associated with this specId.|
-|specId|path|string|true|none|
+|specId|path|string|true|name for the spec directing telemetry from a data source to a list of actors|
 
 > Example responses
 
@@ -815,6 +818,8 @@ System.out.println(response.toString());
 
 `POST /dtlab-alligator/ingest/array/{specId}`
 
+*Post a collection of observations - usually a timeseries - to be decomposed into individual observations and sent to actors.*
+
 Load an array of telemetry to DtLab.
 
 > Body parameter
@@ -905,6 +910,8 @@ System.out.println(response.toString());
 ```
 
 `POST /dtlab-alligator/ingest/telemetry/{specId}`
+
+*Post input in raw form to be decomposed into a set of observations for a DT - usually a single json doc with a collection of readings related to a single device at a single point in time.*
 
 send a single document to the telemetry extractor for a single set of telemetry forwarded to actor(s)
 
