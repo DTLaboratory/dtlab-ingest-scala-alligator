@@ -137,6 +137,8 @@ paths:
       description: Look up a telemetry extraction spec by ID.
     delete:
       summary: delete telemetry extraction spec
+      tags:
+        - tell
       operationId: delete-dtlab-ingest-alligator-extractor-telemetry-spec
       responses:
         '202':
@@ -149,7 +151,8 @@ paths:
   '/dtlab-ingest-alligator/extractor/object/{specId}':
     get:
       summary: get object extractor spec
-      tags: []
+      tags:
+        - ask
       responses: {}
       operationId: get-dtlab-ingest-alligator-extractor-object-spec
       description: Instructions for extracting an array of telemetry from a single batch of telemetry packaged in a single json object.
@@ -162,6 +165,8 @@ paths:
         required: true
     delete:
       summary: 'delete object extractor spec'
+      tags:
+        - tell
       operationId: delete-dtlab-ingest-alligator-extractor-object-spec
       responses:
         '202':
@@ -173,6 +178,8 @@ paths:
       description: delete the object extraction spec
     post:
       summary: 'create object extractor spec'
+      tags:
+        - tell
       operationId: post-dtlab-ingest-alligator-extractor-object-spec
       responses:
         '201':
@@ -212,6 +219,8 @@ paths:
         required: true
     post:
       summary: 'Post a collection of observations - usually a timeseries - to be decomposed into individual observations and sent to actors.'
+      tags:
+        - tell
       operationId: post-dtlab-alligator-ingest-array-specId
       responses:
         '202':
@@ -242,6 +251,8 @@ paths:
         required: true
     post:
       summary: 'Post input in raw form to be decomposed into a set of observations for a DT - usually a single json doc with a collection of readings related to a single device at a single point in time.'
+      tags:
+        - tell
       operationId: post-dtlab-alligator-ingest-telemetry-spec
       responses:
         '202':
