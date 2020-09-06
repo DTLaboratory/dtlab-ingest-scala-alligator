@@ -7,12 +7,23 @@ import somind.dtlab.ingest.models._
 
 object ExtractTelemetry extends LazyLogging with JsonSupport {
 
+  def extractFromDouble(path: String, node: JsonNode): Option[Double] =
+    node.query[Double](path)
+
+  def extractFromString(path: String, node: JsonNode): Option[Double] =
+    node.query[String](path).map(_.toDouble)
+
   def apply(
       node: JsonNode,
       extractorSpecs: Seq[TelemetryExtractorSpec]): Seq[(String, Telemetry)] = {
     extractorSpecs.flatMap(extractorSpec => {
       extractorSpec.values.flatMap(value => {
-        node.query[Double](value.path) match {
+        logger.debug(s"extracting ${value.valueType} from ${value.path}")
+        val v: Option[Double] = value.valueType match {
+          case "String" => extractFromString(value.path, node)
+          case _        => extractFromDouble(value.path, node)
+        }
+        v match {
           case Some(extractedValue) =>
             extractorSpec.paths.flatMap(pathSeq => {
               CalculatePath(node, pathSeq) match {
@@ -24,7 +35,7 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
                                  extractedValue,
                                  ExtractDatetime(node, extractorSpec))))
                   } catch {
-                    case e: Throwable =>
+                    case _: java.lang.ClassCastException =>
                       logger.warn(
                         s"can not extract datetime from path ${extractorSpec.datetimePath} from $node")
                       List(

@@ -40,6 +40,16 @@ POST /dtlab-alligator/extractor/telemetry/neo1
       "idx": 2,
       "path": "$.estimated_diameter.meters.estimated_diameter_max",
       "valueType": "Double"
+    },
+    {
+      "idx": 3,
+      "path": "$.close_approach_data[0].relative_velocity.miles_per_hour",
+      "valueType": "String"
+    },
+    {
+      "idx": 4,
+      "path": "$.close_approach_data[0].miss_distance.miles",
+      "valueType": "String"
     }
   ],
   "datetimePath": "$.close_approach_data[0].close_approach_date_full",
