@@ -240,8 +240,6 @@ paths:
             schema:
               type: object
               properties: {}
-      tags:
-        - tell
   '/dtlab-alligator/ingest/telemetry/{specId}':
     parameters:
       - schema:
