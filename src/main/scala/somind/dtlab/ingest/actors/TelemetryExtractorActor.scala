@@ -1,5 +1,6 @@
 package somind.dtlab.ingest.actors
 
+import navicore.data.navipath.dsl.NaviPathSyntax._
 import akka.persistence._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
@@ -19,6 +20,11 @@ class TelemetryExtractorActor
     specs = Map())
 
   override def receiveCommand: Receive = {
+
+    case (specId: String, json: String) =>
+      Observer("telemetry_extractor_object_request")
+      val parsedJson = json.asJson
+      self forward (specId, Seq(parsedJson))
 
     // extract telemetry from array of raw json
     case (specId: String, nodes: Seq[JsonNode] @unchecked) =>
