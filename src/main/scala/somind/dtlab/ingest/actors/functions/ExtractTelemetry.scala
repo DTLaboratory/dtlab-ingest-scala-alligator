@@ -7,6 +7,9 @@ import somind.dtlab.ingest.models._
 
 object ExtractTelemetry extends LazyLogging with JsonSupport {
 
+  def extractFromInt(path: String, node: JsonNode): Option[Double] =
+    node.query[Int](path).map(_.toDouble)
+
   def extractFromDouble(path: String, node: JsonNode): Option[Double] =
     node.query[Double](path)
 
@@ -21,7 +24,14 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
         logger.debug(s"extracting ${value.valueType} from ${value.path}")
         val v: Option[Double] = value.valueType match {
           case "String" => extractFromString(value.path, node)
-          case _        => extractFromDouble(value.path, node)
+          case "string" => extractFromString(value.path, node)
+          case "Int" => extractFromInt(value.path, node)
+          case "int" => extractFromInt(value.path, node)
+          case "Integer" => extractFromInt(value.path, node)
+          case "integer" => extractFromInt(value.path, node)
+          case "Double" => extractFromDouble(value.path, node)
+          case "double" => extractFromDouble(value.path, node)
+          case _        => extractFromString(value.path, node)
         }
         v match {
           case Some(extractedValue) =>
