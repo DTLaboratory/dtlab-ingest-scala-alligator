@@ -7,6 +7,12 @@ import somind.dtlab.ingest.models.PathSpec
 
 object CalculatePath extends LazyLogging {
 
+  def queryInt(node: JsonNode, path: String): Option[String] =
+    node.query[Int](path).map(_.toString)
+
+  def queryString(node: JsonNode, path: String): Option[String] =
+    node.query[String](path)
+
   def apply(node: JsonNode,
             valueSpecs: Seq[PathSpec],
             path: String = ""): Option[String] = {
@@ -17,7 +23,16 @@ object CalculatePath extends LazyLogging {
         Some(path)
     } else {
       val head :: tail = valueSpecs
-      node.query[String](head.path) match {
+      val vType = head.valueType
+      val f = vType match {
+        case "Int" =>
+          (n: JsonNode, p: String) =>
+            queryInt(n, p)
+        case _ =>
+          (n: JsonNode, p: String) =>
+            queryString(n, p)
+      }
+      f(node, head.path) match {
         case Some(instanceId) =>
           val newPath = path + "/" + head.name + "/" + instanceId
           apply(node, tail, newPath)
