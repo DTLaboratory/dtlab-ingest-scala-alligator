@@ -18,61 +18,62 @@ object ObjectExtractorApiRoute
     with Directives
     with HttpSupport {
 
-def apply: Route = {
-        path("object" / Segment) { specId =>
-          get {
-            onSuccess(objectExtractor ask specId) {
-              case Some(currentType: ObjectExtractorSpec) =>
-                Observer("object_extractor_route_get_success")
-                complete(HttpEntity(ContentTypes.`application/json`,
+  def apply: Route = {
+    path("object" / Segment) { specId =>
+      get {
+        onSuccess(objectExtractor ask specId) {
+          case Some(currentType: ObjectExtractorSpec) =>
+            Observer("object_extractor_route_get_success")
+            complete(
+              HttpEntity(ContentType(MediaTypes.`application/json`),
+                         currentType.toJson.prettyPrint))
+          case None =>
+            Observer("object_extractor_route_get_notfound")
+            complete(StatusCodes.NotFound)
+          case e =>
+            Observer("object_extractor_route_get_unk_err")
+            logger.warn(s"unable to handle: $e")
+            complete(StatusCodes.InternalServerError)
+        }
+      } ~
+        delete {
+          onSuccess(objectExtractor ask DeleteSpec(specId)) {
+            case ExtractorOk() =>
+              Observer("object_extractor_route_delete_success")
+              complete(StatusCodes.Accepted)
+            case None =>
+              Observer("object_extractor_route_get_notfound")
+              complete(StatusCodes.NotFound)
+            case e =>
+              Observer("object_extractor_route_get_unk_err")
+              logger.warn(s"unable to handle: $e")
+              complete(StatusCodes.InternalServerError)
+          }
+        } ~ post {
+        decodeRequest {
+          entity(as[LazyObjectExtractorSpec]) { let =>
+            val newSpec = let.spec(specId)
+            onSuccess(objectExtractor ask newSpec) {
+              case Some(currentType: ObjectExtractorSpec)
+                  if currentType.created == newSpec.created =>
+                Observer("object_extractor_route_post_success")
+                complete(StatusCodes.Created,
+                         HttpEntity(ContentType(MediaTypes.`application/json`),
                                     currentType.toJson.prettyPrint))
-              case None =>
-                Observer("object_extractor_route_get_notfound")
-                complete(StatusCodes.NotFound)
+              case Some(currentType: ObjectExtractorSpec)
+                  if currentType.created != newSpec.created =>
+                Observer("object_extractor_route_post_dupe_err")
+                logger.debug(s"duplicate create request: $currentType")
+                complete(StatusCodes.Conflict)
               case e =>
-                Observer("object_extractor_route_get_unk_err")
+                Observer("object_extractor_route_post_unk_err")
                 logger.warn(s"unable to handle: $e")
                 complete(StatusCodes.InternalServerError)
             }
-          } ~
-            delete {
-              onSuccess(objectExtractor ask DeleteSpec(specId)) {
-                case ExtractorOk() =>
-                  Observer("object_extractor_route_delete_success")
-                  complete(StatusCodes.Accepted)
-                case None =>
-                  Observer("object_extractor_route_get_notfound")
-                  complete(StatusCodes.NotFound)
-                case e =>
-                  Observer("object_extractor_route_get_unk_err")
-                  logger.warn(s"unable to handle: $e")
-                  complete(StatusCodes.InternalServerError)
-              }
-            } ~ post {
-            decodeRequest {
-              entity(as[LazyObjectExtractorSpec]) { let =>
-                val newSpec = let.spec(specId)
-                onSuccess(objectExtractor ask newSpec) {
-                  case Some(currentType: ObjectExtractorSpec)
-                      if currentType.created == newSpec.created =>
-                    Observer("object_extractor_route_post_success")
-                    complete(StatusCodes.Created,
-                             HttpEntity(ContentTypes.`application/json`,
-                                        currentType.toJson.prettyPrint))
-                  case Some(currentType: ObjectExtractorSpec)
-                      if currentType.created != newSpec.created =>
-                    Observer("object_extractor_route_post_dupe_err")
-                    logger.debug(s"duplicate create request: $currentType")
-                    complete(StatusCodes.Conflict)
-                  case e =>
-                    Observer("object_extractor_route_post_unk_err")
-                    logger.warn(s"unable to handle: $e")
-                    complete(StatusCodes.InternalServerError)
-                }
-              }
-            }
           }
         }
+      }
     }
+  }
 
 }
