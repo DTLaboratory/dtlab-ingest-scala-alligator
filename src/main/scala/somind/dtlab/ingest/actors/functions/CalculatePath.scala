@@ -11,7 +11,7 @@ object CalculatePath extends LazyLogging {
     node.query[Int](path).map(_.toString)
 
   def queryString(node: JsonNode, path: String): Option[String] =
-    node.query[String](path)
+    node.query[String](path).map(_.toLowerCase())
 
   def apply(node: JsonNode,
             valueSpecs: Seq[PathSpec],
