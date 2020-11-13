@@ -25,7 +25,7 @@ class ObjectExtractorActor
             case Some(objects: List[JsonNode]) =>
               telemetryExtractor forward (spec.telSpecId, objects, Some(parsedJson))
             case _ =>
-              sender() ! ExtractorErr(s"extractor '$specId' did not extract any objects")
+              sender() ! ExtractorNoData()
           }
         case _ =>
           sender() ! ExtractorErr(s"object extractor spec '$specId' not found")

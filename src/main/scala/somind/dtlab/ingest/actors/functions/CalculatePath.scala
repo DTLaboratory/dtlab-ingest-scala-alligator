@@ -16,12 +16,14 @@ object CalculatePath extends LazyLogging {
     } else r
   }
 
+  def safeId(id: String): String = id.toLowerCase().replace(' ', '_')
+
   def queryString(node: JsonNode,
                   outerNode: Option[JsonNode],
                   path: String): Option[String] = {
-    val r = node.query[String](path).map(_.toLowerCase())
+    val r = node.query[String](path).map(safeId)
     if (r.isEmpty) {
-      outerNode.flatMap(_.query[String](path))
+      outerNode.flatMap(_.query[String](path).map(safeId))
     } else r
   }
 
