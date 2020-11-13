@@ -21,7 +21,13 @@ object PostTelemetryRoute
         extractRequest { request =>
           onSuccess(PostTelemetry(request, telemetry)) {
             case _: Seq[HttpResponse] @unchecked =>
-              complete(StatusCodes.Accepted, telemetry.toJson.prettyPrint)
+              complete(
+                HttpResponse(
+                  StatusCodes.Accepted,
+                  entity = HttpEntity(ContentTypes.`application/json`,
+                                      telemetry.toJson.prettyPrint)
+                )
+              )
             case e =>
               logger.warn(s"post to dtlab failed: $e")
               complete(StatusCodes.InternalServerError)
@@ -30,7 +36,7 @@ object PostTelemetryRoute
       case e =>
         Observer("array_ingress_route_post_unk_err")
         logger.warn(s"unable to handle: $e")
-        complete(StatusCodes.NotAcceptable)
+        complete(StatusCodes.BadRequest)
     }
   }
 

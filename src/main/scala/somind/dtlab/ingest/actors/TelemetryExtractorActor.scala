@@ -24,14 +24,14 @@ class TelemetryExtractorActor
     case (specId: String, json: String) =>
       Observer("telemetry_extractor_object_request")
       val parsedJson = json.asJson
-      self forward (specId, Seq(parsedJson))
+      self forward (specId, Seq(parsedJson), None)
 
     // extract telemetry from array of raw json
-    case (specId: String, nodes: Seq[JsonNode] @unchecked) =>
+    case (specId: String, nodes: Seq[JsonNode] @unchecked, outerNode: Option[JsonNode] @unchecked) =>
       Observer("telemetry_extractor_objects_request")
       state.specs.get(specId) match {
         case Some(extractorSpecs) =>
-          val telemetry = nodes.flatMap(ExtractTelemetry(_, extractorSpecs))
+          val telemetry = nodes.flatMap(ExtractTelemetry(_, outerNode, extractorSpecs))
 
           if (telemetry.isEmpty)
             sender ! None
@@ -48,7 +48,7 @@ class TelemetryExtractorActor
       Observer("telemetry_extractor_object_request")
       state.specs.get(specId) match {
         case Some(extractorSpecs) =>
-          ExtractTelemetry(node, extractorSpecs) match {
+          ExtractTelemetry(node, None, extractorSpecs) match {
             case telemetry if telemetry.nonEmpty =>
               sender ! Some(telemetry)
             case _ =>

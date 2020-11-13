@@ -16,27 +16,32 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
   def extractFromString(path: String, node: JsonNode): Option[Double] =
     node.query[String](path).map(_.toDouble)
 
+  // ejs todo: need an optional outer node to get path info from
+  // ejs todo: need an optional outer node to get path info from
+  // ejs todo: need an optional outer node to get path info from
+  // ejs todo: need an optional outer node to get path info from
   def apply(
       node: JsonNode,
+      outerNode: Option[JsonNode],
       extractorSpecs: Seq[TelemetryExtractorSpec]): Seq[(String, Telemetry)] = {
     extractorSpecs.flatMap(extractorSpec => {
       extractorSpec.values.flatMap(value => {
         logger.debug(s"extracting ${value.valueType} from ${value.path}")
         val v: Option[Double] = value.valueType match {
-          case "String" => extractFromString(value.path, node)
-          case "string" => extractFromString(value.path, node)
-          case "Int" => extractFromInt(value.path, node)
-          case "int" => extractFromInt(value.path, node)
+          case "String"  => extractFromString(value.path, node)
+          case "string"  => extractFromString(value.path, node)
+          case "Int"     => extractFromInt(value.path, node)
+          case "int"     => extractFromInt(value.path, node)
           case "Integer" => extractFromInt(value.path, node)
           case "integer" => extractFromInt(value.path, node)
-          case "Double" => extractFromDouble(value.path, node)
-          case "double" => extractFromDouble(value.path, node)
-          case _        => extractFromString(value.path, node)
+          case "Double"  => extractFromDouble(value.path, node)
+          case "double"  => extractFromDouble(value.path, node)
+          case _         => extractFromString(value.path, node)
         }
         v match {
           case Some(extractedValue) =>
             extractorSpec.paths.flatMap(pathSeq => {
-              CalculatePath(node, pathSeq) match {
+              CalculatePath(node, outerNode, pathSeq) match {
                 case Some(p) =>
                   try {
                     List(
@@ -61,7 +66,7 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
               }
             })
           case _ =>
-            logger.debug(s"did not find ${value.path} in input")
+            logger.debug(s"did not find ${value.path} in input $node")
             List()
         }
       })

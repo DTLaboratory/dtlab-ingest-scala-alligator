@@ -25,9 +25,13 @@ object TelemetryExtractorApiRoute
         onSuccess(telemetryExtractor ask specId) {
           case Some(specs: Specs @unchecked) =>
             Observer("telemetry_extractor_route_get_success")
-            complete(StatusCodes.Created,
-                     HttpEntity(ContentType(MediaTypes.`application/json`),
-                                specs.specs.toJson.prettyPrint))
+            complete(
+              HttpResponse(
+                StatusCodes.Created,
+                entity = HttpEntity(ContentTypes.`application/json`,
+                                    specs.specs.toJson.prettyPrint)
+              )
+            )
           case None =>
             Observer("telemetry_extractor_route_get_notfound")
             complete(StatusCodes.NotFound)
