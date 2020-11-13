@@ -57,9 +57,14 @@ object ObjectExtractorApiRoute
               case Some(currentType: ObjectExtractorSpec)
                   if currentType.created == newSpec.created =>
                 Observer("object_extractor_route_post_success")
-                complete(StatusCodes.Created,
-                         HttpEntity(ContentType(MediaTypes.`application/json`),
-                                    currentType.toJson.prettyPrint))
+                complete(
+                  HttpResponse(
+                    StatusCodes.Created,
+                    entity =
+                      HttpEntity(ContentType(MediaTypes.`application/json`),
+                                 currentType.toJson.prettyPrint)
+                  )
+                )
               case Some(currentType: ObjectExtractorSpec)
                   if currentType.created != newSpec.created =>
                 Observer("object_extractor_route_post_dupe_err")

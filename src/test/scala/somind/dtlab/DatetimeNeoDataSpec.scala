@@ -50,11 +50,11 @@ class DatetimeNeoDataSpec extends AnyFlatSpec with Matchers {
       Some("yyyy-MMM-dd hh:mm")
     )
 
-    val p = CalculatePath(obj.get, eSpec.paths.head)
+    val p = CalculatePath(obj.get, None, eSpec.paths.head)
 
     p should contain("/orbiting_body/earth/object/3726710")
 
-    val r = ExtractTelemetry(obj.get, Seq(eSpec))
+    val r = ExtractTelemetry(obj.get, None, Seq(eSpec))
 
     r.nonEmpty should be(true)
 

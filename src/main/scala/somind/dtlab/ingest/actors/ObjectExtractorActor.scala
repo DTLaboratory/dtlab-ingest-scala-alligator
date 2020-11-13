@@ -23,12 +23,12 @@ class ObjectExtractorActor
           val parsedJson = json.asJson
           parsedJson.query[List[JsonNode]](spec.path) match {
             case Some(objects: List[JsonNode]) =>
-              telemetryExtractor forward (spec.telSpecId, objects)
+              telemetryExtractor forward (spec.telSpecId, objects, Some(parsedJson))
             case _ =>
-              sender() ! ExtractorErr("extractor did not extract any objects")
+              sender() ! ExtractorErr(s"extractor '$specId' did not extract any objects")
           }
         case _ =>
-          sender() ! ExtractorErr("object extractor spec not found")
+          sender() ! ExtractorErr(s"object extractor spec '$specId' not found")
       }
 
     case spec: ObjectExtractorSpec =>

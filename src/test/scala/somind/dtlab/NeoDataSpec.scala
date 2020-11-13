@@ -48,7 +48,7 @@ class NeoDataSpec extends AnyFlatSpec with Matchers {
       )
     )
 
-    val p = CalculatePath(obj.get, eSpec.paths.head)
+    val p = CalculatePath(obj.get, None, eSpec.paths.head)
 
     p should contain("/orbiting_body/earth/object/3726710")
 
