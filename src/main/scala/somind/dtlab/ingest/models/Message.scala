@@ -5,6 +5,7 @@ import java.time.ZonedDateTime
 sealed trait ExtractorResult {}
 final case class ExtractorOk() extends ExtractorResult
 final case class ExtractorErr(message: String) extends ExtractorResult
+final case class ExtractorNoData() extends ExtractorResult
 
 final case class DeleteSpec(specId: String)
 
