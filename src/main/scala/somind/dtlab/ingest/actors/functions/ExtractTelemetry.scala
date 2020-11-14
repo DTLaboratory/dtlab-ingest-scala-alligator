@@ -16,10 +16,13 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
   def extractFromString(path: String, node: JsonNode): Option[Double] =
     node.query[String](path).map(_.toDouble)
 
-  // ejs todo: need an optional outer node to get path info from
-  // ejs todo: need an optional outer node to get path info from
-  // ejs todo: need an optional outer node to get path info from
-  // ejs todo: need an optional outer node to get path info from
+  def isAllowed(vspec: ValueSpec, v: Double): Boolean = {
+    v match {
+      case 0.0 => vspec.extractZeros.contains(true)
+      case _ => true
+    }
+  }
+
   def apply(
       node: JsonNode,
       outerNode: Option[JsonNode],
@@ -39,7 +42,7 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
           case _         => extractFromString(value.path, node)
         }
         v match {
-          case Some(extractedValue) =>
+          case Some(extractedValue) if isAllowed(value, extractedValue) =>
             extractorSpec.paths.flatMap(pathSeq => {
               CalculatePath(node, outerNode, pathSeq) match {
                 case Some(p) =>
