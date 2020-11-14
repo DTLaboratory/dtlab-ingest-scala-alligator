@@ -39,7 +39,7 @@ class TelemetryExtractorActor
             sender ! Some(telemetry)
 
         case _ =>
-          logger.warn(s"did not find $specId for JsonNode extract.")
+          logger.warn(s"did not find $specId spec for JsonNode extract.")
           sender ! None
       }
 
@@ -118,6 +118,7 @@ class TelemetryExtractorActor
     case specs: Specs @unchecked =>
       state = TelemetryExtractorSpecMap(
         state.specs + (specs.specs.head.specId -> specs.specs))
+      logger.debug(s"recovered spec map of size ${specs.specs.length}")
       Observer("reapplied_telemetry_extractor_spec_actor_command_from_jrnl")
 
     case del: DeleteSpec =>
@@ -128,6 +129,7 @@ class TelemetryExtractorActor
     case SnapshotOffer(_, s: TelemetryExtractorSpecMap @unchecked) =>
       Observer("recovered_telemetry_extractor_spec_actor_state_from_snapshot")
       state = s
+      logger.debug(s"recovered snapshot of spec map of size ${state.specs.size}")
 
     case _: RecoveryCompleted =>
       Observer("resurrected_telemetry_extractor_spec_actor")

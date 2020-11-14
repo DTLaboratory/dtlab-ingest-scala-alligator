@@ -10,7 +10,7 @@ final case class ExtractorNoData() extends ExtractorResult
 final case class DeleteSpec(specId: String)
 
 final case class PathSpec(name: String, path: String, valueType: String)
-final case class ValueSpec(idx: Int, path: String, valueType: String)
+final case class ValueSpec(idx: Int, path: String, valueType: String, extractZeros: Option[Boolean] = None)
 
 final case class ObjectExtractorSpec(
     specId: String,
