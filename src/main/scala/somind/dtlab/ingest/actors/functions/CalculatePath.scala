@@ -10,6 +10,7 @@ object CalculatePath extends LazyLogging {
   def queryInt(node: JsonNode,
                outerNode: Option[JsonNode],
                path: String): Option[String] = {
+    if (path.head != '$') return Some(path) // literal id
     val r = node.query[Int](path).map(_.toString)
     if (r.isEmpty) {
       outerNode.flatMap(_.query[Int](path).map(_.toString))
@@ -21,6 +22,7 @@ object CalculatePath extends LazyLogging {
   def queryString(node: JsonNode,
                   outerNode: Option[JsonNode],
                   path: String): Option[String] = {
+    if (path.head != '$') return Some(path) // literal id
     val r = node.query[String](path).map(safeId)
     if (r.isEmpty) {
       outerNode.flatMap(_.query[String](path).map(safeId))
