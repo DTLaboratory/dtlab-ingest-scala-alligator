@@ -57,15 +57,30 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
     }
   }
 
-  implicit val vsFmt: RootJsonFormat[ValueSpec] = jsonFormat4(ValueSpec)
+  implicit val vsFmt: RootJsonFormat[IndexedValueSpec] = jsonFormat4(
+    IndexedValueSpec)
+  implicit val nvsFmt: RootJsonFormat[NamedValueSpec] = jsonFormat5(
+    NamedValueSpec)
   implicit val psFmt: RootJsonFormat[PathSpec] = jsonFormat3(PathSpec)
-  implicit val ltesFmt: RootJsonFormat[LazyTelemetryExtractorSpec] = jsonFormat4(LazyTelemetryExtractorSpec)
-  implicit val tesFmt: RootJsonFormat[TelemetryExtractorSpec] = jsonFormat6(TelemetryExtractorSpec)
-  implicit val tesmFmt: RootJsonFormat[TelemetryExtractorSpecMap] = jsonFormat1(TelemetryExtractorSpecMap)
-  implicit val loesFmt: RootJsonFormat[LazyObjectExtractorSpec] = jsonFormat2(LazyObjectExtractorSpec)
-  implicit val oesFmt: RootJsonFormat[ObjectExtractorSpec] = jsonFormat4(ObjectExtractorSpec)
-  implicit val oesmFmt: RootJsonFormat[ObjectExtractorSpecMap] = jsonFormat1(ObjectExtractorSpecMap)
-  implicit val specsFmt: RootJsonFormat[Specs] = jsonFormat1(Specs)
+  implicit val ltesFmt: RootJsonFormat[LazyTelemetryExtractorSpec] =
+    jsonFormat4(LazyTelemetryExtractorSpec)
+  implicit val tesFmt: RootJsonFormat[IndexedTelemetryExtractorSpec] =
+    jsonFormat6(IndexedTelemetryExtractorSpec)
+  implicit val ntesFmt: RootJsonFormat[NamedTelemetryExtractorSpec] =
+    jsonFormat6(NamedTelemetryExtractorSpec)
+  implicit val tesmFmt: RootJsonFormat[TelemetryExtractorSpecMap] = jsonFormat1(
+    TelemetryExtractorSpecMap)
+  implicit val loesFmt: RootJsonFormat[LazyObjectExtractorSpec] = jsonFormat2(
+    LazyObjectExtractorSpec)
+  implicit val oesFmt: RootJsonFormat[ObjectExtractorSpec] = jsonFormat4(
+    ObjectExtractorSpec)
+  implicit val oesmFmt: RootJsonFormat[ObjectExtractorSpecMap] = jsonFormat1(
+    ObjectExtractorSpecMap)
+  implicit val specsFmt: RootJsonFormat[IndexedSpecs] = jsonFormat1(
+    IndexedSpecs)
+  implicit val nspecsFmt: RootJsonFormat[NamedSpecs] = jsonFormat1(NamedSpecs)
   implicit val telFmt: RootJsonFormat[Telemetry] = jsonFormat3(Telemetry)
+
+  implicit val dttype: RootJsonFormat[DtType] = jsonFormat4(DtType)
 
 }

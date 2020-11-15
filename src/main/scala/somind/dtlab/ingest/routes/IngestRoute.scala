@@ -6,7 +6,6 @@ import akka.pattern.ask
 import com.typesafe.scalalogging.LazyLogging
 import somind.dtlab.ingest.Conf._
 import somind.dtlab.ingest.models.JsonSupport
-import somind.dtlab.ingest.routes.functions.PostTelemetryRoute
 
 object IngestRoute
     extends LazyLogging

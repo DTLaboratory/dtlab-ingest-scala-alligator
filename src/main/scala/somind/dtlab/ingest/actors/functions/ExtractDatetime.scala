@@ -5,12 +5,12 @@ import java.time.{ZoneOffset, ZonedDateTime}
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import navicore.data.navipath.dsl.NaviPathSyntax._
-import somind.dtlab.ingest.models.TelemetryExtractorSpec
+import somind.dtlab.ingest.models.IndexedTelemetryExtractorSpec
 
 object ExtractDatetime extends LazyLogging {
 
   def apply(node: JsonNode,
-            extractorSpec: TelemetryExtractorSpec): ZonedDateTime = {
+            extractorSpec: IndexedTelemetryExtractorSpec): ZonedDateTime = {
     extractorSpec match {
       case _
           if extractorSpec.datetimePath.nonEmpty && extractorSpec.datetimeFmt.nonEmpty =>

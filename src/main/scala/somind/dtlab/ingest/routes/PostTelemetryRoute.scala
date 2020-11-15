@@ -1,11 +1,11 @@
-package somind.dtlab.ingest.routes.functions
+package somind.dtlab.ingest.routes
 
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.server._
+import akka.http.scaladsl.server.{Directives, Route}
 import com.typesafe.scalalogging.LazyLogging
-import somind.dtlab.ingest.models.{ExtractorNoData, JsonSupport, Telemetry}
+import somind.dtlab.ingest.models._
 import somind.dtlab.ingest.observe.Observer
-import somind.dtlab.ingest.routes.HttpSupport
+import somind.dtlab.ingest.routes.functions.PostTelemetry
 import spray.json._
 
 object PostTelemetryRoute

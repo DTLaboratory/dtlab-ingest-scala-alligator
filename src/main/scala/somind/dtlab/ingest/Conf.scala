@@ -38,5 +38,5 @@ object Conf extends LazyLogging {
 
   val dtlabHost: String = conf.getString("main.dtlabHost")
   val dtlabPort: Int = conf.getInt("main.dtlabPort")
-
+  val dtlabPath: String = conf.getString("main.dtlabPath")
 }

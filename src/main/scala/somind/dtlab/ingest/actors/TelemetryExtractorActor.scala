@@ -1,12 +1,13 @@
 package somind.dtlab.ingest.actors
 
-import navicore.data.navipath.dsl.NaviPathSyntax._
 import akka.persistence._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
+import navicore.data.navipath.dsl.NaviPathSyntax._
 import somind.dtlab.ingest.actors.functions.ExtractTelemetry
-import somind.dtlab.ingest.models.{DeleteSpec, ExtractorOk, Specs, TelemetryExtractorSpecMap}
+import somind.dtlab.ingest.models._
 import somind.dtlab.ingest.observe.Observer
+import somind.dtlab.ingest.routes.functions.GetDtType
 
 object TelemetryExtractorActor extends LazyLogging {
   def name: String = this.getClass.getName
@@ -19,6 +20,28 @@ class TelemetryExtractorActor
   override var state: TelemetryExtractorSpecMap = TelemetryExtractorSpecMap(
     specs = Map())
 
+  def getIndexedValueSpec(v: NamedValueSpec): IndexedValueSpec = {
+    def getIdx(name: String, typeId: String): Int = {
+      GetDtType(typeId) match {
+        case Some(dttype) =>
+          dttype.props match {
+            case Some(props) =>
+              val idx = props.indexOf(name)
+              logger.debug(s"looked up dttype $typeId and idx for $name is $idx")
+              idx
+            case _ =>
+              logger.warn(s"dttype $typeId has no props")
+              -1
+          }
+        case _ =>
+          logger.warn(s"dttype $typeId not found")
+          -1
+      }
+    }
+    val idx = getIdx(v.name, v.typeId)
+    IndexedValueSpec(idx, v.path, v.valueType, v.extractZeros)
+  }
+
   override def receiveCommand: Receive = {
 
     case (specId: String, json: String) =>
@@ -27,11 +50,14 @@ class TelemetryExtractorActor
       self forward (specId, Seq(parsedJson), None)
 
     // extract telemetry from array of raw json
-    case (specId: String, nodes: Seq[JsonNode] @unchecked, outerNode: Option[JsonNode] @unchecked) =>
+    case (specId: String,
+          nodes: Seq[JsonNode] @unchecked,
+          outerNode: Option[JsonNode] @unchecked) =>
       Observer("telemetry_extractor_objects_request")
       state.specs.get(specId) match {
         case Some(extractorSpecs) =>
-          val telemetry = nodes.flatMap(ExtractTelemetry(_, outerNode, extractorSpecs))
+          val telemetry =
+            nodes.flatMap(ExtractTelemetry(_, outerNode, extractorSpecs))
 
           if (telemetry.isEmpty)
             sender ! None
@@ -60,12 +86,41 @@ class TelemetryExtractorActor
           sender ! None
       }
 
+    // manage specs - preprocess named value specs into idx value specs
+    case specs: NamedSpecs =>
+      val idxValueSpecs: Seq[Seq[IndexedValueSpec]] =
+        specs.specs.map(s => s.values.map(getIndexedValueSpec))
+      val bad: Option[IndexedValueSpec] =
+        idxValueSpecs.flatten.find(_.idx == -1)
+
+      bad match {
+        case Some(valueSpec) =>
+          sender() ! ExtractorErr(
+            s"no type field found for path ${valueSpec.path} for specId ${specs.specs.head.specId}")
+        case _ =>
+          val zs: Seq[(NamedTelemetryExtractorSpec, Seq[IndexedValueSpec])] =
+            specs.specs.zip(idxValueSpecs)
+
+          self forward IndexedSpecs(specs = zs.map(pair => {
+            val (nspec: NamedTelemetryExtractorSpec,
+                 valueSpecs: Seq[IndexedValueSpec]) = pair
+            IndexedTelemetryExtractorSpec(
+              nspec.specId,
+              nspec.paths,
+              valueSpecs,
+              nspec.datetimePath,
+              nspec.datetimeFmt,
+              nspec.created
+            )
+          }))
+      }
+
     // manage specs
-    case specs: Specs @unchecked =>
+    case specs: IndexedSpecs =>
       state.specs.get(specs.specs.head.specId) match {
         case Some(prev) =>
           logger.debug(s"create found existing ${specs.specs.head.specId}")
-          sender ! Some(Specs(prev))
+          sender ! Some(IndexedSpecs(prev))
           Observer("telemetry_extractor_spec_create_conflict")
         case _ =>
           logger.debug(
@@ -97,7 +152,7 @@ class TelemetryExtractorActor
       state.specs.get(specId) match {
         case Some(specs) =>
           logger.debug(s"found $specId")
-          sender ! Some(Specs(specs))
+          sender ! Some(IndexedSpecs(specs))
           Observer("telemetry_extractor_spec_lookup_success")
         case _ =>
           Observer("telemetry_extractor_spec_lookup_failure")
@@ -115,7 +170,7 @@ class TelemetryExtractorActor
 
   override def receiveRecover: Receive = {
 
-    case specs: Specs @unchecked =>
+    case specs: IndexedSpecs @unchecked =>
       state = TelemetryExtractorSpecMap(
         state.specs + (specs.specs.head.specId -> specs.specs))
       logger.debug(s"recovered spec map of size ${specs.specs.length}")
@@ -129,7 +184,8 @@ class TelemetryExtractorActor
     case SnapshotOffer(_, s: TelemetryExtractorSpecMap @unchecked) =>
       Observer("recovered_telemetry_extractor_spec_actor_state_from_snapshot")
       state = s
-      logger.debug(s"recovered snapshot of spec map of size ${state.specs.size}")
+      logger.debug(
+        s"recovered snapshot of spec map of size ${state.specs.size}")
 
     case _: RecoveryCompleted =>
       Observer("resurrected_telemetry_extractor_spec_actor")

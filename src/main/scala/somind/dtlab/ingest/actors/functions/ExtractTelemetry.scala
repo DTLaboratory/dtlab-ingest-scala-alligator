@@ -16,7 +16,7 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
   def extractFromString(path: String, node: JsonNode): Option[Double] =
     node.query[String](path).map(_.toDouble)
 
-  def isAllowed(vspec: ValueSpec, v: Double): Boolean = {
+  def isAllowed(vspec: IndexedValueSpec, v: Double): Boolean = {
     v match {
       case 0.0 => vspec.extractZeros.contains(true)
       case _ => true
@@ -26,7 +26,7 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
   def apply(
       node: JsonNode,
       outerNode: Option[JsonNode],
-      extractorSpecs: Seq[TelemetryExtractorSpec]): Seq[(String, Telemetry)] = {
+      extractorSpecs: Seq[IndexedTelemetryExtractorSpec]): Seq[(String, Telemetry)] = {
     extractorSpecs.flatMap(extractorSpec => {
       extractorSpec.values.flatMap(value => {
         logger.debug(s"extracting ${value.valueType} from ${value.path}")
