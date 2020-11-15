@@ -29,7 +29,7 @@ class DatetimeNeoDataSpec extends AnyFlatSpec with Matchers {
 
     obj should be('defined)
 
-    val eSpec = TelemetryExtractorSpec(
+    val eSpec = IndexedTelemetryExtractorSpec(
       "neo1",
       Seq(
         Seq(
@@ -39,10 +39,10 @@ class DatetimeNeoDataSpec extends AnyFlatSpec with Matchers {
           PathSpec("object", "$.neo_reference_id", "String")
         )),
       Seq(
-        ValueSpec(0,
+        IndexedValueSpec(0,
                   "$.estimated_diameter.meters.estimated_diameter_min",
                   "Double"),
-        ValueSpec(1,
+        IndexedValueSpec(1,
                   "$.estimated_diameter.meters.estimated_diameter_max",
                   "Double")
       ),

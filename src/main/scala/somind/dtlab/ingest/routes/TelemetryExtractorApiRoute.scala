@@ -23,7 +23,7 @@ object TelemetryExtractorApiRoute
     path("telemetry" / Segment) { specId =>
       get {
         onSuccess(telemetryExtractor ask specId) {
-          case Some(specs: Specs @unchecked) =>
+          case Some(specs: IndexedSpecs @unchecked) =>
             Observer("telemetry_extractor_route_get_success")
             complete(
               HttpResponse(
@@ -57,18 +57,22 @@ object TelemetryExtractorApiRoute
         } ~ post {
         decodeRequest {
           entity(as[Seq[LazyTelemetryExtractorSpec]]) { lazySpecs =>
-            val newSpecs = lazySpecs.map(_.spec(specId))
-            onSuccess(telemetryExtractor ask Specs(newSpecs)) {
-              case Some(specs: Specs @unchecked)
+            val newSpecs: Seq[NamedTelemetryExtractorSpec] = lazySpecs.map(_.spec(specId))
+            onSuccess(telemetryExtractor ask NamedSpecs(newSpecs)) {
+              case Some(specs: IndexedSpecs @unchecked)
                   if specs.specs.head.created == newSpecs.head.created =>
                 Observer("telemetry_extractor_route_post_success")
                 complete(StatusCodes.Created,
                          HttpEntity(ContentType(MediaTypes.`application/json`),
                                     specs.specs.toJson.prettyPrint))
-              case Some(specs: Specs @unchecked)
+              case Some(specs: IndexedSpecs @unchecked)
                   if specs.specs.head.created != newSpecs.head.created =>
                 Observer("telemetry_extractor_route_post_dupe_err")
                 complete(StatusCodes.Conflict)
+              case ExtractorErr(emsg) =>
+                Observer("telemetry_extractor_route_post_type_err")
+                logger.warn(s"unable to handle due to type error: $emsg")
+                complete(StatusCodes.BadRequest, emsg)
               case e =>
                 Observer("telemetry_extractor_route_post_unk_err")
                 logger.warn(s"unable to handle: $e")
