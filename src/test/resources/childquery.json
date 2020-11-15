@@ -1,0 +1,22 @@
+{
+	"weight": {
+		"average": {
+			"value": 927,
+			"units": "lbs"
+		},
+		"peak": {
+			"value": 1013,
+			"units": "lbs"
+		}
+	},
+	"size": {
+		"average": {
+			"value": 10,
+			"units": "CC"
+		},
+		"peak": {
+			"value": 14,
+			"units": "CC"
+		}
+	}
+}
