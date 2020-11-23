@@ -9,7 +9,6 @@ GET /dtlab-alligator/extractor/telemetry/neo1
 
 --
 DELETE /dtlab-alligator/extractor/telemetry/neo1
-
 --
 POST /dtlab-alligator/extractor/telemetry/neo1
 [{
@@ -27,27 +26,32 @@ POST /dtlab-alligator/extractor/telemetry/neo1
   ]],
   "values": [
     {
-      "idx": 0,
+      "typeId": "object",
+      "name": "absolute_magnitude",
       "path": "$.absolute_magnitude_h",
       "valueType": "Double"
     },
     {
-      "idx": 1,
+      "typeId": "object",
+      "name": "diameter_min",
       "path": "$.estimated_diameter.meters.estimated_diameter_min",
       "valueType": "Double"
     },
     {
-      "idx": 2,
+      "typeId": "object",
+      "name": "diameter_max",
       "path": "$.estimated_diameter.meters.estimated_diameter_max",
       "valueType": "Double"
     },
     {
-      "idx": 3,
+      "typeId": "object",
+      "name": "miles_per_hour",
       "path": "$.close_approach_data[0].relative_velocity.miles_per_hour",
       "valueType": "String"
     },
     {
-      "idx": 4,
+      "typeId": "object",
+      "name": "distance_in_miles",
       "path": "$.close_approach_data[0].miss_distance.miles",
       "valueType": "String"
     }
@@ -62,4 +66,3 @@ GET /fitness
 
 --
 GET /observe
-
