@@ -1,0 +1,25 @@
+http://localhost:8082
+
+Content-Type: application/json; charset=utf-8
+
+--
+
+--
+GET /dtlab-alligator/extractor/object/neo1
+
+--
+DELETE /dtlab-alligator/extractor/object/neo1
+
+--
+POST /dtlab-alligator/extractor/object/neo1
+{
+  "path": "$.near_earth_objects.*[*]",
+  "telSpecId": "neo1"
+}
+
+--
+GET /fitness
+
+--
+GET /observe
+
