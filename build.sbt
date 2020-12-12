@@ -41,7 +41,7 @@ libraryDependencies ++=
     "org.postgresql" % "postgresql" % "42.2.18",
     "com.github.dnvriend" %% "akka-persistence-jdbc" % "3.5.3",
     "tech.navicore" %% "navipath" % "4.0.2",
-    "ch.megard" %% "akka-http-cors" % "1.1.0",
+    "ch.megard" %% "akka-http-cors" % "1.1.1",
     "ch.qos.logback" % "logback-classic" % "1.2.3",
     "com.typesafe" % "config" % "1.4.1",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
