@@ -2,6 +2,8 @@
 
 ![Scala CI](https://github.com/SoMind/dtlab-ingest-scala-alligator/workflows/Scala%20CI/badge.svg) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fa9464cb51a441b1bb53122e2c8ac9f5)](https://app.codacy.com/gh/SoMind/dtlab-ingest-scala-alligator?utm_source=github.com&utm_medium=referral&utm_content=SoMind/dtlab-ingest-scala-alligator&utm_campaign=Badge_Grade_Dashboard)
 
+![alt text](docs/logo.jpg)
+
 The Ingest Service accepts HTTP posts of JSON documents.  The JSON will
 tend to be observations of the state of some thing in the world - a machine
 temperature or a retail sale or a door opening or an approaching meteor's speed,
