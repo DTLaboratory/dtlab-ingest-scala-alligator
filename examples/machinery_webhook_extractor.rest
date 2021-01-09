@@ -25,33 +25,9 @@ POST /dtlab-alligator/extractor/telemetry/wh_sc
       "name": "count",
       "path": 1.0,
       "valueType": "Double"
-    },
-    {
-      "typeId": "object",
-      "name": "diameter_min",
-      "path": "$.estimated_diameter.meters.estimated_diameter_min",
-      "valueType": "Double"
-    },
-    {
-      "typeId": "object",
-      "name": "diameter_max",
-      "path": "$.estimated_diameter.meters.estimated_diameter_max",
-      "valueType": "Double"
-    },
-    {
-      "typeId": "object",
-      "name": "miles_per_hour",
-      "path": "$.close_approach_data[0].relative_velocity.miles_per_hour",
-      "valueType": "String"
-    },
-    {
-      "typeId": "object",
-      "name": "distance_in_miles",
-      "path": "$.close_approach_data[0].miss_distance.miles",
-      "valueType": "String"
     }
   ],
-  "datetimePath": "$.close_approach_data[0].close_approach_date_full",
+  "datetimePath": "$.created",
   "datetimeFmt": "yyyy-MMM-dd hh:mm"
 
 }]
