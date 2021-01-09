@@ -53,7 +53,8 @@ object PostTelemetry extends JsonSupport with HttpSupport {
 
     seqFutures[(String, Telemetry), HttpResponse](telemetry)(
       (i: (String, Telemetry)) => {
-        applyPost(i._1, i._2)
+        val (path, telem) = i
+        applyPost(path, telem)
       })
 
   }
