@@ -5,14 +5,21 @@
 ![alt text](docs/logo_cropped.png)
 
 The Ingest Service accepts HTTP posts of JSON documents.  The JSON will
-tend to be observations of the state of some thing in the world - a machine
-temperature or a retail sale or a door opening or an approaching meteor's speed,
-etc...
+tend to be observations of the state of some thing in the world -
 
-The raw data from these systems tends to be verbose and combines many
-observations into a single JSON document.  This service decomposes the raw JSON
-data into telemetry data - name, datetime, numerical value and forwards the
-telemetry data in a universal DtLab format to DtLab actors.
+  * a machine's engine temperature
+  * a retail sale transaction completion
+  * the new availability of funds from a bank account transaction
+  * a door opening
+  * a motion detector triggered
+  * an approaching asteroid's current speed
+  * etc...
+
+The raw data announcing these events tends to be verbose and usually
+combines multiple observations into a single JSON document.  The Dt Lab Ingest
+Service decomposes this raw JSON data into telemetry data - name, datetime,
+numerical value and forwards the telemetry data in a universal DtLab format to
+DtLab actors.
 
 The steps for defining a new ingest process are:
 
