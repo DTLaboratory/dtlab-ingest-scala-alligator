@@ -7,8 +7,7 @@
 The Ingest Service accepts HTTP posts of JSON documents.  The JSON will
 tend to be observations of the state of some thing in the world -
 
-  * a machine's
-  * engine temperature
+  * a machine's engine temperature
   * a retail sale transaction completion
   * the new availability of funds from a bank account transaction
   * a door opening
