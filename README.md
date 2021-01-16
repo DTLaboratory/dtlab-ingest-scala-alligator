@@ -7,14 +7,14 @@
 The Ingest Service accepts HTTP posts of JSON documents.  The JSON will
 tend to be observations of the state of some thing in the world -
 
-    * a machine's
-    * engine temperature
-    * a retail sale transaction completion
-    * the new availability of funds from a bank account transaction
-    * a door opening
-    * a motion detector triggered
-    * an approaching asteroid's speed
-    * etc...
+  * a machine's
+  * engine temperature
+  * a retail sale transaction completion
+  * the new availability of funds from a bank account transaction
+  * a door opening
+  * a motion detector triggered
+  * an approaching asteroid's speed
+  * etc...
 
 The raw data announcing these events tends to be verbose and usually
 combines multiple observations into a single JSON document.  The Dt Lab Ingest
