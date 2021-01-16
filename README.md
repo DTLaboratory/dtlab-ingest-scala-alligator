@@ -12,7 +12,7 @@ tend to be observations of the state of some thing in the world -
   * the new availability of funds from a bank account transaction
   * a door opening
   * a motion detector triggered
-  * an approaching asteroid's speed
+  * an approaching asteroid's current speed
   * etc...
 
 The raw data announcing these events tends to be verbose and usually
