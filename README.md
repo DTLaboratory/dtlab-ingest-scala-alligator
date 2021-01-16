@@ -5,7 +5,8 @@
 ![alt text](docs/logo_cropped.png)
 
 The Ingest Service accepts HTTP posts of JSON documents.  The JSON will
-tend to be observations of the state of some thing in the world - 
+tend to be observations of the state of some thing in the world -
+
     * a machine's
     * engine temperature
     * a retail sale transaction completion
