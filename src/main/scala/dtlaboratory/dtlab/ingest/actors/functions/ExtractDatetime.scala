@@ -29,7 +29,8 @@ object ExtractDatetime extends LazyLogging {
               ZonedDateTime.now()
           }
         case Some("epoch_long") =>
-          node.query[Long](extractorSpec.datetimePath.get) match {
+          val defFmtStr = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+          node.query[Long](extractorSpec.datetimePath.getOrElse(defFmtStr)) match {
             case Some(number: Long) =>
               logger.debug(s"long epoch number used to format date")
               ZonedDateTime.ofInstant(new Date(number).toInstant,
