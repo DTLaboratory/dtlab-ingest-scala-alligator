@@ -1,15 +1,16 @@
 package dtlaboratory.dtlab.ingest.models
 
-import java.time.{ZoneOffset, ZonedDateTime}
-import java.util.{Date, UUID}
-
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import spray.json._
 
+import java.time.{ZoneOffset, ZonedDateTime}
+import java.util.{Date, UUID}
+
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
 
-  val dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX",
-                                                  java.util.Locale.US)
+  val defaultDateFmtStr = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+  val dateFormat =
+    new java.text.SimpleDateFormat(defaultDateFmtStr, java.util.Locale.US)
   dateFormat.setTimeZone(java.util.TimeZone.getTimeZone("UTC"))
 
   def parse8601(dateString: String): java.util.Date =
