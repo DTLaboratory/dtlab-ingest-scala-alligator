@@ -25,14 +25,14 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
   def isAllowed(vspec: IndexedValueSpec, v: Double): Boolean = {
     v match {
       case 0.0 => vspec.extractZeros.contains(true)
-      case _ => true
+      case _   => true
     }
   }
 
-  def apply(
-      node: JsonNode,
-      outerNode: Option[JsonNode],
-      extractorSpecs: Seq[IndexedTelemetryExtractorSpec]): Seq[(String, Telemetry)] = {
+  def apply(node: JsonNode,
+            outerNode: Option[JsonNode],
+            extractorSpecs: Seq[IndexedTelemetryExtractorSpec])
+    : Seq[(String, Telemetry)] = {
     extractorSpecs.flatMap(extractorSpec => {
       extractorSpec.values.flatMap(value => {
         logger.debug(s"extracting ${value.valueType} from ${value.path}")
