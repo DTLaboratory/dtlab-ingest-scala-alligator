@@ -14,7 +14,13 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
     node.query[Double](path)
 
   def extractFromString(path: String, node: JsonNode): Option[Double] =
-    node.query[String](path).map(_.toDouble)
+    node.query[String](path).map {
+      case s if s.trim == "" =>
+        logger.warn(s"empty string for value $path.  returning 0")
+        0.0
+      case i =>
+        i.toDouble
+    }
 
   def isAllowed(vspec: IndexedValueSpec, v: Double): Boolean = {
     v match {
