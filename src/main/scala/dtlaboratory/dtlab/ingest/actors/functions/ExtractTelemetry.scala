@@ -37,6 +37,7 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
       extractorSpec.values.flatMap(value => {
         logger.debug(s"extracting ${value.valueType} from ${value.path}")
         val v: Option[Double] = value.valueType match {
+          case "Literal" => Some(value.path.toDouble)
           case "String"  => extractFromString(value.path, node)
           case "string"  => extractFromString(value.path, node)
           case "Int"     => extractFromInt(value.path, node)

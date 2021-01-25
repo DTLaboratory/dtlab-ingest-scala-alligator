@@ -5,17 +5,17 @@ Content-Type: application/json; charset=utf-8
 --
 
 --
-GET /dtlab-alligator/extractor/telemetry/wh_sc
+GET /dtlab-alligator/extractor/telemetry/fleetmgrss
 
 --
-DELETE /dtlab-alligator/extractor/telemetry/wh_sc
+DELETE /dtlab-alligator/extractor/telemetry/fleetmgrss
 --
-POST /dtlab-alligator/extractor/telemetry/wh_sc
+POST /dtlab-alligator/extractor/telemetry/fleetmgrss
 [{
   "paths": [[
     {
       "name": "wh_monitor",
-      "path": "$.event",
+      "path": "$.eventType",
       "valueType": "String"
     }
   ]],
@@ -23,12 +23,12 @@ POST /dtlab-alligator/extractor/telemetry/wh_sc
     {
       "typeId": "wh_monitor",
       "name": "count",
-      "path": 1.0,
-      "valueType": "Double"
+      "path": "1.0",
+      "valueType": "Literal"
     }
   ],
   "datetimePath": "$.created",
-  "datetimeFmt": "yyyy-MMM-dd hh:mm"
+  "datetimeFmt": "yyyy-MM-dd'T'HH:mm:ss.SSSX"
 
 }]
 
