@@ -39,7 +39,7 @@ libraryDependencies ++=
   Seq(
     "io.altoo" %% "akka-kryo-serialization" % "2.0.1",
     "org.postgresql" % "postgresql" % "42.2.18",
-    "com.github.dnvriend" %% "akka-persistence-jdbc" % "3.5.3",
+    "com.lightbend.akka" %% "akka-persistence-jdbc" % "5.0.0",
     "tech.navicore" %% "navipath" % "4.0.2",
     "ch.megard" %% "akka-http-cors" % "1.1.1",
     "ch.qos.logback" % "logback-classic" % "1.2.3",
