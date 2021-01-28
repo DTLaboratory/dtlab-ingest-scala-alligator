@@ -16,14 +16,14 @@ tend to be observations of the state of some thing in the world -
   * etc...
 
 The raw data announcing these events tends to be verbose and usually
-combines multiple observations into a single JSON document.  The Dt Lab Ingest
+combines multiple observations into a single JSON document.  The DTLab Ingest
 Service decomposes this raw JSON data into telemetry data - name, datetime,
-numerical value and forwards the telemetry data in a universal DtLab format to
-DtLab actors.
+numerical value and forwards the telemetry data in a universal DTLab format to
+DTLab actors.
 
 The steps for defining a new ingest process are:
 
-1. Define your types in the DtLab API - each value extracted from the incoming JSON must have a property defined in a DtType.
+1. Define your types in the DTLab API - each value extracted from the incoming JSON must have a property defined in a DtType.
 2. Define the object extractor if your incoming data contains arrays of objects - loading batches of time-series data.
 3. Define the telemetry extractor
     * use the forward name specified in the object extractor
