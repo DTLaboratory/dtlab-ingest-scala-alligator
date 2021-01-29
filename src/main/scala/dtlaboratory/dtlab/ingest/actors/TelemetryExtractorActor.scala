@@ -3,7 +3,8 @@ package dtlaboratory.dtlab.ingest.actors
 import akka.persistence._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
-import dtlaboratory.dtlab.ingest.actors.functions.ExtractTelemetry
+import dtlaboratory.dtlab.ingest.actors.functions.jsonextractor
+import dtlaboratory.dtlab.ingest.actors.functions.jsonextractor.ExtractJsonTelemetry
 import dtlaboratory.dtlab.ingest.models._
 import dtlaboratory.dtlab.ingest.observe.Observer
 import dtlaboratory.dtlab.ingest.routes.functions.GetDtType
@@ -13,6 +14,14 @@ object TelemetryExtractorActor extends LazyLogging {
   def name: String = this.getClass.getName
 }
 
+/**
+ * Extractor API lets you define how to turn raw json input into DtLab telemetry messages.
+ *
+ * This actor keeps all the specs that instruct it how to pull the data out of the raw input
+ * in its state by specId key.
+ *
+ * This implementation expects no arrays, just unique observations.  IE: one device is reported.
+ */
 class TelemetryExtractorActor
     extends PersistentActorBase[TelemetryExtractorSpecMap]
     with LazyLogging {
@@ -57,7 +66,7 @@ class TelemetryExtractorActor
       state.specs.get(specId) match {
         case Some(extractorSpecs) =>
           val telemetry =
-            nodes.flatMap(ExtractTelemetry(_, outerNode, extractorSpecs))
+            nodes.flatMap(jsonextractor.ExtractJsonTelemetry(_, outerNode, extractorSpecs))
 
           if (telemetry.isEmpty)
             sender ! ExtractorNoData()
@@ -75,7 +84,7 @@ class TelemetryExtractorActor
       Observer("telemetry_extractor_object_request")
       state.specs.get(specId) match {
         case Some(extractorSpecs) =>
-          ExtractTelemetry(node, None, extractorSpecs) match {
+          jsonextractor.ExtractJsonTelemetry(node, None, extractorSpecs) match {
             case telemetry if telemetry.nonEmpty =>
               sender ! Some(telemetry)
             case _ =>

@@ -10,7 +10,13 @@ import dtlaboratory.dtlab.ingest.Conf._
 import spray.json._
 
 /**
-  * Extractor API lets you define how to turn raw json input into DtLab object messages
+  * Extractor API lets you define how to turn raw json input into DtLab-ready telemetry messages.
+  * The "object" extractor expects to have to pull an array of collections of observations from
+  * the raw input.  An example would be a fleet controller sending batches of odometer and speed
+  * telemetry on behalf of multiple vehicles in a single json message.
+  *
+  *  TODO: combine the object extractor and telemetry exatractor routes and implementations.
+  *  The route need not be different - the spec can imply to repost array contents.
   */
 object ObjectExtractorApiRoute
     extends JsonSupport

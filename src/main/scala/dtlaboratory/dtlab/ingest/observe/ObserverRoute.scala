@@ -9,6 +9,10 @@ import scala.concurrent.Future
 import scala.util.Success
 import dtlaboratory.dtlab.ingest.Conf._
 
+/**
+ * k8s uses fitness for readiness and healthcheck
+ * prometheus uses observe for metrics
+ */
 object ObserverRoute extends LazyLogging with Directives {
 
   def apply: Route = {

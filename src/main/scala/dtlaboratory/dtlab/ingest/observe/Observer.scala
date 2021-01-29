@@ -34,6 +34,11 @@ sealed trait Fitness
 case class Hardy() extends Fitness
 case class Feeble() extends Fitness
 
+/**
+ * probably in need of a better name.  fire this function with
+ * meaningful names and the stats will be reported via /observe route
+ * in a prometheus syntax
+ */
 object Observer {
   def props(): Props = Props(new Observer())
   def name = "observer"

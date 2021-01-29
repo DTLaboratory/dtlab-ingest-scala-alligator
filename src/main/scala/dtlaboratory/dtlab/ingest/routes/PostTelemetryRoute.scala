@@ -8,6 +8,9 @@ import dtlaboratory.dtlab.ingest.observe.Observer
 import dtlaboratory.dtlab.ingest.routes.functions.PostTelemetry
 import spray.json._
 
+/**
+ * Formatted data enters here and is posted to DTLab.
+ */
 object PostTelemetryRoute
     extends LazyLogging
     with Directives
@@ -18,29 +21,27 @@ object PostTelemetryRoute
     in match {
       case Some(telemetry: Seq[(String, Telemetry)] @unchecked) =>
         Observer("array_ingress_route_post_success")
-        extractRequest { _ =>
-          onSuccess(PostTelemetry(telemetry)) {
-            case r: Seq[HttpResponse] @unchecked =>
-              val errors = r.filter(_.status != StatusCodes.Accepted)
-              if (errors.nonEmpty) {
-                logger.warn(s"can not post telemetry: ${errors.head}")
-                complete(
-                  HttpResponse(
-                    errors.head.status
-                  )
+        onSuccess(PostTelemetry(telemetry)) {
+          case r: Seq[HttpResponse] @unchecked =>
+            val errors = r.filter(_.status != StatusCodes.Accepted)
+            if (errors.nonEmpty) {
+              logger.warn(s"can not post telemetry: ${errors.head}")
+              complete(
+                HttpResponse(
+                  errors.head.status
                 )
-              } else
-                complete(
-                  HttpResponse(
-                    StatusCodes.Accepted,
-                    entity = HttpEntity(ContentTypes.`application/json`,
-                                        telemetry.toJson.prettyPrint)
-                  )
+              )
+            } else
+              complete(
+                HttpResponse(
+                  StatusCodes.Accepted,
+                  entity = HttpEntity(ContentTypes.`application/json`,
+                                      telemetry.toJson.prettyPrint)
                 )
-            case e =>
-              logger.warn(s"post dtlab failed: $e")
-              complete(StatusCodes.InternalServerError)
-          }
+              )
+          case e =>
+            logger.warn(s"post dtlab failed: $e")
+            complete(StatusCodes.InternalServerError)
         }
       case _: ExtractorNoData =>
         Observer("array_ingress_route_post_array_no_data_extracted")

@@ -10,6 +10,9 @@ import dtlaboratory.dtlab.ingest.observe.Observer
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration.{Duration, FiniteDuration}
 
+/**
+ * global conf - get actor system and anything from application.conf from here
+ */
 object Conf extends LazyLogging {
 
   implicit val system: ActorSystem = ActorSystem("DtLab-ingest-system")
@@ -40,4 +43,8 @@ object Conf extends LazyLogging {
   val dtlabHost: String = conf.getString("main.dtlabHost")
   val dtlabPort: Int = conf.getInt("main.dtlabPort")
   val dtlabPath: String = conf.getString("main.dtlabPath")
+
+  implicit val zonedDateTimeOrdering: Ordering[java.time.ZonedDateTime] =
+    Ordering.by(x => x.toEpochSecond)
+
 }

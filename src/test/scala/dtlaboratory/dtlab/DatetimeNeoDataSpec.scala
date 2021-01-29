@@ -3,6 +3,7 @@ package dtlaboratory.dtlab
 import java.io.InputStream
 import com.fasterxml.jackson.databind.JsonNode
 import dtlaboratory.dtlab.ingest.actors.functions._
+import dtlaboratory.dtlab.ingest.actors.functions.jsonextractor.{CalculatePathFromJson, ExtractJsonTelemetry}
 import dtlaboratory.dtlab.ingest.models._
 import navicore.data.navipath.dsl.NaviPathSyntax._
 import org.scalatest.flatspec.AnyFlatSpec
@@ -49,11 +50,11 @@ class DatetimeNeoDataSpec extends AnyFlatSpec with Matchers {
       Some("yyyy-MMM-dd hh:mm")
     )
 
-    val p = CalculatePath(obj.get, None, eSpec.paths.head)
+    val p = CalculatePathFromJson(obj.get, None, eSpec.paths.head)
 
     p should contain("/orbiting_body/earth/object/3726710")
 
-    val r = ExtractTelemetry(obj.get, None, Seq(eSpec))
+    val r = ExtractJsonTelemetry(obj.get, None, Seq(eSpec))
 
     r.nonEmpty should be(true)
 

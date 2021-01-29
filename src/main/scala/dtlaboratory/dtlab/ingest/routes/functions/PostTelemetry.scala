@@ -10,6 +10,9 @@ import spray.json._
 
 import scala.concurrent.Future
 
+/**
+ * Tries to post batches of observations serially but w/o blocking.
+ */
 object PostTelemetry extends JsonSupport with HttpSupport {
 
   val http: HttpExt = Http(system)
@@ -36,10 +39,11 @@ object PostTelemetry extends JsonSupport with HttpSupport {
       })
   }
 
-  // does this make sense?  is this how bad scala really is????
-  // ensure that futures are executed 1 at a time
-  // we are not so concerned about the latency for a single batch - system scales horizontally when there
-  // are lots of writers/posters.
+  // Does this make sense?  is it truly non-blocking?  If not, then it is no batter than Await.
+  // Ensure that futures are executed 1 at a time.
+  // We are not so concerned about the latency for a single batch - system scales horizontally
+  // when there are lots of writers/posters.
+  // TODO: this seems to not keep strict order even if it does them 1 at a time. FIXME
   def seqFutures[T, U](items: TraversableOnce[T])(
       yourfunction: T => Future[U]): Future[List[U]] = {
     items.foldLeft(Future.successful[List[U]](Nil)) { (f, item) =>
@@ -56,7 +60,6 @@ object PostTelemetry extends JsonSupport with HttpSupport {
         val (path, telem) = i
         applyPost(path, telem)
       })
-
   }
 
 }

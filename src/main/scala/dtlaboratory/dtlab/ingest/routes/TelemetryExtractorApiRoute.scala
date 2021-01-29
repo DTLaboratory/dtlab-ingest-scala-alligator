@@ -10,7 +10,9 @@ import dtlaboratory.dtlab.ingest.Conf._
 import spray.json._
 
 /**
-  * Extractor API lets you define how to turn raw json input into DtLab telemetry messages
+  * Extractor API lets you define how to turn raw json input into DtLab telemetry messages.
+  *
+  * This implementation expects no arrays, just unique observations.  IE: one device is reported.
   */
 object TelemetryExtractorApiRoute
     extends JsonSupport
@@ -57,7 +59,8 @@ object TelemetryExtractorApiRoute
         } ~ post {
         decodeRequest {
           entity(as[Seq[LazyTelemetryExtractorSpec]]) { lazySpecs =>
-            val newSpecs: Seq[NamedTelemetryExtractorSpec] = lazySpecs.map(_.spec(specId))
+            val newSpecs: Seq[NamedTelemetryExtractorSpec] =
+              lazySpecs.map(_.spec(specId))
             onSuccess(telemetryExtractor ask NamedSpecs(newSpecs)) {
               case Some(specs: IndexedSpecs @unchecked)
                   if specs.specs.head.created == newSpecs.head.created =>

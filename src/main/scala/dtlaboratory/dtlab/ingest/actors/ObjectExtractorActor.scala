@@ -8,6 +8,21 @@ import navicore.data.navipath.dsl.NaviPathSyntax._
 import dtlaboratory.dtlab.ingest.Conf._
 import dtlaboratory.dtlab.ingest.models._
 
+/**
+ * Extractor API lets you define how to turn raw json input into DtLab-ready telemetry messages.
+ * The "object" extractor expects to have to pull an array of collections of observations from
+ * the raw input.  An example would be a fleet controller sending batches of odometer and speed
+ * telemetry on behalf of multiple vehicles in a single json message.
+ *
+ * This actor keeps all the specs that instruct it how to pull the data out of the raw input
+ * in its state by specId key.
+ *
+ *  TODO: combine the object extractor and telemetry exatractor routes and implementations.
+ *  The route need not be different - the spec can imply to repost array contents.
+ *
+ *  TODO: hide the JSON specifics in helper functions
+ *  we will support csv and xml and who-knows-what-else
+ */
 class ObjectExtractorActor
     extends PersistentActorBase[ObjectExtractorSpecMap]
     with LazyLogging {

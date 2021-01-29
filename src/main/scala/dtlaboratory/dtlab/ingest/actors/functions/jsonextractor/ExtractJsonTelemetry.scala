@@ -1,11 +1,11 @@
-package dtlaboratory.dtlab.ingest.actors.functions
+package dtlaboratory.dtlab.ingest.actors.functions.jsonextractor
 
+import navicore.data.navipath.dsl.NaviPathSyntax._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
-import dtlaboratory.dtlab.ingest.models._
-import navicore.data.navipath.dsl.NaviPathSyntax._
+import dtlaboratory.dtlab.ingest.models.{IndexedTelemetryExtractorSpec, IndexedValueSpec, JsonSupport, Telemetry}
 
-object ExtractTelemetry extends LazyLogging with JsonSupport {
+object ExtractJsonTelemetry extends LazyLogging with JsonSupport {
 
   def extractFromInt(path: String, node: JsonNode): Option[Double] =
     node.query[Int](path).map(_.toDouble)
@@ -25,49 +25,49 @@ object ExtractTelemetry extends LazyLogging with JsonSupport {
   def isAllowed(vspec: IndexedValueSpec, v: Double): Boolean = {
     v match {
       case 0.0 => vspec.extractZeros.contains(true)
-      case _   => true
+      case _ => true
     }
   }
 
   def apply(node: JsonNode,
             outerNode: Option[JsonNode],
             extractorSpecs: Seq[IndexedTelemetryExtractorSpec])
-    : Seq[(String, Telemetry)] = {
+  : Seq[(String, Telemetry)] = {
     extractorSpecs.flatMap(extractorSpec => {
       extractorSpec.values.flatMap(value => {
         logger.debug(s"extracting ${value.valueType} from ${value.path}")
         val v: Option[Double] = value.valueType match {
           case "Literal" => Some(value.path.toDouble)
-          case "String"  => extractFromString(value.path, node)
-          case "string"  => extractFromString(value.path, node)
-          case "Int"     => extractFromInt(value.path, node)
-          case "int"     => extractFromInt(value.path, node)
+          case "String" => extractFromString(value.path, node)
+          case "string" => extractFromString(value.path, node)
+          case "Int" => extractFromInt(value.path, node)
+          case "int" => extractFromInt(value.path, node)
           case "Integer" => extractFromInt(value.path, node)
           case "integer" => extractFromInt(value.path, node)
-          case "Double"  => extractFromDouble(value.path, node)
-          case "double"  => extractFromDouble(value.path, node)
-          case _         => extractFromString(value.path, node)
+          case "Double" => extractFromDouble(value.path, node)
+          case "double" => extractFromDouble(value.path, node)
+          case _ => extractFromString(value.path, node)
         }
         v match {
           case Some(extractedValue) if isAllowed(value, extractedValue) =>
             extractorSpec.paths.flatMap(pathSeq => {
-              CalculatePath(node, outerNode, pathSeq) match {
+              CalculatePathFromJson(node, outerNode, pathSeq) match {
                 case Some(p) =>
                   try {
                     List(
                       (p,
-                       Telemetry(value.idx,
-                                 extractedValue,
-                                 ExtractDatetime(node, extractorSpec))))
+                        Telemetry(value.idx,
+                          extractedValue,
+                          ExtractJsonDatetime(node, extractorSpec))))
                   } catch {
                     case _: java.lang.ClassCastException =>
                       logger.warn(
                         s"can not extract datetime from path ${extractorSpec.datetimePath} from $node")
                       List(
                         (p,
-                         Telemetry(value.idx,
-                                   extractedValue,
-                                   java.time.ZonedDateTime.now()))
+                          Telemetry(value.idx,
+                            extractedValue,
+                            java.time.ZonedDateTime.now()))
                       )
                   }
                 case _ =>
