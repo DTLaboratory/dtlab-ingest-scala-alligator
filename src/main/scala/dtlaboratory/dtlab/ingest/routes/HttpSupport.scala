@@ -14,6 +14,9 @@ import com.typesafe.scalalogging.LazyLogging
 
 import scala.collection.JavaConverters._
 
+/**
+ * HTTP - specific config such as port and CORS and human readable text for error codes
+ */
 trait HttpSupport extends LazyLogging {
 
   val conf: Config = ConfigFactory.load()

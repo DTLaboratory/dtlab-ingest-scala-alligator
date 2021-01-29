@@ -1,14 +1,14 @@
-package dtlaboratory.dtlab.ingest.actors.functions
+package dtlaboratory.dtlab.ingest.actors.functions.jsonextractor
 
+import navicore.data.navipath.dsl.NaviPathSyntax._
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import dtlaboratory.dtlab.ingest.models.IndexedTelemetryExtractorSpec
-import navicore.data.navipath.dsl.NaviPathSyntax._
 
 import java.time.{ZoneOffset, ZonedDateTime}
 import java.util.Date
 
-object ExtractDatetime extends LazyLogging {
+object ExtractJsonDatetime extends LazyLogging {
 
   def apply(node: JsonNode,
             extractorSpec: IndexedTelemetryExtractorSpec): ZonedDateTime = {
@@ -22,7 +22,7 @@ object ExtractDatetime extends LazyLogging {
             case Some(number: String) =>
               logger.debug(s"long epoch string used to format date")
               ZonedDateTime.ofInstant(new Date(number.toLong).toInstant,
-                                      ZoneOffset.UTC)
+                ZoneOffset.UTC)
             case _ =>
               logger.warn(
                 s"bad date format - using current time: $extractorSpec")
@@ -34,7 +34,7 @@ object ExtractDatetime extends LazyLogging {
             case Some(number: Long) =>
               logger.debug(s"long epoch number used to format date")
               ZonedDateTime.ofInstant(new Date(number).toInstant,
-                                      ZoneOffset.UTC)
+                ZoneOffset.UTC)
             case _ =>
               logger.warn(
                 s"bad date format - using current time: $extractorSpec")

@@ -1,11 +1,11 @@
-package dtlaboratory.dtlab.ingest.actors.functions
+package dtlaboratory.dtlab.ingest.actors.functions.jsonextractor
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.typesafe.scalalogging.LazyLogging
 import dtlaboratory.dtlab.ingest.models.PathSpec
 import navicore.data.navipath.dsl.NaviPathSyntax._
 
-object CalculatePath extends LazyLogging {
+object CalculatePathFromJson extends LazyLogging {
 
   def queryInt(node: JsonNode,
                outerNode: Option[JsonNode],

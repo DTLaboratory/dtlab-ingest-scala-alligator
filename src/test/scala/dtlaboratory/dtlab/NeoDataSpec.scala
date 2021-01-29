@@ -2,7 +2,8 @@ package dtlaboratory.dtlab
 
 import java.io.InputStream
 import com.fasterxml.jackson.databind.JsonNode
-import dtlaboratory.dtlab.ingest.actors.functions.CalculatePath
+import dtlaboratory.dtlab.ingest.actors.functions.jsonextractor
+import dtlaboratory.dtlab.ingest.actors.functions.jsonextractor.CalculatePathFromJson
 import dtlaboratory.dtlab.ingest.models._
 import navicore.data.navipath.dsl.NaviPathSyntax._
 import org.scalatest.flatspec.AnyFlatSpec
@@ -47,7 +48,7 @@ class NeoDataSpec extends AnyFlatSpec with Matchers {
       )
     )
 
-    val p = CalculatePath(obj.get, None, eSpec.paths.head)
+    val p = jsonextractor.CalculatePathFromJson(obj.get, None, eSpec.paths.head)
 
     p should contain("/orbiting_body/earth/object/3726710")
 
