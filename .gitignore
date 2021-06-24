@@ -3,6 +3,7 @@ ENV*sh
 examples/*token*
 .bloop/
 .metals/
+project/metals.sbt
 target/
 project/target/
 project/project/
