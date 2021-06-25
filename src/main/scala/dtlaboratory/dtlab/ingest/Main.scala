@@ -9,9 +9,8 @@ import dtlaboratory.dtlab.ingest.observe.ObserverRoute
 import dtlaboratory.dtlab.ingest.routes._
 import Conf._
 
-/**
- * enter here
- */
+/** enter here
+  */
 object Main extends LazyLogging with JsonSupport with HttpSupport {
 
   def main(args: Array[String]) {
