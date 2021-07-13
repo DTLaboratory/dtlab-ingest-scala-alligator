@@ -1,9 +1,9 @@
 name := "DtLabIngest"
 organization := "org.somind"
-javacOptions ++= Seq("-source", "1.11", "-target", "1.11") 
-scalacOptions ++= Seq(
-  "-target:jvm-1.8"
-)
+// javacOptions ++= Seq("-source", "1.11", "-target", "1.11") 
+// scalacOptions ++= Seq(
+//   "-target:jvm-1.8"
+// )
 fork := true
 javaOptions in test ++= Seq(
   "-Xms128M", "-Xmx256M",

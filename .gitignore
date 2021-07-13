@@ -3,6 +3,8 @@ ENV*sh
 examples/*token*
 .bloop/
 .metals/
+.scalafmt.conf
+project/metals.sbt
 target/
 project/target/
 project/project/
