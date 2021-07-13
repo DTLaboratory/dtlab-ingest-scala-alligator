@@ -38,7 +38,7 @@ inThisBuild(List(
 libraryDependencies ++=
   Seq(
     "io.altoo" %% "akka-kryo-serialization" % "2.2.0",
-    "org.postgresql" % "postgresql" % "42.2.22",
+    "org.postgresql" % "postgresql" % "42.2.23",
     "com.lightbend.akka" %% "akka-persistence-jdbc" % "5.0.1",
     "tech.navicore" %% "navipath" % "4.0.2",
     "ch.megard" %% "akka-http-cors" % "1.1.1",
@@ -53,7 +53,7 @@ libraryDependencies ++=
     "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
     "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
-    "org.json4s" %% "json4s-native" % "4.0.0",
+    "org.json4s" %% "json4s-native" % "4.0.1",
     "org.scalatest" %% "scalatest" % "3.2.9" % "test",
     "com.github.nscala-time" %% "nscala-time" % "2.28.0"
   )
