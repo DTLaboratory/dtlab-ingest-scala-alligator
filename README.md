@@ -4,6 +4,13 @@
 
 ![alt text](docs/logo_cropped.png)
 
+This is the data ingestion service for the DtLab system.  It unpacks incoming data
+from its incoming package.
+
+Deconstructed data is closer to the domain- unbiased- and hence makes minimal
+assumptions on usage - easy to integrate/exploit/build services/self service
+on top of it
+
 The Ingest Service accepts HTTP posts of JSON documents.  The JSON will
 tend to be observations of the state of some thing in the world -
 
