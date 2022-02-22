@@ -13,7 +13,7 @@ import Conf._
   */
 object Main extends LazyLogging with JsonSupport with HttpSupport {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
 
     val route =
       ObserverRoute.apply ~
