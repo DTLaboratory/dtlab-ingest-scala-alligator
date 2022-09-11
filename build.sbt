@@ -14,7 +14,7 @@ crossScalaVersions := List("2.13.8")
 version := "1.0"
 
 val akkaHttpVersion = "10.2.10"
-val akkaVersion = "2.6.19"
+val akkaVersion = "2.6.20"
 val swaggerVersion = "2.0.8"
 
 inThisBuild(
@@ -43,7 +43,7 @@ libraryDependencies ++=
   Seq(
     "io.altoo" %% "akka-kryo-serialization" % "2.4.3",
     "org.postgresql" % "postgresql" % "42.5.0",
-    "com.lightbend.akka" %% "akka-persistence-jdbc" % "5.0.4",
+    "com.lightbend.akka" %% "akka-persistence-jdbc" % "5.1.0",
     "tech.navicore" %% "navipath" % "4.1.3",
     "ch.megard" %% "akka-http-cors" % "1.1.3",
     "ch.qos.logback" % "logback-classic" % "1.4.0",
