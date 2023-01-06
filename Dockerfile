@@ -1,4 +1,4 @@
-FROM openjdk:13-alpine
+FROM openjdk:17-alpine
 
 MAINTAINER Ed Sweeney <ed@onextent.com>
 
