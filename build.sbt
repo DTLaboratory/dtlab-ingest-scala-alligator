@@ -47,7 +47,7 @@ libraryDependencies ++=
     "tech.navicore" %% "navipath" % "4.1.3",
     "ch.megard" %% "akka-http-cors" % "1.2.0",
     "ch.qos.logback" % "logback-classic" % "1.4.14",
-    "com.typesafe" % "config" % "1.4.2",
+    "com.typesafe" % "config" % "1.4.3",
     "com.typesafe" %% "ssl-config-core" % "0.6.1",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
     "com.typesafe.akka" %% "akka-persistence-query" % akkaVersion,
